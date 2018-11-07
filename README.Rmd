@@ -14,16 +14,40 @@ knitr::opts_chunk$set(
 ```
 # ceramic
 
-The goal of ceramic is to ...
+The goal of ceramic is to obtain web map tiles for later re-use. Many tools for imagery services treat the imagery as transient, but here we take control over the raw data itself. 
+
+
+# Goals
+
+Very much WIP. 
+
+* control download of raw tiles (we have this!)
+* generalize across providers
+* allow lazy read access to tile caches
+* provide interactive means to build access to imagery
+
 
 ## Installation
 
-You can install the dev version of ceramic from  Github ...
+You can install the dev version of ceramic from  Github. 
+
+```R
+devtools::install_github("hypertidy/ceramic")
+```
 
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This complete example gets tiled imagery that we can use as real data. 
+
+The code here
+
+* generates a bounding box in longitud-latitude
+* uses [slippymath](https://github.com/MilesMcBain/slippymath/) to find sensible tiles for the region
+* downloads them to a local cache
+* georeferences them and merges the tiles into a sensible raster object
+
+
 
 ```{r example}
 library(sf)     ## st_bbox, st_crs
