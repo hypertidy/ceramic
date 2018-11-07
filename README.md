@@ -118,6 +118,50 @@ ceramic_tiles(zoom = 7, type = "mapbox.satellite")
 #> # ... with 14 more rows, and 1 more variable: fullname <fs::path>
 ```
 
+and an *internal* function to convert these to an extent useable
+directly by raster:
+
+``` r
+ceramic_tiles(zoom = 7, type = "mapbox.satellite") %>% 
+  dplyr::slice(1:5) %>% 
+  ceramic:::add_extent() %>% purrr::transpose()  %>% 
+  purrr::map(~raster::extent(unlist(.x[c("xmin", "xmax", "ymin", "ymax")])))
+#> [[1]]
+#> class       : Extent 
+#> xmin        : 14401959 
+#> xmax        : 14715045 
+#> ymin        : -3443947 
+#> ymax        : -3130861 
+#> 
+#> [[2]]
+#> class       : Extent 
+#> xmin        : 14401959 
+#> xmax        : 14715045 
+#> ymin        : -3757033 
+#> ymax        : -3443947 
+#> 
+#> [[3]]
+#> class       : Extent 
+#> xmin        : 14401959 
+#> xmax        : 14715045 
+#> ymin        : -4070119 
+#> ymax        : -3757033 
+#> 
+#> [[4]]
+#> class       : Extent 
+#> xmin        : 14401959 
+#> xmax        : 14715045 
+#> ymin        : -4383205 
+#> ymax        : -4070119 
+#> 
+#> [[5]]
+#> class       : Extent 
+#> xmin        : 14715045 
+#> xmax        : 15028131 
+#> ymin        : -3443947 
+#> ymax        : -3130861
+```
+
 Please note that the ‘ceramic’ project is released with a [Contributor
 Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,
 you agree to abide by its terms.

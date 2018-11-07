@@ -38,3 +38,10 @@ mercator_tile_extent <- function(tile_x, tile_y, zoom, tile_size = 256) {
   ylim <- range(MAXEXTENT - (tile_y + c(0, 1) - 0) * (z0_size/(2^zoom)) * tile_size)
   stats::setNames(c(xlim, ylim), c("xmin", "xmax", "ymin", "ymax"))
 }
+
+add_extent <- function(x) {
+  ## assert tibble with tile_x, tile_y, zoom
+  l <- purrr::map(purrr::transpose(x), ~mercator_tile_extent(.x$tile_x, .x$tile_y, .x$zoom))
+  x[c("xmin", "xmax", "ymin", "ymax")] <- tibble::as_tibble(do.call(rbind, l))
+  x
+}

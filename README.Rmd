@@ -98,6 +98,15 @@ There is a helper function to find existing tiles.
 ceramic_tiles(zoom = 7, type = "mapbox.satellite")
 ```
 
+and an *internal* function to convert these to an extent useable directly by raster: 
+
+```{r extent}
+ceramic_tiles(zoom = 7, type = "mapbox.satellite") %>% 
+  dplyr::slice(1:5) %>% 
+  ceramic:::add_extent() %>% purrr::transpose()  %>% 
+  purrr::map(~raster::extent(unlist(.x[c("xmin", "xmax", "ymin", "ymax")])))
+```
+
 Please note that the 'ceramic' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
 
