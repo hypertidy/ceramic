@@ -12,8 +12,8 @@ take control over the raw data itself.
 Very much WIP.
 
   - control download of raw tiles (we have this\!)
-  - generalize across providers
   - allow lazy read access to tile caches
+  - generalize across providers
   - provide interactive means to build access to imagery
 
 ## Installation
@@ -41,7 +41,7 @@ The code here
 
 ``` r
 library(sf)     ## st_bbox, st_crs
-#> Linking to GEOS 3.6.1, GDAL 2.2.3, PROJ 4.9.3
+#> Linking to GEOS 3.6.2, GDAL 2.3.2, PROJ 4.9.3
 #> Linking to GEOS 3.6.1, GDAL 2.2.3, PROJ 4.9.3
 library(slippymath)
 my_bbox <-
@@ -60,6 +60,11 @@ mapbox_query_string <-
          Sys.getenv("MAPBOX_API_KEY"))
 
 library(ceramic)
+#> 
+#> Attaching package: 'ceramic'
+#> The following object is masked from 'package:slippymath':
+#> 
+#>     down_loader
 files <- unlist(down_loader(tile_grid, mapbox_query_string))
 tibble::tibble(filename = gsub(normalizePath(rappdirs::user_cache_dir(), winslash = "/"), 
                                "", 

@@ -22,8 +22,8 @@ The goal of ceramic is to obtain web map tiles for later re-use. Many tools for 
 Very much WIP. 
 
 * control download of raw tiles (we have this!)
-* generalize across providers
 * allow lazy read access to tile caches
+* generalize across providers
 * provide interactive means to build access to imagery
 
 
@@ -59,8 +59,8 @@ my_bbox <-
             ymin = -36,
             ymax = -28),
           crs = st_crs("+proj=longlat +ellps=WGS84"))
-
-tile_grid <- bb_to_tg(my_bbox, max_tiles = 36)
+library(purrr)  ## is_null clashes with testthat::is_null
+tile_grid <- slippymath:::bb_to_tg(my_bbox, max_tiles = 36)
 zoom <- tile_grid$zoom
 
 mapbox_query_string <-
@@ -90,6 +90,13 @@ plot(dat$geometry, add = TRUE, lwd = 5, border = "dodgerblue")
 ```
 
 
+
+There is a helper function to find existing tiles. 
+
+```{r files}
+
+ceramic_tiles(zoom = 7, type = "mapbox.satellite")
+```
 
 Please note that the 'ceramic' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 

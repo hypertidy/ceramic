@@ -23,5 +23,8 @@ Imports:
     tibble,
     stats,
     purrr,
-    magrittr
+    magrittr,
+    rlang
 Remotes: mdsumner/slippymath
+Suggests: 
+    testthat

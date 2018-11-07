@@ -37,8 +37,62 @@ down_loader <- function(x, query_string, clobber = FALSE) {
          zoom = x$zoom)
 }
 
+#' Tile files
+#'
+#' Find existing files in the cache. Various options can be controlled, this is WIP
+#' and due to change pending generalization across providers.
+#'
+#' @param zoom zoom level
+#'
+#' @param type imagery type
+#' @param source imagery source
+#' @param glob see `fs::dir_ls`
+#' @param regexp see `fs::dir_ls`
+#'
+#' @export
+#' @importFrom rlang .data
+ceramic_tiles <- function(zoom = NULL, type = "mapbox.satellite",
+                          source = "api.mapbox.com", glob = "*.jpg*", regexp = NULL) {
+
+  ## FIXME: assert that zoom, type, source, all are length 1
+  fs <-
+    fs::dir_ls(slippy_cache(), recursive = TRUE, type = "file",
+               glob = glob, regexp = regexp)
+  files <- tibble::tibble(tile_x = tile_x(fs), tile_y = tile_y(fs),
+                          zoom = tile_zoom(fs),
+                          type = tile_type(fs),
+                          version = tile_version(fs),
+                          source = tile_source(fs), fullname =fs)
+  if (!is.null(zoom)) files <- dplyr::filter(files, .data$zoom == zoom)
+  if (!is.null(type)) files <- dplyr::filter(files, .data$type == type)
+  files
+}
+
+tile_source <- function(x) {
+  basename(dirname(dirname(dirname(dirname(dirname(x))))))
+
+}
+tile_version <- function(x) {
+  basename(dirname(dirname(dirname(dirname(x)))))
+}
+tile_type <- function(x) {
+  basename(dirname(dirname(dirname(x))))
+}
+
+tile_x <- function(x) {
+  as.integer(basename(dirname(x)))
+}
+tile_y <- function(x) {
+  xbase <- basename(x)
+  dotloc <- max(gregexpr("\\.", xbase)[[1]])
+  as.integer(substr(xbase, 1, dotloc - 1))
+}
+tile_zoom <- function(x) {
+  as.integer(basename(dirname(dirname(x))))
+}
+
 slippy_cache <- function() {
-  cache <- file.path(rappdirs::user_cache_dir(), ".slippymath1")
+  cache <- file.path(rappdirs::user_cache_dir(), ".ceramic")
   if (!fs::dir_exists(cache)) fs::dir_create(cache)
   cache
 }
