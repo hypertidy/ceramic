@@ -50,8 +50,8 @@ my_bbox <-
             ymin = -36,
             ymax = -28),
           crs = st_crs("+proj=longlat +ellps=WGS84"))
-
-tile_grid <- bb_to_tg(my_bbox, max_tiles = 36)
+library(purrr)  ## is_null clashes with testthat::is_null
+tile_grid <- slippymath:::bb_to_tg(my_bbox, max_tiles = 36)
 zoom <- tile_grid$zoom
 
 mapbox_query_string <-
@@ -60,28 +60,23 @@ mapbox_query_string <-
          Sys.getenv("MAPBOX_API_KEY"))
 
 library(ceramic)
-#> 
-#> Attaching package: 'ceramic'
-#> The following object is masked from 'package:slippymath':
-#> 
-#>     down_loader
 files <- unlist(down_loader(tile_grid, mapbox_query_string))
 tibble::tibble(filename = gsub(normalizePath(rappdirs::user_cache_dir(), winslash = "/"), 
                                "", 
                                normalizePath(files, winslash = "/")))
 #> # A tibble: 24 x 1
-#>    filename                                                       
-#>    <chr>                                                          
-#>  1 /.slippymath1/api.mapbox.com/v4/mapbox.satellite/7/110/74.jpg90
-#>  2 /.slippymath1/api.mapbox.com/v4/mapbox.satellite/7/111/74.jpg90
-#>  3 /.slippymath1/api.mapbox.com/v4/mapbox.satellite/7/112/74.jpg90
-#>  4 /.slippymath1/api.mapbox.com/v4/mapbox.satellite/7/113/74.jpg90
-#>  5 /.slippymath1/api.mapbox.com/v4/mapbox.satellite/7/114/74.jpg90
-#>  6 /.slippymath1/api.mapbox.com/v4/mapbox.satellite/7/115/74.jpg90
-#>  7 /.slippymath1/api.mapbox.com/v4/mapbox.satellite/7/110/75.jpg90
-#>  8 /.slippymath1/api.mapbox.com/v4/mapbox.satellite/7/111/75.jpg90
-#>  9 /.slippymath1/api.mapbox.com/v4/mapbox.satellite/7/112/75.jpg90
-#> 10 /.slippymath1/api.mapbox.com/v4/mapbox.satellite/7/113/75.jpg90
+#>    filename                                                   
+#>    <chr>                                                      
+#>  1 /.ceramic/api.mapbox.com/v4/mapbox.satellite/7/110/74.jpg90
+#>  2 /.ceramic/api.mapbox.com/v4/mapbox.satellite/7/111/74.jpg90
+#>  3 /.ceramic/api.mapbox.com/v4/mapbox.satellite/7/112/74.jpg90
+#>  4 /.ceramic/api.mapbox.com/v4/mapbox.satellite/7/113/74.jpg90
+#>  5 /.ceramic/api.mapbox.com/v4/mapbox.satellite/7/114/74.jpg90
+#>  6 /.ceramic/api.mapbox.com/v4/mapbox.satellite/7/115/74.jpg90
+#>  7 /.ceramic/api.mapbox.com/v4/mapbox.satellite/7/110/75.jpg90
+#>  8 /.ceramic/api.mapbox.com/v4/mapbox.satellite/7/111/75.jpg90
+#>  9 /.ceramic/api.mapbox.com/v4/mapbox.satellite/7/112/75.jpg90
+#> 10 /.ceramic/api.mapbox.com/v4/mapbox.satellite/7/113/75.jpg90
 #> # ... with 14 more rows
 
 library(raster)
@@ -101,6 +96,27 @@ plot(dat$geometry, add = TRUE, lwd = 5, border = "dodgerblue")
 ```
 
 <img src="man/figures/README-example-1.png" width="100%" />
+
+There is a helper function to find existing tiles.
+
+``` r
+
+ceramic_tiles(zoom = 7, type = "mapbox.satellite")
+#> # A tibble: 24 x 7
+#>    tile_x tile_y  zoom type  version source
+#>     <int>  <int> <int> <chr> <chr>   <chr> 
+#>  1    110     74     7 mapb… v4      api.m…
+#>  2    110     75     7 mapb… v4      api.m…
+#>  3    110     76     7 mapb… v4      api.m…
+#>  4    110     77     7 mapb… v4      api.m…
+#>  5    111     74     7 mapb… v4      api.m…
+#>  6    111     75     7 mapb… v4      api.m…
+#>  7    111     76     7 mapb… v4      api.m…
+#>  8    111     77     7 mapb… v4      api.m…
+#>  9    112     74     7 mapb… v4      api.m…
+#> 10    112     75     7 mapb… v4      api.m…
+#> # ... with 14 more rows, and 1 more variable: fullname <fs::path>
+```
 
 Please note that the ‘ceramic’ project is released with a [Contributor
 Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,
