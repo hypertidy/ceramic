@@ -28,3 +28,5 @@ Imports:
 Remotes: mdsumner/slippymath
 Suggests: 
     testthat
+URL: https://github.com/hypertidy/ceramic
+BugReports: https://github.com/hypertidy/ceramic/issues
