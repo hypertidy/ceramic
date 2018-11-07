@@ -32,10 +32,10 @@ mercator_tile_extent <- function(tile_x, tile_y, zoom, tile_size = 256) {
   MAXEXTENT <- params$MAXEXTENT
   A <- params$A
   ## literal width/height of a square tile at zoom = 0
-  z0_size <- (MAXEXTENT * 2)/tile_size
-  xlim <- -MAXEXTENT + (tile_x + c(0, 1)) * (z0_size/(2^zoom)) * tile_size
+  z0_size <- (MAXEXTENT * 2)
+  xlim <- -MAXEXTENT + (tile_x + c(0, 1)) * (z0_size/(2^zoom))
   ## upside down Ms. Jane
-  ylim <- range(MAXEXTENT - (tile_y + c(0, 1) - 0) * (z0_size/(2^zoom)) * tile_size)
+  ylim <- range(MAXEXTENT - (tile_y + c(0, 1) - 0) * (z0_size/(2^zoom)))
   stats::setNames(c(xlim, ylim), c("xmin", "xmax", "ymin", "ymax"))
 }
 

@@ -102,7 +102,7 @@ There is a helper function to find existing tiles.
 ``` r
 
 ceramic_tiles(zoom = 7, type = "mapbox.satellite")
-#> # A tibble: 24 x 7
+#> # A tibble: 40 x 7
 #>    tile_x tile_y  zoom type  version source
 #>     <int>  <int> <int> <chr> <chr>   <chr> 
 #>  1    110     74     7 mapb… v4      api.m…
@@ -115,7 +115,7 @@ ceramic_tiles(zoom = 7, type = "mapbox.satellite")
 #>  8    111     77     7 mapb… v4      api.m…
 #>  9    112     74     7 mapb… v4      api.m…
 #> 10    112     75     7 mapb… v4      api.m…
-#> # ... with 14 more rows, and 1 more variable: fullname <fs::path>
+#> # ... with 30 more rows, and 1 more variable: fullname <fs::path>
 ```
 
 and an *internal* function to convert these to an extent useable
@@ -162,6 +162,31 @@ ceramic_tiles(zoom = 7, type = "mapbox.satellite") %>%
 #> ymax        : -3130861
 ```
 
-Please note that the ‘ceramic’ project is released with a [Contributor
-Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,
-you agree to abide by its terms.
+Another example
+
+``` r
+my_bbox <-
+  st_bbox(c(xmin = 145.76,
+            xmax = 147.99,
+            ymin = -44.12,
+            ymax = -42.73),
+          crs = st_crs("+proj=longlat +ellps=WGS84"))
+tile_grid <- slippymath:::bb_to_tg(my_bbox, max_tiles = 36)
+files <- unlist(down_loader(tile_grid, mapbox_query_string))
+br <- lapply(files, raster::brick)
+
+for (i in seq_along(br)) {
+  br[[i]] <- setExtent(br[[i]],  
+                       mercator_tile_extent(tile_grid$tiles$x[i], tile_grid$tiles$y[i], zoom = tile_grid$zoom))
+}
+
+im <- purrr::reduce(br, raster::merge)
+projection(im) <- "+proj=merc +a=6378137 +b=6378137"
+plotRGB(im)
+plot(st_transform(ozmaps::abs_lga$geometry, projection(im)), add = TRUE, lwd = 2, border = "white")
+```
+
+<img src="man/figures/README-tasmania-1.png" width="100%" /> Please note
+that the ‘ceramic’ project is released with a [Contributor Code of
+Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree
+to abide by its terms.
