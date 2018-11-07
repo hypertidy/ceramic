@@ -55,14 +55,16 @@ ceramic_tiles <- function(zoom = NULL, type = "mapbox.satellite",
                           source = "api.mapbox.com", glob = "*.jpg*", regexp = NULL) {
 
   ## FIXME: assert that zoom, type, source, all are length 1
-  fs <-
+  bfiles <-
     fs::dir_ls(slippy_cache(), recursive = TRUE, type = "file",
                glob = glob, regexp = regexp)
-  files <- tibble::tibble(tile_x = tile_x(fs), tile_y = tile_y(fs),
-                          zoom = tile_zoom(fs),
-                          type = tile_type(fs),
-                          version = tile_version(fs),
-                          source = tile_source(fs), fullname =fs)
+  ## FIXME: base regex, or strsplit base mojo
+  toks <- stringr::str_match(bfiles, "([[:digit:]]+)/([[:digit:]]+)/([[:digit:]]+)\\.[^\\.]+$")
+  files <- tibble::tibble(tile_x = as.integer(toks[,3]), tile_y = as.integer(toks[,4]),
+                          zoom = as.integer(toks[, 2]),
+                          type = tile_type(bfiles),
+                          version = tile_version(bfiles),
+                          source = tile_source(bfiles), fullname =fs)
   if (!is.null(zoom)) files <- dplyr::filter(files, .data$zoom == zoom)
   if (!is.null(type)) files <- dplyr::filter(files, .data$type == type)
   files
@@ -83,9 +85,8 @@ tile_x <- function(x) {
   as.integer(basename(dirname(x)))
 }
 tile_y <- function(x) {
-  xbase <- basename(x)
-  dotloc <- max(gregexpr("\\.", xbase)[[1]])
-  as.integer(substr(xbase, 1, dotloc - 1))
+  #xbase <- basename(x)
+ stop("not implemented")
 }
 tile_zoom <- function(x) {
   as.integer(basename(dirname(dirname(x))))
