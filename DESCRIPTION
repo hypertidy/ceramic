@@ -1,6 +1,6 @@
 Package: ceramic
 Title: Get imagery tiles
-Version: 0.0.0.9001
+Version: 0.0.1
 Authors@R: c(
     person("Michael", "Sumner", email = "mdsumner@gmail.com", role = c("aut", "cre"), 
     comment = c(ORCID = "0000-0002-2471-7511")), 
