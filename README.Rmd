@@ -1,5 +1,7 @@
 ---
 output: github_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -98,12 +100,12 @@ There is a helper function to find existing tiles.
 ceramic_tiles(zoom = 7, type = "mapbox.satellite")
 ```
 
-and an *internal* function to convert these to an extent useable directly by raster: 
+and every row has the extent values useable directly by raster: 
 
 ```{r extent}
 ceramic_tiles(zoom = 7, type = "mapbox.satellite") %>% 
   dplyr::slice(1:5) %>% 
-  ceramic:::add_extent() %>% purrr::transpose()  %>% 
+   purrr::transpose()  %>% 
   purrr::map(~raster::extent(unlist(.x[c("xmin", "xmax", "ymin", "ymax")])))
 ```
 
@@ -112,10 +114,10 @@ Another example
 
 ```{r tasmania}
 my_bbox <-
-  st_bbox(c(xmin = 145.76,
+  st_bbox(c(xmin = 144,
             xmax = 147.99,
             ymin = -44.12,
-            ymax = -42.73),
+            ymax = -40),
           crs = st_crs("+proj=longlat +ellps=WGS84"))
 tile_grid <- slippymath:::bb_to_tg(my_bbox, max_tiles = 36)
 files <- unlist(down_loader(tile_grid, mapbox_query_string))
@@ -131,6 +133,24 @@ projection(im) <- "+proj=merc +a=6378137 +b=6378137"
 plotRGB(im)
 plot(st_transform(ozmaps::abs_lga$geometry, projection(im)), add = TRUE, lwd = 2, border = "white")
 ```
+
+An internal function sets up a plot of tiles at particular zoom levels. 
+
+```R
+ceramic::plot_tiles(ceramic_tiles(zoom = c(7, 9)))
+```
+
+![tile plot](man/figures/README-tile-plot.png)
+
+And we can add the tiles to an existing plot. 
+
+```R
+plotRGB(im)
+ceramic::plot_tiles(ceramic_tiles(zoom = 7), add = TRUE)
+```
+
+![tile add plot](man/figures/README-tile-add-plot.png)
+
 Please note that the 'ceramic' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
 

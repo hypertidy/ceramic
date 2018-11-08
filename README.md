@@ -102,7 +102,8 @@ There is a helper function to find existing tiles.
 ``` r
 
 ceramic_tiles(zoom = 7, type = "mapbox.satellite")
-#> # A tibble: 40 x 7
+#> [1] 63  4
+#> # A tibble: 24 x 11
 #>    tile_x tile_y  zoom type  version source
 #>     <int>  <int> <int> <chr> <chr>   <chr> 
 #>  1    110     74     7 mapb… v4      api.m…
@@ -115,17 +116,18 @@ ceramic_tiles(zoom = 7, type = "mapbox.satellite")
 #>  8    111     77     7 mapb… v4      api.m…
 #>  9    112     74     7 mapb… v4      api.m…
 #> 10    112     75     7 mapb… v4      api.m…
-#> # ... with 30 more rows, and 1 more variable: fullname <fs::path>
+#> # ... with 14 more rows, and 5 more variables: fullname <fs::path>,
+#> #   xmin <dbl>, xmax <dbl>, ymin <dbl>, ymax <dbl>
 ```
 
-and an *internal* function to convert these to an extent useable
-directly by raster:
+and every row has the extent values useable directly by raster:
 
 ``` r
 ceramic_tiles(zoom = 7, type = "mapbox.satellite") %>% 
   dplyr::slice(1:5) %>% 
-  ceramic:::add_extent() %>% purrr::transpose()  %>% 
+   purrr::transpose()  %>% 
   purrr::map(~raster::extent(unlist(.x[c("xmin", "xmax", "ymin", "ymax")])))
+#> [1] 63  4
 #> [[1]]
 #> class       : Extent 
 #> xmin        : 14401959 
@@ -166,10 +168,10 @@ Another example
 
 ``` r
 my_bbox <-
-  st_bbox(c(xmin = 145.76,
+  st_bbox(c(xmin = 144,
             xmax = 147.99,
             ymin = -44.12,
-            ymax = -42.73),
+            ymax = -40),
           crs = st_crs("+proj=longlat +ellps=WGS84"))
 tile_grid <- slippymath:::bb_to_tg(my_bbox, max_tiles = 36)
 files <- unlist(down_loader(tile_grid, mapbox_query_string))
@@ -186,7 +188,25 @@ plotRGB(im)
 plot(st_transform(ozmaps::abs_lga$geometry, projection(im)), add = TRUE, lwd = 2, border = "white")
 ```
 
-<img src="man/figures/README-tasmania-1.png" width="100%" /> Please note
-that the ‘ceramic’ project is released with a [Contributor Code of
-Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree
-to abide by its terms.
+<img src="man/figures/README-tasmania-1.png" width="100%" />
+
+An internal function sets up a plot of tiles at particular zoom levels.
+
+``` r
+ceramic::plot_tiles(ceramic_tiles(zoom = c(7, 9)))
+```
+
+![tile plot](man/figures/README-tile-plot.png)
+
+And we can add the tiles to an existing plot.
+
+``` r
+plotRGB(im)
+ceramic::plot_tiles(ceramic_tiles(zoom = 7), add = TRUE)
+```
+
+![tile add plot](man/figures/README-tile-add-plot.png)
+
+Please note that the ‘ceramic’ project is released with a [Contributor
+Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,
+you agree to abide by its terms.

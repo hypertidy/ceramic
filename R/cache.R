@@ -19,22 +19,22 @@
 #' @importFrom rappdirs user_cache_dir
 #' @importFrom purrr pmap
 down_loader <- function(x, query_string, clobber = FALSE) {
-    purrr::pmap(x$tiles,
-         function(x, y, zoom){
-           api_query <- glue::glue(query_string)
-           outfile <- url_to_cache(api_query)
-           if (!file.exists(outfile) || clobber) {
-             cachedir <- fs::path_dir(outfile)
+  purrr::pmap(x$tiles,
+              function(x, y, zoom){
+                api_query <- glue::glue(query_string)
+                outfile <- url_to_cache(api_query)
+                if (!file.exists(outfile) || clobber) {
+                  cachedir <- fs::path_dir(outfile)
 
-             if (!fs::dir_exists(cachedir)) fs::dir_create(cachedir, recursive = TRUE)
+                  if (!fs::dir_exists(cachedir)) fs::dir_create(cachedir, recursive = TRUE)
 
-             ## FIXME: need to error on no API_KEY present
-             curl::curl_download(url = api_query,
-                         destfile = outfile)
-           }
-           outfile
-         },
-         zoom = x$zoom)
+                  ## FIXME: need to error on no API_KEY present
+                  curl::curl_download(url = api_query,
+                                      destfile = outfile)
+                }
+                outfile
+              },
+              zoom = x$zoom)
 }
 
 #' Tile files
@@ -59,15 +59,27 @@ ceramic_tiles <- function(zoom = NULL, type = "mapbox.satellite",
     fs::dir_ls(slippy_cache(), recursive = TRUE, type = "file",
                glob = glob, regexp = regexp)
   ## FIXME: base regex, or strsplit base mojo
-  toks <- stringr::str_match(bfiles, "([[:digit:]]+)/([[:digit:]]+)/([[:digit:]]+)\\.[^\\.]+$")
+  ##toks <- stringr::str_match(bfiles, "([[:digit:]]+)/([[:digit:]]+)/([[:digit:]]+)\\.[^\\.]+$")
+  strex <- function(x, y) regmatches(x, regexec(y, x))
+  toks <- do.call(rbind, strex(bfiles, "([[:digit:]]+)/([[:digit:]]+)/([[:digit:]]+)\\.[^\\.]+$"))
+  print(dim(toks))
   files <- tibble::tibble(tile_x = as.integer(toks[,3]), tile_y = as.integer(toks[,4]),
                           zoom = as.integer(toks[, 2]),
                           type = tile_type(bfiles),
                           version = tile_version(bfiles),
-                          source = tile_source(bfiles), fullname =fs)
-  if (!is.null(zoom)) files <- dplyr::filter(files, .data$zoom == zoom)
-  if (!is.null(type)) files <- dplyr::filter(files, .data$type == type)
-  files
+                          source = tile_source(bfiles), fullname = bfiles)
+  if (is.null(zoom)) {
+    zoom <- min(files$zoom)
+    message(sprintf("no zoom selected, choosing 'zoom =  %i'", zoom))
+  }
+  azoom <- zoom
+  atype <- type
+  if (!is.null(zoom)) files <- dplyr::filter(files, .data$zoom %in% azoom)
+  if (nrow(files) < 1) stop(sprintf("no tiles at 'zoom = %i'", azoom))
+  #browser()
+  if (!is.null(type)) files <- dplyr::filter(files, .data$type %in% atype)
+  if (nrow(files) < 1) stop(sprintf("no tiles at 'type = %s'", atype))
+  add_extent(files )
 }
 
 tile_source <- function(x) {
@@ -86,7 +98,7 @@ tile_x <- function(x) {
 }
 tile_y <- function(x) {
   #xbase <- basename(x)
- stop("not implemented")
+  stop("not implemented")
 }
 tile_zoom <- function(x) {
   as.integer(basename(dirname(dirname(x))))

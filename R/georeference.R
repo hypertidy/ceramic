@@ -45,3 +45,20 @@ add_extent <- function(x) {
   x[c("xmin", "xmax", "ymin", "ymax")] <- tibble::as_tibble(do.call(rbind, l))
   x
 }
+
+plot_tiles <- function(x, ..., add = FALSE, label = TRUE, cex = 0.6, add_coast = TRUE, include_zoom = TRUE) {
+  if (!all(c("xmin", "xmax", "ymin", "ymax") %in% names(x))) stop("need xmin, xmax, ymin, ymax columns")
+  if (include_zoom && !"zoom" %in% names(x) ) stop("need zoom columns for 'include_zoom = TRUE'")
+  if (!add) plot(range(c(x$xmin, x$xmax)), range(c(x$ymin, x$ymax)), type = "n", xlab = "x", ylab = "y")
+  rect(x$xmin, x$ymin, x$xmax, x$ymax, ...)
+  if (label) {
+    if (include_zoom) {
+      tile_lab <- sprintf("%i [%i,%i]", x$zoom, x$tile_x, x$tile_y)
+      } else {
+      tile_lab <- sprintf("[%i,%i]", x$tile_x, x$tile_y)
+      }
+    text((x$xmin + x$xmax) / 2,
+         (x$ymin + x$ymax) / 2, label = tile_lab, cex = cex)
+  }
+  if (add_coast) plot(merc_world, border = "darkgrey", add = TRUE)
+}
