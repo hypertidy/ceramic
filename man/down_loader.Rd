@@ -4,7 +4,7 @@
 \alias{down_loader}
 \title{Downloader for tiles}
 \usage{
-down_loader(x, query_string, clobber = FALSE)
+down_loader(x, query_string, clobber = FALSE, ..., debug = FALSE)
 }
 \arguments{
 \item{x}{tiles object}

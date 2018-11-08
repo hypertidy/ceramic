@@ -18,17 +18,20 @@
 #' @importFrom glue glue
 #' @importFrom rappdirs user_cache_dir
 #' @importFrom purrr pmap
-down_loader <- function(x, query_string, clobber = FALSE) {
+down_loader <- function(x, query_string, clobber = FALSE, ..., debug = FALSE) {
   purrr::pmap(x$tiles,
               function(x, y, zoom){
                 api_query <- glue::glue(query_string)
                 outfile <- url_to_cache(api_query)
+                if (debug) {
+                  print(outfile)
+                }
+
                 if (!file.exists(outfile) || clobber) {
                   cachedir <- fs::path_dir(outfile)
 
                   if (!fs::dir_exists(cachedir)) fs::dir_create(cachedir, recursive = TRUE)
-
-                  ## FIXME: need to error on no API_KEY present
+                ## FIXME: need to error on no API_KEY present
                   curl::curl_download(url = api_query,
                                       destfile = outfile)
                 }
@@ -60,23 +63,29 @@ ceramic_tiles <- function(zoom = NULL, type = "mapbox.satellite",
                glob = glob, regexp = regexp)
   strex <- function(x, y) regmatches(x, regexec(y, x))
   toks <- do.call(rbind, strex(bfiles, "([[:digit:]]+)/([[:digit:]]+)/([[:digit:]]+)\\.[^\\.]+$"))
-  print(dim(toks))
+  #print(dim(toks))
   files <- tibble::tibble(tile_x = as.integer(toks[,3]), tile_y = as.integer(toks[,4]),
                           zoom = as.integer(toks[, 2]),
                           type = tile_type(bfiles),
                           version = tile_version(bfiles),
                           source = tile_source(bfiles), fullname = bfiles)
+
+  ## filter type first, then zoom
+  atype <- type
+  if (!is.null(type)) files <- dplyr::filter(files, .data$type %in% atype)
+  if (nrow(files) < 1) stop(sprintf("no tiles at 'type = %s'", atype))
+
   if (is.null(zoom)) {
     zoom <- min(files$zoom)
     message(sprintf("no zoom selected, choosing 'zoom =  %i'", zoom))
   }
+
   azoom <- zoom
-  atype <- type
+
   if (!is.null(zoom)) files <- dplyr::filter(files, .data$zoom %in% azoom)
   if (nrow(files) < 1) stop(sprintf("no tiles at 'zoom = %i'", azoom))
   #browser()
-  if (!is.null(type)) files <- dplyr::filter(files, .data$type %in% atype)
-  if (nrow(files) < 1) stop(sprintf("no tiles at 'type = %s'", atype))
+
   add_extent(files )
 }
 
