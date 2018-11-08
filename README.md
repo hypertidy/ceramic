@@ -102,7 +102,7 @@ There is a helper function to find existing tiles.
 ``` r
 
 ceramic_tiles(zoom = 7, type = "mapbox.satellite")
-#> [1] 63  4
+#> [1] 83  4
 #> # A tibble: 24 x 11
 #>    tile_x tile_y  zoom type  version source
 #>     <int>  <int> <int> <chr> <chr>   <chr> 
@@ -127,7 +127,7 @@ ceramic_tiles(zoom = 7, type = "mapbox.satellite") %>%
   dplyr::slice(1:5) %>% 
    purrr::transpose()  %>% 
   purrr::map(~raster::extent(unlist(.x[c("xmin", "xmax", "ymin", "ymax")])))
-#> [1] 63  4
+#> [1] 83  4
 #> [[1]]
 #> class       : Extent 
 #> xmin        : 14401959 

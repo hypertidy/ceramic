@@ -58,8 +58,6 @@ ceramic_tiles <- function(zoom = NULL, type = "mapbox.satellite",
   bfiles <-
     fs::dir_ls(slippy_cache(), recursive = TRUE, type = "file",
                glob = glob, regexp = regexp)
-  ## FIXME: base regex, or strsplit base mojo
-  ##toks <- stringr::str_match(bfiles, "([[:digit:]]+)/([[:digit:]]+)/([[:digit:]]+)\\.[^\\.]+$")
   strex <- function(x, y) regmatches(x, regexec(y, x))
   toks <- do.call(rbind, strex(bfiles, "([[:digit:]]+)/([[:digit:]]+)/([[:digit:]]+)\\.[^\\.]+$"))
   print(dim(toks))

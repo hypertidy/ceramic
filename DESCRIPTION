@@ -25,7 +25,9 @@ Imports:
     stats,
     purrr,
     magrittr,
-    rlang
+    rlang,
+    sp,
+    graphics
 Remotes: MilesMcBain/slippymath
 Suggests: 
     testthat

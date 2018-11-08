@@ -100,7 +100,7 @@
 <li>downloads them to a local cache</li>
 <li>georeferences them and merges the tiles into a sensible raster object</li>
 </ul>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(sf)     ## st_bbox, st_crs</a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(sf)     <span class="co">## st_bbox, st_crs</span></a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; Linking to GEOS 3.6.2, GDAL 2.3.2, PROJ 4.9.3</span></a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; Linking to GEOS 3.6.1, GDAL 2.2.3, PROJ 4.9.3</span></a>
 <a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw">library</span>(slippymath)</a>
@@ -110,8 +110,8 @@
 <a class="sourceLine" id="cb2-8" data-line-number="8">            <span class="dt">ymin =</span> <span class="dv">-36</span>,</a>
 <a class="sourceLine" id="cb2-9" data-line-number="9">            <span class="dt">ymax =</span> <span class="dv">-28</span>),</a>
 <a class="sourceLine" id="cb2-10" data-line-number="10">          <span class="dt">crs =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/sf/topics/st_crs">st_crs</a></span>(<span class="st">"+proj=longlat +ellps=WGS84"</span>))</a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="kw">library</span>(purrr)  ## is_null clashes with testthat::is_null</a>
-<a class="sourceLine" id="cb2-12" data-line-number="12">tile_grid &lt;-<span class="st"> </span>slippymath<span class="op">:::</span><span class="kw">bb_to_tg</span>(my_bbox, <span class="dt">max_tiles =</span> <span class="dv">36</span>)</a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="kw">library</span>(purrr)  <span class="co">## is_null clashes with testthat::is_null</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12">tile_grid &lt;-<span class="st"> </span>slippymath<span class="op">:::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/slippymath/topics/bb_to_tg">bb_to_tg</a></span>(my_bbox, <span class="dt">max_tiles =</span> <span class="dv">36</span>)</a>
 <a class="sourceLine" id="cb2-13" data-line-number="13">zoom &lt;-<span class="st"> </span>tile_grid<span class="op">$</span>zoom</a>
 <a class="sourceLine" id="cb2-14" data-line-number="14"></a>
 <a class="sourceLine" id="cb2-15" data-line-number="15">mapbox_query_string &lt;-</a>
@@ -157,59 +157,94 @@
 <p>There is a helper function to find existing tiles.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="reference/ceramic_tiles.html">ceramic_tiles</a></span>(<span class="dt">zoom =</span> <span class="dv">7</span>, <span class="dt">type =</span> <span class="st">"mapbox.satellite"</span>)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; # A tibble: 24 x 7</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt;    tile_x tile_y  zoom type  version source</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt;     &lt;int&gt;  &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; </span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt;  1    110     74     7 mapb… v4      api.m…</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt;  2    110     75     7 mapb… v4      api.m…</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt;  3    110     76     7 mapb… v4      api.m…</span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt;  4    110     77     7 mapb… v4      api.m…</span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt;  5    111     74     7 mapb… v4      api.m…</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt;  6    111     75     7 mapb… v4      api.m…</span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt;  7    111     76     7 mapb… v4      api.m…</span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt;  8    111     77     7 mapb… v4      api.m…</span></a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt;  9    112     74     7 mapb… v4      api.m…</span></a>
-<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt; 10    112     75     7 mapb… v4      api.m…</span></a>
-<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">#&gt; # ... with 14 more rows, and 1 more variable: fullname &lt;fs::path&gt;</span></a></code></pre></div>
-<p>and an <em>internal</em> function to convert these to an extent useable directly by raster:</p>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; [1] 83  4</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; # A tibble: 24 x 11</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt;    tile_x tile_y  zoom type  version source</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt;     &lt;int&gt;  &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; </span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt;  1    110     74     7 mapb… v4      api.m…</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt;  2    110     75     7 mapb… v4      api.m…</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt;  3    110     76     7 mapb… v4      api.m…</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt;  4    110     77     7 mapb… v4      api.m…</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt;  5    111     74     7 mapb… v4      api.m…</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt;  6    111     75     7 mapb… v4      api.m…</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt;  7    111     76     7 mapb… v4      api.m…</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt;  8    111     77     7 mapb… v4      api.m…</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt;  9    112     74     7 mapb… v4      api.m…</span></a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">#&gt; 10    112     75     7 mapb… v4      api.m…</span></a>
+<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="co">#&gt; # ... with 14 more rows, and 5 more variables: fullname &lt;fs::path&gt;,</span></a>
+<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">#&gt; #   xmin &lt;dbl&gt;, xmax &lt;dbl&gt;, ymin &lt;dbl&gt;, ymax &lt;dbl&gt;</span></a></code></pre></div>
+<p>and every row has the extent values useable directly by raster:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="reference/ceramic_tiles.html">ceramic_tiles</a></span>(<span class="dt">zoom =</span> <span class="dv">7</span>, <span class="dt">type =</span> <span class="st">"mapbox.satellite"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/slice.html">slice</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="st">  </span>ceramic<span class="op">:::</span><span class="kw">add_extent</span>() <span class="op">%&gt;%</span><span class="st"> </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/transpose">transpose</a></span>()  <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="st">   </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/transpose">transpose</a></span>()  <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="st">  </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map</a></span>(<span class="op">~</span>raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/extent">extent</a></span>(<span class="kw">unlist</span>(.x[<span class="kw">c</span>(<span class="st">"xmin"</span>, <span class="st">"xmax"</span>, <span class="st">"ymin"</span>, <span class="st">"ymax"</span>)])))</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; [[1]]</span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; class       : Extent </span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; xmin        : 14401959 </span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; xmax        : 14715045 </span></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; ymin        : -3443947 </span></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; ymax        : -3130861 </span></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt; [[2]]</span></a>
-<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt; class       : Extent </span></a>
-<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt; xmin        : 14401959 </span></a>
-<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt; xmax        : 14715045 </span></a>
-<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; ymin        : -3757033 </span></a>
-<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; ymax        : -3443947 </span></a>
-<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt; [[3]]</span></a>
-<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt; class       : Extent </span></a>
-<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt; xmin        : 14401959 </span></a>
-<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt; xmax        : 14715045 </span></a>
-<a class="sourceLine" id="cb4-23" data-line-number="23"><span class="co">#&gt; ymin        : -4070119 </span></a>
-<a class="sourceLine" id="cb4-24" data-line-number="24"><span class="co">#&gt; ymax        : -3757033 </span></a>
-<a class="sourceLine" id="cb4-25" data-line-number="25"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb4-26" data-line-number="26"><span class="co">#&gt; [[4]]</span></a>
-<a class="sourceLine" id="cb4-27" data-line-number="27"><span class="co">#&gt; class       : Extent </span></a>
-<a class="sourceLine" id="cb4-28" data-line-number="28"><span class="co">#&gt; xmin        : 14401959 </span></a>
-<a class="sourceLine" id="cb4-29" data-line-number="29"><span class="co">#&gt; xmax        : 14715045 </span></a>
-<a class="sourceLine" id="cb4-30" data-line-number="30"><span class="co">#&gt; ymin        : -4383205 </span></a>
-<a class="sourceLine" id="cb4-31" data-line-number="31"><span class="co">#&gt; ymax        : -4070119 </span></a>
-<a class="sourceLine" id="cb4-32" data-line-number="32"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb4-33" data-line-number="33"><span class="co">#&gt; [[5]]</span></a>
-<a class="sourceLine" id="cb4-34" data-line-number="34"><span class="co">#&gt; class       : Extent </span></a>
-<a class="sourceLine" id="cb4-35" data-line-number="35"><span class="co">#&gt; xmin        : 14715045 </span></a>
-<a class="sourceLine" id="cb4-36" data-line-number="36"><span class="co">#&gt; xmax        : 15028131 </span></a>
-<a class="sourceLine" id="cb4-37" data-line-number="37"><span class="co">#&gt; ymin        : -3443947 </span></a>
-<a class="sourceLine" id="cb4-38" data-line-number="38"><span class="co">#&gt; ymax        : -3130861</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; [1] 83  4</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; class       : Extent </span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; xmin        : 14401959 </span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; xmax        : 14715045 </span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; ymin        : -3443947 </span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; ymax        : -3130861 </span></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt; [[2]]</span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt; class       : Extent </span></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt; xmin        : 14401959 </span></a>
+<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; xmax        : 14715045 </span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; ymin        : -3757033 </span></a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; ymax        : -3443947 </span></a>
+<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt; [[3]]</span></a>
+<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt; class       : Extent </span></a>
+<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt; xmin        : 14401959 </span></a>
+<a class="sourceLine" id="cb4-23" data-line-number="23"><span class="co">#&gt; xmax        : 14715045 </span></a>
+<a class="sourceLine" id="cb4-24" data-line-number="24"><span class="co">#&gt; ymin        : -4070119 </span></a>
+<a class="sourceLine" id="cb4-25" data-line-number="25"><span class="co">#&gt; ymax        : -3757033 </span></a>
+<a class="sourceLine" id="cb4-26" data-line-number="26"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-27" data-line-number="27"><span class="co">#&gt; [[4]]</span></a>
+<a class="sourceLine" id="cb4-28" data-line-number="28"><span class="co">#&gt; class       : Extent </span></a>
+<a class="sourceLine" id="cb4-29" data-line-number="29"><span class="co">#&gt; xmin        : 14401959 </span></a>
+<a class="sourceLine" id="cb4-30" data-line-number="30"><span class="co">#&gt; xmax        : 14715045 </span></a>
+<a class="sourceLine" id="cb4-31" data-line-number="31"><span class="co">#&gt; ymin        : -4383205 </span></a>
+<a class="sourceLine" id="cb4-32" data-line-number="32"><span class="co">#&gt; ymax        : -4070119 </span></a>
+<a class="sourceLine" id="cb4-33" data-line-number="33"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-34" data-line-number="34"><span class="co">#&gt; [[5]]</span></a>
+<a class="sourceLine" id="cb4-35" data-line-number="35"><span class="co">#&gt; class       : Extent </span></a>
+<a class="sourceLine" id="cb4-36" data-line-number="36"><span class="co">#&gt; xmin        : 14715045 </span></a>
+<a class="sourceLine" id="cb4-37" data-line-number="37"><span class="co">#&gt; xmax        : 15028131 </span></a>
+<a class="sourceLine" id="cb4-38" data-line-number="38"><span class="co">#&gt; ymin        : -3443947 </span></a>
+<a class="sourceLine" id="cb4-39" data-line-number="39"><span class="co">#&gt; ymax        : -3130861</span></a></code></pre></div>
+<p>Another example</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">my_bbox &lt;-</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/sf/topics/st_bbox">st_bbox</a></span>(<span class="kw">c</span>(<span class="dt">xmin =</span> <span class="dv">144</span>,</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">            <span class="dt">xmax =</span> <span class="fl">147.99</span>,</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">            <span class="dt">ymin =</span> <span class="fl">-44.12</span>,</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">            <span class="dt">ymax =</span> <span class="dv">-40</span>),</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">          <span class="dt">crs =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/sf/topics/st_crs">st_crs</a></span>(<span class="st">"+proj=longlat +ellps=WGS84"</span>))</a>
+<a class="sourceLine" id="cb5-7" data-line-number="7">tile_grid &lt;-<span class="st"> </span>slippymath<span class="op">:::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/slippymath/topics/bb_to_tg">bb_to_tg</a></span>(my_bbox, <span class="dt">max_tiles =</span> <span class="dv">36</span>)</a>
+<a class="sourceLine" id="cb5-8" data-line-number="8">files &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw"><a href="reference/down_loader.html">down_loader</a></span>(tile_grid, mapbox_query_string))</a>
+<a class="sourceLine" id="cb5-9" data-line-number="9">br &lt;-<span class="st"> </span><span class="kw">lapply</span>(files, raster<span class="op">::</span>brick)</a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(br)) {</a>
+<a class="sourceLine" id="cb5-12" data-line-number="12">  br[[i]] &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/setExtent">setExtent</a></span>(br[[i]],  </a>
+<a class="sourceLine" id="cb5-13" data-line-number="13">                       <span class="kw"><a href="reference/mercator_tile_extent.html">mercator_tile_extent</a></span>(tile_grid<span class="op">$</span>tiles<span class="op">$</span>x[i], tile_grid<span class="op">$</span>tiles<span class="op">$</span>y[i], <span class="dt">zoom =</span> tile_grid<span class="op">$</span>zoom))</a>
+<a class="sourceLine" id="cb5-14" data-line-number="14">}</a>
+<a class="sourceLine" id="cb5-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb5-16" data-line-number="16">im &lt;-<span class="st"> </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/reduce">reduce</a></span>(br, raster<span class="op">::</span>merge)</a>
+<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/projection">projection</a></span>(im) &lt;-<span class="st"> "+proj=merc +a=6378137 +b=6378137"</span></a>
+<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/plotRGB">plotRGB</a></span>(im)</a>
+<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="kw"><a href="http://www.rdocumentation.org/packages/sf/topics/plot">plot</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/sf/topics/st_transform">st_transform</a></span>(ozmaps<span class="op">::</span>abs_lga<span class="op">$</span>geometry, <span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/projection">projection</a></span>(im)), <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">border =</span> <span class="st">"white"</span>)</a></code></pre></div>
+<p><img src="reference/figures/README-tasmania-1.png" width="100%"></p>
+<p>An internal function sets up a plot of tiles at particular zoom levels.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">ceramic<span class="op">::</span><span class="kw">plot_tiles</span>(<span class="kw"><a href="reference/ceramic_tiles.html">ceramic_tiles</a></span>(<span class="dt">zoom =</span> <span class="kw">c</span>(<span class="dv">7</span>, <span class="dv">9</span>)))</a></code></pre></div>
+<div class="figure">
+<img src="reference/figures/README-tile-plot.png" alt="tile plot"><p class="caption">tile plot</p>
+</div>
+<p>And we can add the tiles to an existing plot.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/plotRGB">plotRGB</a></span>(im)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">ceramic<span class="op">::</span><span class="kw">plot_tiles</span>(<span class="kw"><a href="reference/ceramic_tiles.html">ceramic_tiles</a></span>(<span class="dt">zoom =</span> <span class="dv">7</span>), <span class="dt">add =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="figure">
+<img src="reference/figures/README-tile-add-plot.png" alt="tile add plot"><p class="caption">tile add plot</p>
+</div>
 <p>Please note that the ‘ceramic’ project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>

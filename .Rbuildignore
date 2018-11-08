@@ -3,3 +3,5 @@
 ^README\.Rmd$
 ^ceramic\.Rproj$
 ^\.Rproj\.user$
+^docs$
+^\.Rhistory$
