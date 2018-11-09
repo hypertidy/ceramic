@@ -3,10 +3,14 @@ fast_merge <- function(x) {
   out <- raster::raster(purrr::reduce(purrr::map(x, raster::extent), raster::union), crs = raster::projection(x[[1]]))
   raster::res(out) <- raster::res(x[[1]])
   cells <- unlist(purrr::map(x, ~raster::cellsFromExtent(out, .x)))
-  vals <- do.call(rbind, purrr::map(x, ~values(readAll(.x))))
-  setValues(brick(out, out, out), vals[order(cells), ])
+  vals <- do.call(rbind, purrr::map(x, ~raster::values(raster::readAll(.x))))
+  raster::setValues(raster::brick(out, out, out), vals[order(cells), ])
 }
 
+cc_location <- function(loc = NULL, buffer = 5000,
+                        type = "mapbox.outdoors", ..., debug = FALSE) {
+  get_loc(loc = loc, buffer = buffer, type = type, ..., debug = debug)
+}
 #' Miscellaneous places
 #'
 #' Visit some nice locales with web tiles.
@@ -24,59 +28,61 @@ fast_merge <- function(x) {
 #' im <- cc_macquarie()
 #' library(raster)
 #' plotRGB(im)
-cc_macquarie <- function(buffer = 5000, type = "mapbox.outdoors", ..., debug = FALSE) {
-  loc <- cbind(158.93835,
-               -54.49871)
-  get_loc(loc, buffer)
+cc_macquarie <- function(loc = c(158.93835,-54.49871), buffer = 5000,
+                         type = "mapbox.outdoors", ..., debug = FALSE) {
+ cc_location(loc, buffer, type = type, ..., debug = debug)
 }
 
 #' @name ceramic_locale
 #' @export
-cc_davis <- function(buffer = 5000, type = "mapbox.outdoors", ..., debug = FALSE) {
+cc_davis <- function(loc = c(77 + 58/60 + 3/3600,
+                              -(68 + 34/60 + 36/3600)),
+                     buffer = 5000, type = "mapbox.outdoors", ..., debug = FALSE) {
 #  68°34′36″S 77°58′03″E
-  loc <- cbind(77 + 58/60 + 3/3600,
-               -(68 + 34/60 + 36/3600))
-  get_loc(loc, buffer, ..., debug = debug)
+  cc_location(loc, buffer, type = type, ..., debug = debug)
 
 }
 #' @name ceramic_locale
 #' @export
-cc_mawson <- function(buffer = 5000, type = "mapbox.outdoors", ..., debug = FALSE) {
+cc_mawson <- function(loc = c(62 + 52/60 + 27/3600,
+                                  -(67 + 36/60 + 12/3600)), buffer = 5000, type = "mapbox.outdoors", ..., debug = FALSE) {
   # 67°36′12″S 62°52′27″E
-  loc <- cbind(62 + 52/60 + 27/3600,
-               -(67 + 36/60 + 12/3600))
-  get_loc(loc, buffer, ..., debug = debug)
+
+  cc_location(loc, buffer, type = type, ..., debug = debug)
 
 }
 
 #' @name ceramic_locale
 #' @export
-cc_casey <- function(buffer = 5000, type = "mapbox.outdoors", ..., debug = FALSE) {
+cc_casey <- function(  loc = cbind(110 + 31/60 + 36/3600,
+                                    -(66 + 16/60 + 57/3600)), buffer = 5000, type = "mapbox.outdoors", ..., debug = FALSE) {
   #66°16′57″S 110°31′36″E
-  loc <- cbind(110 + 31/60 + 36/3600,
-               -(66 + 16/60 + 57/3600))
-  get_loc(loc, buffer, ..., debug = debug)
+
+  cc_location(loc, buffer, type = type, ..., debug = debug)
 
 }
 #' @name ceramic_locale
 #' @export
-cc_heard <- function(buffer = 5000, type = "mapbox.outdoors",..., debug = FALSE) {
+cc_heard <- function(loc = c(73 + 30/60 + 30/3600,
+                                 -(53 + 0 + 0/3600)), buffer = 5000, type = "mapbox.outdoors",..., debug = FALSE) {
 #  53°S 73°30’E.
-  loc <- cbind(73 + 30/60 + 30/3600,
-               -(53 + 0 + 0/3600))
-  get_loc(loc, buffer, ..., debug = debug)
+
+  cc_location(loc, buffer, type = type, ..., debug = debug)
 
 }
 #' @name ceramic_locale
 #' @export
-cc_kingston <- function(buffer = 5000, type = "mapbox.outdoors", ..., debug = FALSE) {
-  loc <- cbind(-147.70837,
-               -42.98682)
-  get_loc(loc, buffer, type = type, ..., debug = debug)
+cc_kingston <- function(loc = c(-147.70837,
+                                    -42.98682), buffer = 5000, type = "mapbox.outdoors", ..., debug = FALSE) {
+  cc_location(loc, buffer, type = type, ..., debug = debug)
 
 }
 get_loc <- function(loc, buffer, type = "mapbox.outdoors", ..., debug = debug) {
   if (length(buffer) == 1) buffer <- rep(buffer, 2)
+  if (length(loc) > 2) {
+    warning("'loc' should be a length-2 vector 'c(lon, lat)' or matrix 'cbind(lon, lat)'")
+    matrix(loc[1:2], ncol = 2L)
+  }
   xp <- buffer[1] / (1852 * 60) / cos(loc[1, 2, drop = TRUE] * pi/180)
   yp <- buffer[2] / (1852 * 60)
 
