@@ -149,6 +149,75 @@ plotRGB(im)
 ceramic::plot_tiles(ceramic_tiles(zoom = 7), add = TRUE)
 ```
 
+Address helper
+
+```{r get-address}
+## DEPENDS ON Sys.getenv("OPENCAGE_KEY")
+get_address <- function(address) {
+  x <- opencage::opencage_forward(address, no_annotations = T, no_dedupe = T)
+  
+  cbind(x$results$geometry.lng[1], x$results$geometry.lat[1])
+}
+```
+
+rgb helper
+
+```{r rgb}
+values_to_hex <- function(x) {
+  rgb(x[,1], x[,2], x[, 3], max = 255)
+}
+raster_to_hex <- function(x) {
+  values_to_hex(raster::values(x))
+}
+quadmesh_to_tex <- function(x, im) {
+  xy_to_tex(t(x$vb[1:2, ]), im)
+}
+xy_to_tex <- function(xy, im) {
+  xyFromCell(setExtent(im, extent(0, 1, 0, 1)), 
+             cellFromXY(im, xy))  ## must be the same projection
+}
+```
+# Textures 
+
+```{r texture1}
+im <- cc_location(get_address("501 Huon Road Tasmania 7004"), type = "mapbox.satellite", debug = T)
+library(raster)
+#im <- crop(im, extent(im, 256, 512, 256, 512))
+qm <- quadmesh::quadmesh(im, z = NULL)
+
+col <- raster_to_hex(im)
+qm$material$col <- rep(col, each = 4)
+library(rgl)
+rgl.clear()
+shade3d(qm)
+rglwidget()
+```
+
+```{r rgb-texture}
+tfile <- tempfile(fileext = "png")
+slippymath::raster_to_png(im, tfile)
+texqm <- quadmesh::quadmesh(im, z = NULL)
+texcoords <- quadmesh_to_tex(texqm, im)
+rgl.clear()
+shade3d(texqm, texcoords = texcoords, texture = tfile)
+rglwidget()
+```
+
+Now with elevation. 
+
+```{r elevatr}
+elev <- elevatr::get_elev_raster(data.frame(x = mean(c(xmin(im), xmax(im))), 
+                                            y = mean(c(ymin(im), ymax(im)))), 
+                                 src = "aws", prj = "+proj=merc +a=6378137 +b=6378137", z = 13)
+texqm$vb[3, ] <- raster::extract(elev, t(texqm$vb[1:2, ]), method = "bilinear")
+rgl.clear()
+## don't forget to set to non-black for textures
+## and to index the texture coordinates
+shade3d(texqm, texcoords = texcoords[qm$ib, ], texture = tfile, col = "white")
+rglwidget()
+
+```
+
 ![tile add plot](man/figures/README-tile-add-plot.png)
 
 Please note that the 'ceramic' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
