@@ -149,7 +149,10 @@ plotRGB(im)
 ceramic::plot_tiles(ceramic_tiles(zoom = 7), add = TRUE)
 ```
 
-Address helper
+![tile add plot](man/figures/README-tile-add-plot.png)
+
+
+## Address helper
 
 ```{r get-address}
 ## DEPENDS ON Sys.getenv("OPENCAGE_KEY")
@@ -180,7 +183,7 @@ xy_to_tex <- function(xy, im) {
 # Textures 
 
 ```{r texture1}
-im <- cc_location(get_address("501 Huon Road Tasmania 7004"), type = "mapbox.satellite", debug = T)
+im <- cc_location(get_address("Uluru"), type = "mapbox.satellite", debug = T)
 library(raster)
 #im <- crop(im, extent(im, 256, 512, 256, 512))
 qm <- quadmesh::quadmesh(im, z = NULL)
@@ -190,7 +193,7 @@ qm$material$col <- rep(col, each = 4)
 library(rgl)
 rgl.clear()
 shade3d(qm)
-rglwidget()
+#rglwidget()
 ```
 
 ```{r rgb-texture}
@@ -199,8 +202,8 @@ slippymath::raster_to_png(im, tfile)
 texqm <- quadmesh::quadmesh(im, z = NULL)
 texcoords <- quadmesh_to_tex(texqm, im)
 rgl.clear()
-shade3d(texqm, texcoords = texcoords, texture = tfile)
-rglwidget()
+shade3d(texqm, texcoords = texcoords[qm$ib, ], texture = tfile)
+#rglwidget()
 ```
 
 Now with elevation. 
@@ -214,11 +217,11 @@ rgl.clear()
 ## don't forget to set to non-black for textures
 ## and to index the texture coordinates
 shade3d(texqm, texcoords = texcoords[qm$ib, ], texture = tfile, col = "white")
-rglwidget()
+#rglwidget()
 
 ```
 
-![tile add plot](man/figures/README-tile-add-plot.png)
+
 
 Please note that the 'ceramic' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
