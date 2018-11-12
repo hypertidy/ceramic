@@ -111,5 +111,7 @@ get_loc <- function(loc, buffer, type = "mapbox.outdoors", ..., debug = debug, m
                          mercator_tile_extent(tile_grid$tiles$x[i], tile_grid$tiles$y[i], zoom = zoom))
   }
 
-  fast_merge(br)
+  out <- fast_merge(br)
+  projection(out) <- "+proj=merc +a=6378137 +b=6378137"
+  out
 }
