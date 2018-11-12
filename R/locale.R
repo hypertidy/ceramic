@@ -80,7 +80,7 @@ cc_kingston <- function(loc = c(-147.70837,
   cc_location(loc, buffer, type = type, ..., debug = debug)
 
 }
-get_loc <- function(loc, buffer, type = "mapbox.outdoors", ..., debug = debug) {
+get_loc <- function(loc, buffer, type = "mapbox.outdoors", ..., debug = debug, max_tiles = 4L) {
   if (length(buffer) == 1) buffer <- rep(buffer, 2)
   if (length(loc) > 2) {
     warning("'loc' should be a length-2 vector 'c(lon, lat)' or matrix 'cbind(lon, lat)'")
@@ -88,11 +88,14 @@ get_loc <- function(loc, buffer, type = "mapbox.outdoors", ..., debug = debug) {
   }
   xp <- buffer[1] / (1852 * 60) / cos(loc[1, 2, drop = TRUE] * pi/180)
   yp <- buffer[2] / (1852 * 60)
-
+#print(xp)
+#print(yp)
+  xp <- xp/4  ## tiling does chunk us way out
+  yp <- yp/4
   my_bbox <- structure(c(xmin = loc[1] - xp, ymin = loc[2] - yp,
               xmax = loc[1] + xp, ymax = loc[2] + yp), crs = structure(list(epsg = 4326,
                                                                               proj4string = "+proj=longlat +ellps=WGS84 +no_defs"), class = "crs"), class = "bbox")
-  tile_grid <- slippymath:::bb_to_tg(my_bbox, max_tiles = 36)
+  tile_grid <- slippymath:::bb_to_tg(my_bbox, max_tiles = max_tiles)
   zoom <- tile_grid$zoom
 
   mapbox_query_string <-
