@@ -201,7 +201,28 @@ shade3d(texqm, texcoords = texcoords[qm$ib, ], texture = tfile, col = "white")
 
 ```
 
+## Elevation
 
+Finally, this is the kind of useability we need. 
+
+Get DEM, get image, make a scene. 
+
+```{r elevation}
+cc_elevation <- function(loc,...) {
+  dat <- cc_location(loc, 5000, type = "mapbox.terrain-rgb")
+  height <-  -10000 + ((dat[[1]] * 256 * 256 + dat[[2]] * 256 + dat[[3]]) * 0.1)
+  projection(height) <- "+proj=merc +a=6378137 +b=6378137"
+  height
+}
+loc <- cbind(147.3565, -43.19052)
+dem <- cc_elevation(loc)
+library(quadmesh)  # @textures branch
+
+qm <- quadmesh(dem, texture = cc_location(loc, type = "mapbox.satellite"))
+library(rgl)
+shade3d(qm); rglwidget()
+
+```
 
 Please note that the 'ceramic' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
