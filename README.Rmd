@@ -52,43 +52,21 @@ The code here
 
 
 ```{r example}
-library(sf)     ## st_bbox, st_crs
-#> Linking to GEOS 3.6.1, GDAL 2.2.3, PROJ 4.9.3
-library(slippymath)
-my_bbox <-
-  st_bbox(c(xmin = 130,
-            xmax = 146,
-            ymin = -36,
-            ymax = -28),
-          crs = st_crs("+proj=longlat +ellps=WGS84"))
-library(purrr)  ## is_null clashes with testthat::is_null
-tile_grid <- slippymath:::bb_to_tg(my_bbox, max_tiles = 36)
-zoom <- tile_grid$zoom
-
-mapbox_query_string <-
-  paste0("https://api.mapbox.com/v4/mapbox.satellite/{zoom}/{x}/{y}.jpg90",
-         "?access_token=",
-         Sys.getenv("MAPBOX_API_KEY"))
-
-library(ceramic)
-files <- unlist(down_loader(tile_grid, mapbox_query_string))
-tibble::tibble(filename = gsub(normalizePath(rappdirs::user_cache_dir(), winslash = "/"), 
-                               "", 
-                               normalizePath(files, winslash = "/")))
-
-library(raster)
-br <- lapply(files, raster::brick)
-
-for (i in seq_along(br)) {
-  br[[i]] <- setExtent(br[[i]],  
-                       mercator_tile_extent(tile_grid$tiles$x[i], tile_grid$tiles$y[i], zoom = zoom))
-}
-
-im <- purrr::reduce(br, raster::merge)
+## a point in longlat, and a buffer with in metres
+pt <- cbind(136, -34)
+im <- cc_location(pt, buffer = c(1e6, 5e5), type = "mapbox.satellite", debug = T)
 plotRGB(im)
-# devtools::install_github("mdsumner/ozmaps")
-dat <- sf::st_transform(ozmaps::ozmap_states, "+proj=merc +a=6378137 +b=6378137")
-plot(dat$geometry, add = TRUE, lwd = 5, border = "dodgerblue")
+
+## get the matching tiles (zoom is magic here, it's all wrapped - needs thought)
+
+tiles <- ceramic_tiles(zoom = 6, type = "mapbox.satellite")
+library(sf)
+plot(st_geometry(tiles_to_polygon(tiles)), add = TRUE)
+middle <- function(x, y) {
+  x + (y - x)/2
+}
+text(middle(tiles$xmin, tiles$xmax), middle(tiles$ymin, tiles$ymax), lab = sprintf("[%i,%i]", tiles$tile_x, tiles$tile_y), 
+     col = "firebrick")
 ```
 
 
@@ -182,7 +160,9 @@ xy_to_tex <- function(xy, im) {
 ```
 # Textures 
 
-```{r texture1}
+WIP 
+
+```{r texture1,eval=FALSE}
 im <- cc_location(get_address("Uluru"), type = "mapbox.satellite", debug = T)
 library(raster)
 #im <- crop(im, extent(im, 256, 512, 256, 512))
@@ -196,7 +176,7 @@ shade3d(qm)
 #rglwidget()
 ```
 
-```{r rgb-texture}
+```{r rgb-texture,eval=FALSE}
 tfile <- tempfile(fileext = "png")
 slippymath::raster_to_png(im, tfile)
 texqm <- quadmesh::quadmesh(im, z = NULL)
@@ -208,7 +188,7 @@ shade3d(texqm, texcoords = texcoords[qm$ib, ], texture = tfile)
 
 Now with elevation. 
 
-```{r elevatr}
+```{r elevatr,eval=FALSE}
 elev <- elevatr::get_elev_raster(data.frame(x = mean(c(xmin(im), xmax(im))), 
                                             y = mean(c(ymin(im), ymax(im)))), 
                                  src = "aws", prj = "+proj=merc +a=6378137 +b=6378137", z = 13)
@@ -221,7 +201,28 @@ shade3d(texqm, texcoords = texcoords[qm$ib, ], texture = tfile, col = "white")
 
 ```
 
+## Elevation
 
+Finally, this is the kind of useability we need. 
+
+Get DEM, get image, make a scene. 
+
+```{r elevation}
+cc_elevation <- function(loc,...) {
+  dat <- cc_location(loc, 5000, type = "mapbox.terrain-rgb")
+  height <-  -10000 + ((dat[[1]] * 256 * 256 + dat[[2]] * 256 + dat[[3]]) * 0.1)
+  projection(height) <- "+proj=merc +a=6378137 +b=6378137"
+  height
+}
+loc <- cbind(147.3565, -43.19052)
+dem <- cc_elevation(loc)
+library(quadmesh)  # @textures branch
+
+qm <- quadmesh(dem, texture = cc_location(loc, type = "mapbox.satellite"))
+library(rgl)
+shade3d(qm); rglwidget()
+
+```
 
 Please note that the 'ceramic' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
