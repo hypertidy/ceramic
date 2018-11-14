@@ -81,6 +81,8 @@ get_loc <- function(loc, buffer, type = "mapbox.outdoors", ..., debug = debug) {
   if (length(buffer) == 1) buffer <- rep(buffer, 2)
   if (length(loc) > 2) {
     warning("'loc' should be a length-2 vector 'c(lon, lat)' or matrix 'cbind(lon, lat)'")
+  }
+  if (is.null(dim(loc))) {
     loc <- matrix(loc[1:2], ncol = 2L)
   }
   xp <- buffer[1] / (1852 * 60) / cos(loc[1, 2, drop = TRUE] * pi/180)
