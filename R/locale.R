@@ -88,17 +88,32 @@ get_loc <- function(loc, buffer, type = "mapbox.outdoors", ..., debug = debug, m
   if (is.null(dim(loc))) {
     loc <- matrix(loc[1:2], ncol = 2L)
   }
-  xp <- buffer[1] / (1852 * 60) / cos(loc[1, 2, drop = TRUE] * pi/180)
-  yp <- buffer[2] / (1852 * 60)
-#print(xp)
-#print(yp)
-  xp <- xp/4  ## tiling does chunk us way out
-  yp <- yp/4
-  my_bbox <- structure(c(xmin = loc[1] - xp, ymin = loc[2] - yp,
-              xmax = loc[1] + xp, ymax = loc[2] + yp), crs = structure(list(epsg = 4326,
-                                                                              proj4string = "+proj=longlat +ellps=WGS84 +no_defs"), class = "crs"), class = "bbox")
+
+  ## convert loc to mercator meters
+  loc <- slippymath::lonlat_to_merc(loc)
+
+  xp <- buffer[1] / 2
+  yp <- buffer[2] / 2
+
+  ## xmin, ymin
+  ## xmax, ymax
+  bb_points <- matrix(c(loc[1,1] - xp, loc[1,2] - yp, loc[1,1] + xp, loc[1,2] + yp), 2, 2, byrow = TRUE)
+
+  if (!slippymath::within_merc_extent(bb_points)){
+    warning("The combination of buffer and location extends beyond the tile grid extent. The buffer will be truncated.")
+    bb_points <- slippymath::merc_truncate(bb_points)
+  }
+
+  ## convert bb_points back to lonlat
+  bb_points_lonlat <- slippymath::merc_to_lonlat(bb_points)
+
+  my_bbox <- c(xmin = bb_points_lonlat[1,1], ymin = bb_points_lonlat[1,2],
+               xmax = bb_points_lonlat[2,1], ymax = bb_points_lonlat[2,2])
+
   tile_grid <- slippymath:::bb_to_tg(my_bbox, max_tiles = max_tiles)
   zoom <- tile_grid$zoom
+
+  slippymath::bb_tile_query(my_bbox)
 
   mapbox_query_string <-
     paste0(sprintf("https://api.mapbox.com/v4/%s/{zoom}/{x}/{y}.jpg90", type),
@@ -115,5 +130,5 @@ get_loc <- function(loc, buffer, type = "mapbox.outdoors", ..., debug = debug, m
 
   out <- fast_merge(br)
   projection(out) <- "+proj=merc +a=6378137 +b=6378137"
-  out
+  crop(out, extent(bb_points))
 }
