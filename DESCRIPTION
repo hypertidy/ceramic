@@ -27,7 +27,8 @@ Imports:
     magrittr,
     rlang,
     sp,
-    graphics
+    graphics,
+    raster
 Remotes: MilesMcBain/slippymath
 Suggests: 
     testthat
