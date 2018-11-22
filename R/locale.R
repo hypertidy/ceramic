@@ -82,7 +82,7 @@ cc_kingston <- function(loc = c(-147.70837,
 
 }
 get_loc <- function(loc, buffer, type = "mapbox.outdoors", ..., debug = debug, max_tiles = 4L) {
-  if (length(buffer) == 1) buffer <- rep(buffer, 2)
+  buffer <- rep(buffer, length.out = 2L)
   if (length(loc) > 2) {
     warning("'loc' should be a length-2 vector 'c(lon, lat)' or matrix 'cbind(lon, lat)'")
   }
@@ -114,7 +114,7 @@ get_loc <- function(loc, buffer, type = "mapbox.outdoors", ..., debug = debug, m
   tile_grid <- slippymath:::bb_to_tg(my_bbox, max_tiles = max_tiles)
   zoom <- tile_grid$zoom
 
-  slippymath::bb_tile_query(my_bbox)
+  #slippymath::bb_tile_query(my_bbox)
 
   mapbox_query_string <-
     paste0(sprintf("https://api.mapbox.com/v4/%s/{zoom}/{x}/{y}.jpg90", type),
@@ -131,5 +131,5 @@ get_loc <- function(loc, buffer, type = "mapbox.outdoors", ..., debug = debug, m
 
   out <- fast_merge(br)
   projection(out) <- "+proj=merc +a=6378137 +b=6378137"
-  crop(out, extent(bb_points))
+  raster::crop(out, raster::extent(as.vector(bb_points)), snap = "out")
 }
