@@ -81,7 +81,7 @@ cc_kingston <- function(loc = c(-147.70837,
   cc_location(loc, buffer, type = type, ..., debug = debug)
 
 }
-get_loc <- function(loc, buffer, type = "mapbox.outdoors", ..., debug = debug, max_tiles = 4L) {
+get_loc <- function(loc, buffer, type = "mapbox.outdoors", crop_to_buffer = TRUE, ..., debug = debug, max_tiles = 4L) {
   buffer <- rep(buffer, length.out = 2L)
   if (length(loc) > 2) {
     warning("'loc' should be a length-2 vector 'c(lon, lat)' or matrix 'cbind(lon, lat)'")
@@ -131,5 +131,6 @@ get_loc <- function(loc, buffer, type = "mapbox.outdoors", ..., debug = debug, m
 
   out <- fast_merge(br)
   projection(out) <- "+proj=merc +a=6378137 +b=6378137"
-  raster::crop(out, raster::extent(as.vector(bb_points)), snap = "out")
+  if (crop_to_buffer) out <- raster::crop(out, raster::extent(as.vector(bb_points)), snap = "out")
+  out
 }
