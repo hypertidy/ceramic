@@ -20,6 +20,7 @@ fast_merge <- function(x) {
 #'
 #' @return RasterBrick, with RGB
 #' @export
+#' @importFrom raster projection<- crop extent
 #' @name cc_location
 #' @examples
 #' im <- cc_macquarie()
