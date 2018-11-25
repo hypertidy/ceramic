@@ -52,16 +52,18 @@ The code here
 
 
 ```{r example}
+library(ceramic)
 ## a point in longlat, and a buffer with in metres
 pt <- cbind(136, -34)
 im <- cc_location(pt, buffer = c(1e6, 5e5), type = "mapbox.satellite", debug = T)
+library(raster)
 plotRGB(im)
 
 ## get the matching tiles (zoom is magic here, it's all wrapped - needs thought)
 
 tiles <- ceramic_tiles(zoom = 6, type = "mapbox.satellite")
 library(sf)
-plot(st_geometry(tiles_to_polygon(tiles)), add = TRUE)
+plot(st_geometry(ceramic:::tiles_to_polygon(tiles)), add = TRUE)
 middle <- function(x, y) {
   x + (y - x)/2
 }
@@ -74,7 +76,7 @@ text(middle(tiles$xmin, tiles$xmax), middle(tiles$ymin, tiles$ymax), lab = sprin
 There is a helper function to find existing tiles. 
 
 ```{r files}
-
+aa <- cc_location(loc = cbind(0, 0), buffer = 330000, type = "mapbox.satellite")
 ceramic_tiles(zoom = 7, type = "mapbox.satellite")
 ```
 
@@ -97,17 +99,7 @@ my_bbox <-
             ymin = -44.12,
             ymax = -40),
           crs = st_crs("+proj=longlat +ellps=WGS84"))
-tile_grid <- slippymath:::bb_to_tg(my_bbox, max_tiles = 36)
-files <- unlist(down_loader(tile_grid, mapbox_query_string))
-br <- lapply(files, raster::brick)
-
-for (i in seq_along(br)) {
-  br[[i]] <- setExtent(br[[i]],  
-                       mercator_tile_extent(tile_grid$tiles$x[i], tile_grid$tiles$y[i], zoom = tile_grid$zoom))
-}
-
-im <- purrr::reduce(br, raster::merge)
-projection(im) <- "+proj=merc +a=6378137 +b=6378137"
+im <- cc_location(cbind(145.5, -42.2), buffer = 5e5)
 plotRGB(im)
 plot(st_transform(ozmaps::abs_lga$geometry, projection(im)), add = TRUE, lwd = 2, border = "white")
 ```
@@ -160,50 +152,9 @@ xy_to_tex <- function(xy, im) {
 ```
 # Textures 
 
-WIP 
-
-```{r texture1,eval=FALSE}
-im <- cc_location(get_address("Uluru"), type = "mapbox.satellite", debug = T)
-library(raster)
-#im <- crop(im, extent(im, 256, 512, 256, 512))
-qm <- quadmesh::quadmesh(im, z = NULL)
-
-col <- raster_to_hex(im)
-qm$material$col <- rep(col, each = 4)
-library(rgl)
-rgl.clear()
-shade3d(qm)
-#rglwidget()
-```
-
-```{r rgb-texture,eval=FALSE}
-tfile <- tempfile(fileext = "png")
-slippymath::raster_to_png(im, tfile)
-texqm <- quadmesh::quadmesh(im, z = NULL)
-texcoords <- quadmesh_to_tex(texqm, im)
-rgl.clear()
-shade3d(texqm, texcoords = texcoords[qm$ib, ], texture = tfile)
-#rglwidget()
-```
-
-Now with elevation. 
-
-```{r elevatr,eval=FALSE}
-elev <- elevatr::get_elev_raster(data.frame(x = mean(c(xmin(im), xmax(im))), 
-                                            y = mean(c(ymin(im), ymax(im)))), 
-                                 src = "aws", prj = "+proj=merc +a=6378137 +b=6378137", z = 13)
-texqm$vb[3, ] <- raster::extract(elev, t(texqm$vb[1:2, ]), method = "bilinear")
-rgl.clear()
-## don't forget to set to non-black for textures
-## and to index the texture coordinates
-shade3d(texqm, texcoords = texcoords[qm$ib, ], texture = tfile, col = "white")
-#rglwidget()
-
-```
+See `quadmesh::quadmesh`. 
 
 ## Elevation
-
-Finally, this is the kind of useability we need. 
 
 Get DEM, get image, make a scene. 
 
@@ -216,11 +167,14 @@ cc_elevation <- function(loc,...) {
 }
 loc <- cbind(147.3565, -43.19052)
 dem <- cc_elevation(loc)
-library(quadmesh)  # @textures branch
+zap0 <- function(x) x[x > 0]
+plot(dem, col = grey(seq(0.2, 1, length.out =  7)), breaks = quantile(zap0(values(dem)), 
+                                                                       seq(0, 1, length = 8)))
+#library(quadmesh)  # @textures branch
 
-qm <- quadmesh(dem, texture = cc_location(loc, type = "mapbox.satellite"))
-library(rgl)
-shade3d(qm); rglwidget()
+#qm <- quadmesh(dem, texture = cc_location(loc, type = "mapbox.satellite"))
+#library(rgl)
+#shade3d(qm); rglwidget()
 
 ```
 

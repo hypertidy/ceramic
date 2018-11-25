@@ -29,7 +29,7 @@ Imports:
     sp,
     graphics,
     raster
-Remotes: MilesMcBain/slippymath
+Remotes: mdsumner/slippymath@extent
 Suggests: 
     testthat
 URL: https://github.com/hypertidy/ceramic

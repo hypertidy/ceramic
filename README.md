@@ -40,84 +40,68 @@ The code here
 <!-- end list -->
 
 ``` r
-library(sf)     ## st_bbox, st_crs
-#> Linking to GEOS 3.6.2, GDAL 2.3.2, PROJ 4.9.3
-#> Linking to GEOS 3.6.1, GDAL 2.2.3, PROJ 4.9.3
-library(slippymath)
-my_bbox <-
-  st_bbox(c(xmin = 130,
-            xmax = 146,
-            ymin = -36,
-            ymax = -28),
-          crs = st_crs("+proj=longlat +ellps=WGS84"))
-library(purrr)  ## is_null clashes with testthat::is_null
-tile_grid <- slippymath:::bb_to_tg(my_bbox, max_tiles = 36)
-zoom <- tile_grid$zoom
-
-mapbox_query_string <-
-  paste0("https://api.mapbox.com/v4/mapbox.satellite/{zoom}/{x}/{y}.jpg90",
-         "?access_token=",
-         Sys.getenv("MAPBOX_API_KEY"))
-
 library(ceramic)
-files <- unlist(down_loader(tile_grid, mapbox_query_string))
-tibble::tibble(filename = gsub(normalizePath(rappdirs::user_cache_dir(), winslash = "/"), 
-                               "", 
-                               normalizePath(files, winslash = "/")))
-#> # A tibble: 24 x 1
-#>    filename                                                   
-#>    <chr>                                                      
-#>  1 /.ceramic/api.mapbox.com/v4/mapbox.satellite/7/110/74.jpg90
-#>  2 /.ceramic/api.mapbox.com/v4/mapbox.satellite/7/111/74.jpg90
-#>  3 /.ceramic/api.mapbox.com/v4/mapbox.satellite/7/112/74.jpg90
-#>  4 /.ceramic/api.mapbox.com/v4/mapbox.satellite/7/113/74.jpg90
-#>  5 /.ceramic/api.mapbox.com/v4/mapbox.satellite/7/114/74.jpg90
-#>  6 /.ceramic/api.mapbox.com/v4/mapbox.satellite/7/115/74.jpg90
-#>  7 /.ceramic/api.mapbox.com/v4/mapbox.satellite/7/110/75.jpg90
-#>  8 /.ceramic/api.mapbox.com/v4/mapbox.satellite/7/111/75.jpg90
-#>  9 /.ceramic/api.mapbox.com/v4/mapbox.satellite/7/112/75.jpg90
-#> 10 /.ceramic/api.mapbox.com/v4/mapbox.satellite/7/113/75.jpg90
-#> # ... with 14 more rows
-
+## a point in longlat, and a buffer with in metres
+pt <- cbind(136, -34)
+im <- cc_location(pt, buffer = c(1e6, 5e5), type = "mapbox.satellite", debug = T)
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/54/37.jpg90"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/55/37.jpg90"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/56/37.jpg90"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/57/37.jpg90"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/54/38.jpg90"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/55/38.jpg90"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/56/38.jpg90"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/57/38.jpg90"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/54/39.jpg90"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/55/39.jpg90"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/56/39.jpg90"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/57/39.jpg90"
 library(raster)
 #> Loading required package: sp
-br <- lapply(files, raster::brick)
-
-for (i in seq_along(br)) {
-  br[[i]] <- setExtent(br[[i]],  
-                       mercator_tile_extent(tile_grid$tiles$x[i], tile_grid$tiles$y[i], zoom = zoom))
-}
-
-im <- purrr::reduce(br, raster::merge)
 plotRGB(im)
-# devtools::install_github("mdsumner/ozmaps")
-dat <- sf::st_transform(ozmaps::ozmap_states, "+proj=merc +a=6378137 +b=6378137")
-plot(dat$geometry, add = TRUE, lwd = 5, border = "dodgerblue")
+
+## get the matching tiles (zoom is magic here, it's all wrapped - needs thought)
+
+tiles <- ceramic_tiles(zoom = 6, type = "mapbox.satellite")
+library(sf)
+#> Linking to GEOS 3.6.2, GDAL 2.3.2, PROJ 4.9.3
+plot(st_geometry(ceramic:::tiles_to_polygon(tiles)), add = TRUE)
+middle <- function(x, y) {
+  x + (y - x)/2
+}
+text(middle(tiles$xmin, tiles$xmax), middle(tiles$ymin, tiles$ymax), lab = sprintf("[%i,%i]", tiles$tile_x, tiles$tile_y), 
+     col = "firebrick")
 ```
 
 <img src="man/figures/README-example-1.png" width="100%" />
 
-There is a helper function to find existing tiles.
+There is a helper function to find existing
+tiles.
 
 ``` r
-
+aa <- cc_location(loc = cbind(0, 0), buffer = 330000, type = "mapbox.satellite")
 ceramic_tiles(zoom = 7, type = "mapbox.satellite")
-#> [1] 83  4
-#> # A tibble: 24 x 11
+#> # A tibble: 16 x 11
 #>    tile_x tile_y  zoom type  version source
 #>     <int>  <int> <int> <chr> <chr>   <chr> 
-#>  1    110     74     7 mapb… v4      api.m…
-#>  2    110     75     7 mapb… v4      api.m…
-#>  3    110     76     7 mapb… v4      api.m…
-#>  4    110     77     7 mapb… v4      api.m…
-#>  5    111     74     7 mapb… v4      api.m…
-#>  6    111     75     7 mapb… v4      api.m…
-#>  7    111     76     7 mapb… v4      api.m…
-#>  8    111     77     7 mapb… v4      api.m…
-#>  9    112     74     7 mapb… v4      api.m…
-#> 10    112     75     7 mapb… v4      api.m…
-#> # ... with 14 more rows, and 5 more variables: fullname <fs::path>,
-#> #   xmin <dbl>, xmax <dbl>, ymin <dbl>, ymax <dbl>
+#>  1     62     62     7 mapb… v4      api.m…
+#>  2     62     63     7 mapb… v4      api.m…
+#>  3     62     64     7 mapb… v4      api.m…
+#>  4     62     65     7 mapb… v4      api.m…
+#>  5     63     62     7 mapb… v4      api.m…
+#>  6     63     63     7 mapb… v4      api.m…
+#>  7     63     64     7 mapb… v4      api.m…
+#>  8     63     65     7 mapb… v4      api.m…
+#>  9     64     62     7 mapb… v4      api.m…
+#> 10     64     63     7 mapb… v4      api.m…
+#> 11     64     64     7 mapb… v4      api.m…
+#> 12     64     65     7 mapb… v4      api.m…
+#> 13     65     62     7 mapb… v4      api.m…
+#> 14     65     63     7 mapb… v4      api.m…
+#> 15     65     64     7 mapb… v4      api.m…
+#> 16     65     65     7 mapb… v4      api.m…
+#> # ... with 5 more variables: fullname <fs::path>, xmin <dbl>, xmax <dbl>,
+#> #   ymin <dbl>, ymax <dbl>
 ```
 
 and every row has the extent values useable directly by raster:
@@ -127,41 +111,40 @@ ceramic_tiles(zoom = 7, type = "mapbox.satellite") %>%
   dplyr::slice(1:5) %>% 
    purrr::transpose()  %>% 
   purrr::map(~raster::extent(unlist(.x[c("xmin", "xmax", "ymin", "ymax")])))
-#> [1] 83  4
 #> [[1]]
 #> class       : Extent 
-#> xmin        : 14401959 
-#> xmax        : 14715045 
-#> ymin        : -3443947 
-#> ymax        : -3130861 
+#> xmin        : -626172.1 
+#> xmax        : -313086.1 
+#> ymin        : 313086.1 
+#> ymax        : 626172.1 
 #> 
 #> [[2]]
 #> class       : Extent 
-#> xmin        : 14401959 
-#> xmax        : 14715045 
-#> ymin        : -3757033 
-#> ymax        : -3443947 
+#> xmin        : -626172.1 
+#> xmax        : -313086.1 
+#> ymin        : 0 
+#> ymax        : 313086.1 
 #> 
 #> [[3]]
 #> class       : Extent 
-#> xmin        : 14401959 
-#> xmax        : 14715045 
-#> ymin        : -4070119 
-#> ymax        : -3757033 
+#> xmin        : -626172.1 
+#> xmax        : -313086.1 
+#> ymin        : -313086.1 
+#> ymax        : 0 
 #> 
 #> [[4]]
 #> class       : Extent 
-#> xmin        : 14401959 
-#> xmax        : 14715045 
-#> ymin        : -4383205 
-#> ymax        : -4070119 
+#> xmin        : -626172.1 
+#> xmax        : -313086.1 
+#> ymin        : -626172.1 
+#> ymax        : -313086.1 
 #> 
 #> [[5]]
 #> class       : Extent 
-#> xmin        : 14715045 
-#> xmax        : 15028131 
-#> ymin        : -3443947 
-#> ymax        : -3130861
+#> xmin        : -313086.1 
+#> xmax        : 0 
+#> ymin        : 313086.1 
+#> ymax        : 626172.1
 ```
 
 Another example
@@ -173,17 +156,7 @@ my_bbox <-
             ymin = -44.12,
             ymax = -40),
           crs = st_crs("+proj=longlat +ellps=WGS84"))
-tile_grid <- slippymath:::bb_to_tg(my_bbox, max_tiles = 36)
-files <- unlist(down_loader(tile_grid, mapbox_query_string))
-br <- lapply(files, raster::brick)
-
-for (i in seq_along(br)) {
-  br[[i]] <- setExtent(br[[i]],  
-                       mercator_tile_extent(tile_grid$tiles$x[i], tile_grid$tiles$y[i], zoom = tile_grid$zoom))
-}
-
-im <- purrr::reduce(br, raster::merge)
-projection(im) <- "+proj=merc +a=6378137 +b=6378137"
+im <- cc_location(cbind(145.5, -42.2), buffer = 5e5)
 plotRGB(im)
 plot(st_transform(ozmaps::abs_lga$geometry, projection(im)), add = TRUE, lwd = 2, border = "white")
 ```
@@ -206,6 +179,67 @@ ceramic::plot_tiles(ceramic_tiles(zoom = 7), add = TRUE)
 ```
 
 ![tile add plot](man/figures/README-tile-add-plot.png)
+
+## Address helper
+
+``` r
+## DEPENDS ON Sys.getenv("OPENCAGE_KEY")
+get_address <- function(address) {
+  x <- opencage::opencage_forward(address, no_annotations = T, no_dedupe = T)
+  
+  cbind(x$results$geometry.lng[1], x$results$geometry.lat[1])
+}
+```
+
+rgb helper
+
+``` r
+values_to_hex <- function(x) {
+  rgb(x[,1], x[,2], x[, 3], max = 255)
+}
+raster_to_hex <- function(x) {
+  values_to_hex(raster::values(x))
+}
+quadmesh_to_tex <- function(x, im) {
+  xy_to_tex(t(x$vb[1:2, ]), im)
+}
+xy_to_tex <- function(xy, im) {
+  xyFromCell(setExtent(im, extent(0, 1, 0, 1)), 
+             cellFromXY(im, xy))  ## must be the same projection
+}
+```
+
+# Textures
+
+See `quadmesh::quadmesh`.
+
+## Elevation
+
+Get DEM, get image, make a scene.
+
+``` r
+cc_elevation <- function(loc,...) {
+  dat <- cc_location(loc, 5000, type = "mapbox.terrain-rgb")
+  height <-  -10000 + ((dat[[1]] * 256 * 256 + dat[[2]] * 256 + dat[[3]]) * 0.1)
+  projection(height) <- "+proj=merc +a=6378137 +b=6378137"
+  height
+}
+loc <- cbind(147.3565, -43.19052)
+dem <- cc_elevation(loc)
+zap0 <- function(x) x[x > 0]
+plot(dem, col = grey(seq(0.2, 1, length.out =  7)), breaks = quantile(zap0(values(dem)), 
+                                                                       seq(0, 1, length = 8)))
+```
+
+<img src="man/figures/README-elevation-1.png" width="100%" />
+
+``` r
+#library(quadmesh)  # @textures branch
+
+#qm <- quadmesh(dem, texture = cc_location(loc, type = "mapbox.satellite"))
+#library(rgl)
+#shade3d(qm); rglwidget()
+```
 
 Please note that the ‘ceramic’ project is released with a [Contributor
 Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,

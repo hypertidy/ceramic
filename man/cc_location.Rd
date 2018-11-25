@@ -10,8 +10,8 @@
 \alias{cc_kingston}
 \title{Miscellaneous places}
 \usage{
-cc_location(loc = NULL, buffer = 5000, type = "mapbox.outdoors", ...,
-  debug = FALSE)
+cc_location(loc = NULL, buffer = 5000, type = "mapbox.satellite",
+  ..., debug = FALSE)
 
 cc_macquarie(loc = c(158.93835, -54.49871), buffer = 5000,
   type = "mapbox.outdoors", ..., debug = FALSE)
