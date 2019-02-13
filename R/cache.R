@@ -6,6 +6,8 @@
 #' @param x tiles object
 #' @param query_string an api query template (see Details)
 #' @param clobber if `TRUE` re download any existing tiles
+#' @param ... ignored
+#' @param debug simple debugging info printed if `TRUE`
 #' @return WIP
 #' @export
 #'

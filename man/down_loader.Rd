@@ -12,6 +12,10 @@ down_loader(x, query_string, clobber = FALSE, ..., debug = FALSE)
 \item{query_string}{an api query template (see Details)}
 
 \item{clobber}{if `TRUE` re download any existing tiles}
+
+\item{...}{ignored}
+
+\item{debug}{simple debugging info printed if `TRUE`}
 }
 \value{
 WIP

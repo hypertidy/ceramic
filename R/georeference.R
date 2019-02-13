@@ -46,8 +46,21 @@ add_extent <- function(x) {
   x
 }
 
+#' Plot slipppy map tiles
+#'
+#' Create a new plot of tile rectangles, or add to an existing plot. The extent
+#' ('xmin', 'xmax', 'ymin', 'ymax') is used directly to draw the tiles so must be in the
+#' native Mercator coordinate system used by most tile servers.
+#' @param x tiles as create by `ceramic_tiles()`
+#' @param ... arguments passed to `graphics::rect()`
+#' @param add add to an existing plot?
+#' @param label include text label?
+#' @param cex relative size of text label if drawn (see `text()`)
+#' @param add_coast include a basic coastline on the plot?
+#' @param include_zoom include zoom level with text label if drawn?
 #' @importFrom sp plot
 #' @importFrom graphics rect text
+#' @aliases tiles_to_polygon
 plot_tiles <- function(x, ..., add = FALSE, label = TRUE, cex = 0.6, add_coast = TRUE, include_zoom = TRUE) {
   if (!all(c("xmin", "xmax", "ymin", "ymax") %in% names(x))) stop("need xmin, xmax, ymin, ymax columns")
   if (include_zoom && !"zoom" %in% names(x) ) stop("need zoom columns for 'include_zoom = TRUE'")
@@ -65,6 +78,8 @@ plot_tiles <- function(x, ..., add = FALSE, label = TRUE, cex = 0.6, add_coast =
   if (add_coast) sp::plot(merc_world, border = "darkgrey", add = TRUE)
 }
 
+#' @name plot_tiles
+#' @export
 tiles_to_polygon <- function(x) {
   spex::polygonize(tiles_to_raster(x))
 }

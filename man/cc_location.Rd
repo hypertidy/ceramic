@@ -32,7 +32,11 @@ cc_kingston(loc = c(-147.70837, -42.98682), buffer = 5000,
   type = "mapbox.outdoors", ..., debug = FALSE)
 }
 \arguments{
+\item{loc}{a longitude, latitude pair of coordinates}
+
 \item{buffer}{with in metres to extend around the location}
+
+\item{type}{character string of Mapbox service (see Details)}
 
 \item{...}{dots, ignored currently}
 
@@ -45,10 +49,14 @@ RasterBrick, with RGB
 Visit some nice locales with web tiles.
 }
 \details{
-* `cc_macquarie` Macquarie Island
+Available types are 'mapbox.satellite', 'mapbox.outdoors', 'mapbox.terrain-rgb' but any string
+accepted by Mapbox services will be passed through.
 }
 \examples{
+## requres Mapbox key set in env var 'MAPBOX_API_KEY'
+\dontrun{
 im <- cc_macquarie()
 library(raster)
 plotRGB(im)
+}
 }

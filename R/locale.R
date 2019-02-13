@@ -4,9 +4,12 @@
 #'
 #' Visit some nice locales with web tiles.
 #'
-#' * `cc_macquarie` Macquarie Island
+#' Available types are 'mapbox.satellite', 'mapbox.outdoors', 'mapbox.terrain-rgb' but any string
+#' accepted by Mapbox services will be passed through.
 #'
+#' @param loc a longitude, latitude pair of coordinates
 #' @param buffer with in metres to extend around the location
+#' @param type character string of Mapbox service (see Details)
 #' @param ... dots, ignored currently
 #' @param debug optionally print out files that will be used
 #'
@@ -15,9 +18,12 @@
 #' @importFrom raster projection<- crop extent
 #' @name cc_location
 #' @examples
+#' ## requres Mapbox key set in env var 'MAPBOX_API_KEY'
+#' \dontrun{
 #' im <- cc_macquarie()
 #' library(raster)
 #' plotRGB(im)
+#' }
 cc_location <- function(loc = NULL, buffer = 5000,
                         type = "mapbox.satellite", ..., debug = FALSE) {
   get_loc(loc = loc, buffer = buffer, type = type, ..., debug = debug)

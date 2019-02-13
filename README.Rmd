@@ -6,6 +6,9 @@ editor_options:
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+
+[![Travis-CI Build Status](https://travis-ci.org/hypertidy/ceramic.svg?branch=master)](https://travis-ci.org/hypertidy/ceramic) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/hypertidy/ceramic?branch=master&svg=true)](https://ci.appveyor.com/project/hypertidy/ceramic-x25a2)  [![Coverage status](https://codecov.io/gh/hypertidy/ceramic/branch/master/graph/badge.svg)](https://codecov.io/github/hypertidy/ceramic?branch=master) [![CRAN status](https://www.r-pkg.org/badges/version/quadmesh)](https://cran.r-project.org/package=ceramic)[![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/ceramic)](https://cran.r-project.org/package=ceramic)
+
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -37,6 +40,11 @@ You can install the dev version of ceramic from  Github.
 devtools::install_github("hypertidy/ceramic")
 ```
 
+Set your mapbox API key with 
+
+```R
+Sys.setenv(MAPBOX_API_KEY = "<yourkey>")
+```
 
 ## Example
 

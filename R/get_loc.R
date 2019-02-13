@@ -1,8 +1,6 @@
 get_mapbox <- function(x = NULL, ..., type = "mapbox.satellite", max_tiles = 4, debug = FALSE) {
-  tile_grid <- x #; slippymath:::bb_to_tg(x, max_tiles = max_tiles)
+  tile_grid <- x
   zoom <- x$zoom
-
-  #slippymath::bb_tile_query(my_bbox)
 
   mapbox_query_string <-
     paste0(sprintf("https://api.mapbox.com/v4/%s/{zoom}/{x}/{y}.jpg90", type),
@@ -63,7 +61,7 @@ get_loc <- function(loc, buffer, type = "mapbox.outdoors", crop_to_buffer = TRUE
   my_bbox <- c(xmin = bb_points_lonlat[1,1], ymin = bb_points_lonlat[1,2],
                xmax = bb_points_lonlat[2,1], ymax = bb_points_lonlat[2,2])
 
-  tile_grid <- slippymath:::bb_to_tg(my_bbox, max_tiles = max_tiles)
+  tile_grid <- slippymath::bb_to_tg(my_bbox, max_tiles = max_tiles)
   zoom <- tile_grid$zoom
 
   #slippymath::bb_tile_query(my_bbox)
