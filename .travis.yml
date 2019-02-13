@@ -1,8 +1,43 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 language: R
-sudo: false
+sudo: required
 cache: packages
+
+addons:
+  apt:
+    sources:
+      - sourceline: 'ppa:ubuntugis/ubuntugis-unstable'
+    packages:
+      - libprotobuf-dev
+      - protobuf-compiler
+      - libv8-3.14-dev
+      - libjq-dev
+      - libudunits2-dev
+      - libproj-dev
+      - libgeos-dev
+      - libspatialite-dev
+      - libgdal-dev
+      - libjson-c-dev
+      - libnetcdf-dev
+
+
+matrix:
+    include:
+        - os: linux
+          r: release
+          dist: trusty # 14.04
+          env:
+           - BUILD_NAME=trusty_release
+           - DETAILS="release build"
+        - os: osx
+          r: release
+          before_install: ''
+          disable_homebrew: true
+          env:
+           - BUILD_NAME=osx_release
+           - DETAILS="release build"
+
 
 after_success:
   - Rscript -e 'covr::codecov()'
