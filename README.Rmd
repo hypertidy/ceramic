@@ -167,17 +167,13 @@ See `quadmesh::quadmesh`.
 Get DEM, get image, make a scene. 
 
 ```{r elevation}
-cc_elevation <- function(loc,...) {
-  dat <- cc_location(loc, 5000, type = "mapbox.terrain-rgb")
-  height <-  -10000 + ((dat[[1]] * 256 * 256 + dat[[2]] * 256 + dat[[3]]) * 0.1)
-  projection(height) <- "+proj=merc +a=6378137 +b=6378137"
-  height
-}
+
 loc <- cbind(147.3565, -43.19052)
 dem <- cc_elevation(loc)
 zap0 <- function(x) x[x > 0]
-plot(dem, col = grey(seq(0.2, 1, length.out =  7)), breaks = quantile(zap0(values(dem)), 
-                                                                       seq(0, 1, length = 8)))
+plot(dem, col = grey(seq(0.2, 1, length.out =  7)))
+
+
 #library(quadmesh)  # @textures branch
 
 #qm <- quadmesh(dem, texture = cc_location(loc, type = "mapbox.satellite"))

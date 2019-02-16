@@ -2,6 +2,7 @@
 % Please edit documentation in R/locale.R
 \name{cc_location}
 \alias{cc_location}
+\alias{cc_elevation}
 \alias{cc_macquarie}
 \alias{cc_davis}
 \alias{cc_mawson}
@@ -30,6 +31,8 @@ cc_heard(loc = c(73 + 30/60 + 30/3600, -(53 + 0 + 0/3600)),
 
 cc_kingston(loc = c(-147.70837, -42.98682), buffer = 5000,
   type = "mapbox.outdoors", ..., debug = FALSE)
+
+cc_elevation(loc, buffer = 5000, ..., debug = FALSE)
 }
 \arguments{
 \item{loc}{a longitude, latitude pair of coordinates}
@@ -49,6 +52,8 @@ RasterBrick, with RGB
 Visit some nice locales with web tiles.
 }
 \details{
+`cc_elevation` does extra work to unpack the DEM tiles from the RGB format.
+
 Available types are 'mapbox.satellite', 'mapbox.outdoors', 'mapbox.terrain-rgb' but any string
 accepted by Mapbox services will be passed through.
 }

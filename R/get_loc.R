@@ -31,7 +31,7 @@ fast_merge <- function(x) {
 }
 
 
-get_loc <- function(loc, buffer, type = "mapbox.outdoors", crop_to_buffer = TRUE, ..., debug = debug, max_tiles = 16L) {
+get_loc <- function(loc, buffer, type = "mapbox.outdoors", crop_to_buffer = TRUE, format = "jpg90", ..., debug = debug, max_tiles = 16L) {
   buffer <- rep(buffer, length.out = 2L)
   if (length(loc) > 2) {
     warning("'loc' should be a length-2 vector 'c(lon, lat)' or matrix 'cbind(lon, lat)'")
@@ -66,13 +66,28 @@ get_loc <- function(loc, buffer, type = "mapbox.outdoors", crop_to_buffer = TRUE
 
   #slippymath::bb_tile_query(my_bbox)
 
+  tok <- ""
+  if (type == "mapbox.terrain-rgb") {
+    format <- "png"
+    tok <- "@2x"
+  }
   mapbox_query_string <-
-    paste0(sprintf("https://api.mapbox.com/v4/%s/{zoom}/{x}/{y}.jpg90", type),
+    paste0(sprintf("https://api.mapbox.com/v4/%s/{zoom}/{x}/{y}%s.%s", type, tok, format),
            "?access_token=",
            Sys.getenv("MAPBOX_API_KEY"))
-
+ # print(mapbox_query_string)
+  #print(zoom)
+ # https://api.mapbox.com/v4/mapbox.terrain-rgb/{z}/{x}/{y}.pngraw?access_token=YOUR_MAPBOX_ACCESS_TOKEN
   files <- down_loader(tile_grid, mapbox_query_string, debug = debug)
-  br <- lapply(files, raster::brick)
+  #browser()
+  files <- unlist(files)
+  #browser()
+  bad <- file.info(files)$size < 35
+  if (all(bad)) {
+    mess <-paste(files, collapse = "\n")
+    stop(sprintf("no sensible tiles found, check cache?\n%s", mess))
+  }
+  br <- lapply(files[!bad], raster::brick)
 
   for (i in seq_along(br)) {
     br[[i]] <- raster::setExtent(br[[i]],

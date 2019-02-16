@@ -3,6 +3,7 @@
 export("%>%")
 export(cc_casey)
 export(cc_davis)
+export(cc_elevation)
 export(cc_heard)
 export(cc_kingston)
 export(cc_location)
