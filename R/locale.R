@@ -40,7 +40,7 @@ cc_macquarie <- function(loc = c(158.93835,-54.49871), buffer = 5000,
 cc_davis <- function(loc = c(77 + 58/60 + 3/3600,
                               -(68 + 34/60 + 36/3600)),
                      buffer = 5000, type = "mapbox.outdoors", ..., debug = FALSE) {
-#  68°34′36″S 77°58′03″E
+#  68 34 36 S 77 58 03 E
   cc_location(loc, buffer, type = type, ..., debug = debug)
 
 }
@@ -48,7 +48,7 @@ cc_davis <- function(loc = c(77 + 58/60 + 3/3600,
 #' @export
 cc_mawson <- function(loc = c(62 + 52/60 + 27/3600,
                                   -(67 + 36/60 + 12/3600)), buffer = 5000, type = "mapbox.outdoors", ..., debug = FALSE) {
-  # 67°36′12″S 62°52′27″E
+  # 67 36 12 S 62 52 27 E
 
   cc_location(loc, buffer, type = type, ..., debug = debug)
 
@@ -58,7 +58,7 @@ cc_mawson <- function(loc = c(62 + 52/60 + 27/3600,
 #' @export
 cc_casey <- function(  loc = cbind(110 + 31/60 + 36/3600,
                                     -(66 + 16/60 + 57/3600)), buffer = 5000, type = "mapbox.outdoors", ..., debug = FALSE) {
-  #66°16′57″S 110°31′36″E
+  #66 16 57 S 110 31 36 E
 
   cc_location(loc, buffer, type = type, ..., debug = debug)
 
@@ -67,7 +67,7 @@ cc_casey <- function(  loc = cbind(110 + 31/60 + 36/3600,
 #' @export
 cc_heard <- function(loc = c(73 + 30/60 + 30/3600,
                                  -(53 + 0 + 0/3600)), buffer = 5000, type = "mapbox.outdoors",..., debug = FALSE) {
-#  53°S 73°30’E.
+#  53 S 73 30 E.
 
   cc_location(loc, buffer, type = type, ..., debug = debug)
 
