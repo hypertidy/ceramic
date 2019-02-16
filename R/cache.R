@@ -34,8 +34,8 @@ down_loader <- function(x, query_string, clobber = FALSE, ..., debug = FALSE) {
 
                   if (!fs::dir_exists(cachedir)) fs::dir_create(cachedir, recursive = TRUE)
                 ## FIXME: need to error on no API_KEY present
-                  curl::curl_download(url = api_query,
-                                      destfile = outfile)
+                  curl::curl_fetch_disk(url = api_query,
+                                       outfile)
                 }
                 outfile
               },
