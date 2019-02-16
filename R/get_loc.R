@@ -1,24 +1,3 @@
-get_mapbox <- function(x = NULL, ..., type = "mapbox.satellite", max_tiles = 4, debug = FALSE) {
-  tile_grid <- x
-  zoom <- x$zoom
-
-  mapbox_query_string <-
-    paste0(sprintf("https://api.mapbox.com/v4/%s/{zoom}/{x}/{y}.jpg90", type),
-           "?access_token=",
-           Sys.getenv("MAPBOX_API_KEY"))
-
-  files <- down_loader(tile_grid, mapbox_query_string, debug = debug)
-  br <- lapply(files, raster::brick)
-
-  for (i in seq_along(br)) {
-    br[[i]] <- raster::setExtent(br[[i]],
-                                 mercator_tile_extent(tile_grid$tiles$x[i], tile_grid$tiles$y[i], zoom = zoom))
-  }
-
-  out <- fast_merge(br)
-  projection(out) <- "+proj=merc +a=6378137 +b=6378137"
-  out
-}
 
 
 fast_merge <- function(x) {
