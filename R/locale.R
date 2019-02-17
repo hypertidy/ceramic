@@ -9,10 +9,16 @@
 #' Available types are 'mapbox.satellite', 'mapbox.outdoors', 'mapbox.terrain-rgb' but any string
 #' accepted by Mapbox services will be passed through.
 #'
+#' @section Custom styles:
+#'
+#' Custom Mapbox styles may be specified with the argument `base_url` in the form:
+#' `"https://api.mapbox.com/styles/v1/mdsumner/cjs6yn9hu0coo1fqhdqgw3o18/tiles/512/{zoom}/{x}/{y}"`
+#'
+#' Currently must be considered in-development.
 #' @param loc a longitude, latitude pair of coordinates
 #' @param buffer with in metres to extend around the location
 #' @param type character string of Mapbox service (see Details)
-#' @param ... dots, ignored currently
+#' @param ... arguments passed to internal function, specifically `base_url` (see Details)
 #' @param debug optionally print out files that will be used
 #'
 #' @return RasterBrick, with RGB
@@ -26,6 +32,11 @@
 #' im <- cc_macquarie()
 #' library(raster)
 #' plotRGB(im)
+#'
+#' ## with a custom style
+#' u <- "https://api.mapbox.com/styles/v1/mdsumner/%s/tiles/512/{zoom}/{x}/{y}"
+#' u <- sprintf(u, "cjs6yn9hu0coo1fqhdqgw3o18")
+#' im <- cc_location(cbind(147, -42), base_url = u)
 #' }
 cc_location <- function(loc = NULL, buffer = 5000,
                         type = "mapbox.satellite", ..., debug = FALSE) {

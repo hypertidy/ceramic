@@ -122,5 +122,9 @@ slippy_cache <- function() {
 url_to_cache <- function(x) {
   base_filepath <- file.path(slippy_cache(), gsub("^//", "", gsub("^https\\:", "", gsub("^https\\:", "", x))))
   ## chuck off any ? junk
-  unlist(lapply(strsplit(base_filepath, "\\?"), "[", 1L))
+  out <- unlist(lapply(strsplit(base_filepath, "\\?"), "[", 1L))
+  ## also append the default image format if it's not present
+  bad <- grepl("/[0-9]", out)
+  out[bad] <- sprintf("%s.jpg", out[bad])
+  out
 }
