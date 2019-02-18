@@ -2,7 +2,7 @@
 % Please edit documentation in R/cache.R
 \name{down_loader}
 \alias{down_loader}
-\title{Downloader for tiles}
+\title{Download tool for image tiles}
 \usage{
 down_loader(x, query_string, clobber = FALSE, ..., debug = FALSE)
 }
@@ -24,7 +24,7 @@ WIP
 Tiles are cached with the native name of the source.
 }
 \details{
-`query_string` takes the form of a templae, see examples
+`query_string` takes the form of a template, see examples
 }
 \examples{
 mapbox_query_string <- paste0("https://api.mapbox.com/v4/mapbox.satellite/{zoom}/{x}/{y}.jpg90",

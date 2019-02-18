@@ -18,7 +18,7 @@ spherical_mercator <- function(provider) {
 #'
 #' @param tile_y y coordinate of tile
 #' @param zoom  zoo level
-#' @param tile_size tile dimensions (assumed square atm, 256*256)
+#' @param tile_size tile dimensions (assumed square, i.e. 256x256)
 #'
 #' @importFrom stats setNames
 #' @export
@@ -46,7 +46,7 @@ add_extent <- function(x) {
   x
 }
 
-#' Plot slipppy map tiles
+#' Plot slippy map tiles
 #'
 #' Create a new plot of tile rectangles, or add to an existing plot. The extent
 #' ('xmin', 'xmax', 'ymin', 'ymax') is used directly to draw the tiles so must be in the

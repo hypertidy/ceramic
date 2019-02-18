@@ -41,7 +41,7 @@ cc_elevation(loc, buffer = 5000, ..., debug = FALSE)
 
 \item{type}{character string of Mapbox service (see Details)}
 
-\item{...}{dots, ignored currently}
+\item{...}{arguments passed to internal function, specifically `base_url` (see Details)}
 
 \item{debug}{optionally print out files that will be used}
 }
@@ -57,11 +57,25 @@ Visit some nice locales with web tiles.
 Available types are 'mapbox.satellite', 'mapbox.outdoors', 'mapbox.terrain-rgb' but any string
 accepted by Mapbox services will be passed through.
 }
+\section{Custom styles}{
+
+
+Custom Mapbox styles may be specified with the argument `base_url` in the form:
+`"https://api.mapbox.com/styles/v1/mdsumner/cjs6yn9hu0coo1fqhdqgw3o18/tiles/512/{zoom}/{x}/{y}"`
+
+Currently must be considered in-development.
+}
+
 \examples{
 ## requres Mapbox key set in env var 'MAPBOX_API_KEY'
 \dontrun{
 im <- cc_macquarie()
 library(raster)
 plotRGB(im)
+
+## with a custom style
+u <- "https://api.mapbox.com/styles/v1/mdsumner/\%s/tiles/512/{zoom}/{x}/{y}"
+u <- sprintf(u, "cjs6yn9hu0coo1fqhdqgw3o18")
+im <- cc_location(cbind(147, -42), base_url = u)
 }
 }

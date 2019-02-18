@@ -34,7 +34,7 @@ Very much WIP.
 
 ## Installation
 
-You can install the dev version of ceramic from  Github. 
+You can install the development version of ceramic from  Github. 
 
 ```R
 devtools::install_github("hypertidy/ceramic")

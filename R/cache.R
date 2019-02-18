@@ -1,8 +1,8 @@
-#' Downloader for tiles
+#' Download tool for image tiles
 #'
 #' Tiles are cached with the native name of the source.
 #'
-#' `query_string` takes the form of a templae, see examples
+#' `query_string` takes the form of a template, see examples
 #' @param x tiles object
 #' @param query_string an api query template (see Details)
 #' @param clobber if `TRUE` re download any existing tiles

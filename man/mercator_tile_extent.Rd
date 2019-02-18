@@ -13,7 +13,7 @@ mercator_tile_extent(tile_x, tile_y, zoom, tile_size = 256)
 
 \item{zoom}{zoo level}
 
-\item{tile_size}{tile dimensions (assumed square atm, 256*256)}
+\item{tile_size}{tile dimensions (assumed square, i.e. 256x256)}
 }
 \description{
 Calculate tile extent for a given x, y tile at a zoom level.

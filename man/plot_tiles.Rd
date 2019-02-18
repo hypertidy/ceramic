@@ -3,7 +3,7 @@
 \name{plot_tiles}
 \alias{plot_tiles}
 \alias{tiles_to_polygon}
-\title{Plot slipppy map tiles}
+\title{Plot slippy map tiles}
 \usage{
 plot_tiles(x, ..., add = FALSE, label = TRUE, cex = 0.6,
   add_coast = TRUE, include_zoom = TRUE)
