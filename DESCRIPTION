@@ -31,7 +31,8 @@ Imports:
     raster,
     spex,
     jpeg,
-    png
+    png,
+    utils
 Remotes: MilesMcBain/slippymath
 Suggests: 
     testthat,

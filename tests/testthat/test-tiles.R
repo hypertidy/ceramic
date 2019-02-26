@@ -14,6 +14,5 @@ test_that("creating virtual tiles works", {
 test_that("creating vector tiles works", {
   cc_location(cbind(0, 0), buffer = 1e6)
 
-  ## need BR help with the @2x thing in regex
-  #ct <- ceramic_tiles(zoom = 6)
+  ct <- ceramic_tiles(zoom = 6)
 })

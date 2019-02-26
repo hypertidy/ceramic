@@ -64,14 +64,18 @@ ceramic_tiles <- function(zoom = NULL, type = "mapbox.satellite",
   bfiles <-
     fs::dir_ls(slippy_cache(), recursive = TRUE, type = "file",
                glob = glob, regexp = regexp)
-  strex <- function(x, y) regmatches(x, regexec(y, x))
+  #strex <- function(x, y) regmatches(x, regexec(y, x))
   #browser()
   ## need BR to fix this ...
-  toks <- do.call(rbind, strex(bfiles, "([[:digit:]]+)/([[:digit:]]+)/([[:digit:]]+)\\.[^\\.]+$"))
-  #print(dim(toks))
+  #toks <- do.call(rbind, strex(bfiles, "([[:digit:]]+)/([[:digit:]]+)/([[:digit:]]+)\\.[^\\.]+$"))
+  bigmess <- lapply(strsplit(bfiles, "/"), function(x) utils::tail(x, 3L))
+  toks1 <- unlist(unname(lapply(bigmess, function(x) x[1])))
+  toks2<- unlist(unname(lapply(bigmess, function(x) x[2])))
+  toks3 <- unlist(unname(lapply(bigmess, function(x)x[3])))
+  toks3 <- unlist(unname(lapply(strsplit(toks3, "\\D"), function(x) x[1])))
 
-  files <- tibble::tibble(tile_x = as.integer(toks[,3]), tile_y = as.integer(toks[,4]),
-                          zoom = as.integer(toks[, 2]),
+  files <- tibble::tibble(tile_x = as.integer(toks2), tile_y = as.integer(toks3),
+                          zoom = as.integer(toks1),
                           type = tile_type(bfiles),
                           version = tile_version(bfiles),
                           source = tile_source(bfiles), fullname = bfiles)
