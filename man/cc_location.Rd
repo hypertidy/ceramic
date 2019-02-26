@@ -32,7 +32,7 @@ cc_heard(loc = c(73 + 30/60 + 30/3600, -(53 + 0 + 0/3600)),
 cc_kingston(loc = c(-147.70837, -42.98682), buffer = 5000,
   type = "mapbox.outdoors", ..., debug = FALSE)
 
-cc_elevation(loc, buffer = 5000, ..., debug = FALSE)
+cc_elevation(loc = NULL, buffer = 5000, ..., debug = FALSE)
 }
 \arguments{
 \item{loc}{a longitude, latitude pair of coordinates}

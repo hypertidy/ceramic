@@ -66,8 +66,10 @@ ceramic_tiles <- function(zoom = NULL, type = "mapbox.satellite",
                glob = glob, regexp = regexp)
   strex <- function(x, y) regmatches(x, regexec(y, x))
   #browser()
+  ## need BR to fix this ...
   toks <- do.call(rbind, strex(bfiles, "([[:digit:]]+)/([[:digit:]]+)/([[:digit:]]+)\\.[^\\.]+$"))
   #print(dim(toks))
+
   files <- tibble::tibble(tile_x = as.integer(toks[,3]), tile_y = as.integer(toks[,4]),
                           zoom = as.integer(toks[, 2]),
                           type = tile_type(bfiles),

@@ -12,6 +12,11 @@ raster_brick <- function(x) {
   raster::setExtent(raster::brick(out), raster::extent(0, nrow(out), 0, ncol(out)))
 }
 
+raster_readAll <- function(x) {
+  if (!raster::hasValues(x)) x <- raster::readAll(x)
+  x
+}
+
 find_format <- function(x) {
   x <- basename(x)
   ## jpg or png

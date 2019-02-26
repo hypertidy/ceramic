@@ -96,7 +96,7 @@ cc_kingston <- function(loc = c(-147.70837,
 
 #' @name cc_location
 #' @export
-cc_elevation <- function(loc, buffer = 5000, ..., debug = FALSE) {
+cc_elevation <- function(loc = NULL, buffer = 5000, ..., debug = FALSE) {
   dat <- cc_location(loc, buffer = buffer,  type = "mapbox.terrain-rgb", debug = debug)
   height <-  -10000 + ((dat[[1]] * 256 * 256 + dat[[2]] * 256 + dat[[3]]) * 0.1)
   projection(height) <- "+proj=merc +a=6378137 +b=6378137"

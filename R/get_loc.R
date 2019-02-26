@@ -5,13 +5,13 @@ fast_merge <- function(x) {
   out <- raster::raster(purrr::reduce(purrr::map(x, raster::extent), raster::union), crs = raster::projection(x[[1]]))
   raster::res(out) <- raster::res(x[[1]])
   cells <- unlist(purrr::map(x, ~raster::cellsFromExtent(out, .x)))
-  vals <- do.call(rbind, purrr::map(x, ~raster::values(raster::readAll(.x))))
+  vals <- do.call(rbind, purrr::map(x, ~raster::values(raster_readAll(.x))))
   raster::setValues(raster::brick(out, out, out), vals[order(cells), ])
 }
 
 get_api_key <- function(...) {
   key <- Sys.getenv("MAPBOX_API_KEY")
-  print(paste("key:", key))
+
   if (is.null(key)) warning("no mapbox key found")
   key
 }
