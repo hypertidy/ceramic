@@ -92,8 +92,7 @@ get_loc <- function(loc, buffer, type = "mapbox.satellite", crop_to_buffer = TRU
     mapbox_query_string <- mk_query_string_custom(baseurl = base_url)
   }
 
-  files <- down_loader(tile_grid, mapbox_query_string, debug = debug)
-
+  files <- unlist(down_loader(tile_grid, mapbox_query_string, debug = debug))
    bad <- file.info(files)$size < 35
   if (all(bad)) {
     mess <-paste(files, collapse = "\n")

@@ -4,7 +4,7 @@
 [![Travis-CI Build
 Status](https://travis-ci.org/hypertidy/ceramic.svg?branch=master)](https://travis-ci.org/hypertidy/ceramic)
 [![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/mdsumner/ceramic?branch=master&svg=true)](https://ci.appveyor.com/project/mdsumner/ceramic)
+status](https://ci.appveyor.com/api/projects/status/slut5jxc9lta8pml/branch/master?svg=true)](https://ci.appveyor.com/project/mdsumner/ceramic)
 [![Coverage
 status](https://codecov.io/gh/hypertidy/ceramic/branch/master/graph/badge.svg)](https://codecov.io/github/hypertidy/ceramic?branch=master)
 [![CRAN
