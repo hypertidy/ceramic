@@ -58,7 +58,7 @@ down_loader <- function(x, query_string, clobber = FALSE, ..., debug = FALSE) {
 #' @export
 #' @importFrom rlang .data
 ceramic_tiles <- function(zoom = NULL, type = "mapbox.satellite",
-                          source = "api.mapbox.com", glob = "*.jpg*", regexp = NULL) {
+                          source = "api.mapbox.com", glob = NULL, regexp = NULL) {
 
   ## FIXME: assert that zoom, type, source, all are length 1
   bfiles <-
