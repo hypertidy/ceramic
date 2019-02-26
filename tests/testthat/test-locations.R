@@ -1,6 +1,7 @@
 context("test-locations")
-skip()
+
 test_that("built in locations works", {
+  skip(message = "no test of location")
   skip_on_cran()
   expect_output(lc <- cc_location(cbind(147, -42), buffer = 555, debug = TRUE))
   expect_s4_class(lc, "RasterBrick")
