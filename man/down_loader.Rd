@@ -27,7 +27,7 @@ Tiles are cached with the native name of the source.
 `query_string` takes the form of a template, see examples
 }
 \examples{
-mapbox_query_string <- paste0("https://api.mapbox.com/v4/mapbox.satellite/{zoom}/{x}/{y}.jpg90",
+mapbox_query_string <- paste0("https://api.mapbox.com/v4/mapbox.satellite/{zoom}/{x}/{y}.jpg",
 "?access_token=",
 Sys.getenv("MAPBOX_API_KEY"))
 }

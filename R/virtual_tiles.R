@@ -17,6 +17,6 @@ virtual_tiles <- function(zoom = 0, extent = NULL) {
   bb <- structure(ex, crs = structure(list(proj4string = llproj4,
                                                  epsg = NA_integer_), class = "crs"),
                   class = "bbox")
-  slippymath::bb_to_tg(bb, zoom = zoom, max_tiles = Inf)
+  slippymath::bbox_to_tile_grid(bb, zoom = zoom, max_tiles = Inf)
 }
 

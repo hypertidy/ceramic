@@ -1,4 +1,6 @@
-# ceramic dev
+# ceramic 0.1.0
+
+* Now aligned to `slippymath` 0.3.0. 
 
 * Added function `cc_elevation`. 
 

@@ -12,7 +12,7 @@
 #' @export
 #'
 #' @examples
-#' mapbox_query_string <- paste0("https://api.mapbox.com/v4/mapbox.satellite/{zoom}/{x}/{y}.jpg90",
+#' mapbox_query_string <- paste0("https://api.mapbox.com/v4/mapbox.satellite/{zoom}/{x}/{y}.jpg",
 #' "?access_token=",
 #' Sys.getenv("MAPBOX_API_KEY"))
 #' @importFrom curl curl_download
@@ -25,6 +25,7 @@ down_loader <- function(x, query_string, clobber = FALSE, ..., debug = FALSE) {
               function(x, y, zoom){
                 api_query <- glue::glue(query_string)
                 outfile <- url_to_cache(api_query)
+
                 if (debug) {
                   print(outfile)
                 }
@@ -64,6 +65,7 @@ ceramic_tiles <- function(zoom = NULL, type = "mapbox.satellite",
     fs::dir_ls(slippy_cache(), recursive = TRUE, type = "file",
                glob = glob, regexp = regexp)
   strex <- function(x, y) regmatches(x, regexec(y, x))
+  #browser()
   toks <- do.call(rbind, strex(bfiles, "([[:digit:]]+)/([[:digit:]]+)/([[:digit:]]+)\\.[^\\.]+$"))
   #print(dim(toks))
   files <- tibble::tibble(tile_x = as.integer(toks[,3]), tile_y = as.integer(toks[,4]),
@@ -124,7 +126,8 @@ url_to_cache <- function(x) {
   ## chuck off any ? junk
   out <- unlist(lapply(strsplit(base_filepath, "\\?"), "[", 1L))
   ## also append the default image format if it's not present
-  bad <- grepl("/[0-9]", out)
+  ## .jpg90 is ok but 9293893 is not
+  bad <- grepl("/[0-9]", out) & !grepl("jpg", out)
   out[bad] <- sprintf("%s.jpg", out[bad])
   out
 }

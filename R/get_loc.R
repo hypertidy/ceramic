@@ -11,12 +11,13 @@ fast_merge <- function(x) {
 
 get_api_key <- function(...) {
   key <- Sys.getenv("MAPBOX_API_KEY")
+  print(paste("key:", key))
   if (is.null(key)) warning("no mapbox key found")
   key
 }
 mk_query_string <- function(baseurl,
                             type,
-                            tok = "", format = "jpg90") {
+                            tok = "", format = "jpg") {
 
   paste0(sprintf("%s%s/{zoom}/{x}/{y}%s.%s", baseurl, type, tok, format),
          "?access_token=",
@@ -29,7 +30,7 @@ mk_query_string_custom <- function(baseurl) {
          get_api_key())
 }
 
-get_loc <- function(loc, buffer, type = "mapbox.satellite", crop_to_buffer = TRUE, format = "jpg90", ..., debug = debug, max_tiles = 16L,
+get_loc <- function(loc, buffer, type = "mapbox.satellite", crop_to_buffer = TRUE, format = "jpg", ..., debug = debug, max_tiles = 16L,
                     base_url = NULL) {
 
 
@@ -72,10 +73,10 @@ get_loc <- function(loc, buffer, type = "mapbox.satellite", crop_to_buffer = TRU
   my_bbox <- c(xmin = bb_points_lonlat[1,1], ymin = bb_points_lonlat[1,2],
                xmax = bb_points_lonlat[2,1], ymax = bb_points_lonlat[2,2])
 
-  tile_grid <- slippymath::bb_to_tg(my_bbox, max_tiles = max_tiles)
+  tile_grid <- slippymath::bbox_to_tile_grid(my_bbox, max_tiles = max_tiles)
   zoom <- tile_grid$zoom
 
-  #slippymath::bb_tile_query(my_bbox)
+  #slippymath::bbox_tile_query(my_bbox)
 
   tok <- ""
   if (type == "mapbox.terrain-rgb") {
@@ -90,16 +91,14 @@ get_loc <- function(loc, buffer, type = "mapbox.satellite", crop_to_buffer = TRU
   }
 
   files <- down_loader(tile_grid, mapbox_query_string, debug = debug)
-  #browser()
   files <- unlist(files)
-  #browser()
   bad <- file.info(files)$size < 35
   if (all(bad)) {
     mess <-paste(files, collapse = "\n")
     stop(sprintf("no sensible tiles found, check cache?\n%s", mess))
   }
-
-  br <- lapply(files[!bad], raster::brick)
+# print(cbind(files, file.exists(files))[!bad, , drop = FALSE])
+  br <- lapply(files[!bad], raster_brick)
 
   for (i in seq_along(br)) {
     br[[i]] <- raster::setExtent(br[[i]],
