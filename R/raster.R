@@ -9,6 +9,8 @@ raster_brick <- function(x) {
   if (is.null(out)) stop(sprintf("cannot read %s", x))
   out <- out*255
   mode(out) <- "integer"
+  ## in case it's greyscale ...
+  if (length(dim(out)) == 2L) out <- array(out, c(dim(out), 1L))
   raster::setExtent(raster::brick(out), raster::extent(0, nrow(out), 0, ncol(out)))
 }
 
@@ -18,10 +20,9 @@ raster_readAll <- function(x) {
 }
 
 find_format <- function(x) {
-  x <- basename(x)
   ## jpg or png
-  if (grepl("jpg", x)) fmt <- "jpg"
-  if (grepl("png", x)) fmt <- "png"
+  if (is_jpeg(x)) fmt <- "jpg"
+  if (is_png(x))  fmt <- "png"
   if (is.null(fmt)) stop(sprintf("unknown format", x))
   fmt
 }
