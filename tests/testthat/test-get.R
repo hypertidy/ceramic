@@ -6,7 +6,7 @@ test_that("getting tiles works", {
  expect_silent(dir <- slippy_cache())
  fs <- list.files(dir, recursive = TRUE, full.names = TRUE)
 #print(fs)
- im <- cc_location(cbind(0, 0))
+ im <- cc_location(cbind(0, 0), debug = TRUE)
  fs <- list.files(dir, recursive = TRUE, full.names = TRUE)
  #expect_true(all(file.remove(fs)))
 

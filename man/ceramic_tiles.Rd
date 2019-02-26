@@ -5,7 +5,7 @@
 \title{Tile files}
 \usage{
 ceramic_tiles(zoom = NULL, type = "mapbox.satellite",
-  source = "api.mapbox.com", glob = "*.jpg*", regexp = NULL)
+  source = "api.mapbox.com", glob = NULL, regexp = NULL)
 }
 \arguments{
 \item{zoom}{zoom level}
