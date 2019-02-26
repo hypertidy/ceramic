@@ -133,7 +133,8 @@ url_to_cache <- function(x) {
   out <- unlist(lapply(strsplit(base_filepath, "\\?"), "[", 1L))
   ## also append the default image format if it's not present
   ## .jpg90 is ok but 9293893 is not
-  bad <- grepl("/[0-9]", out) & !grepl("jpg", out)
-  out[bad] <- sprintf("%s.jpg", out[bad])
+  ## why is this needed???
+  #bad <- grepl("/[0-9]", out) & !grepl("jpg", out)
+  #out[bad] <- sprintf("%s.jpg", out[bad])
   out
 }
