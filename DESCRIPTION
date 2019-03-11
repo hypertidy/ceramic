@@ -33,7 +33,6 @@ Imports:
     jpeg,
     png,
     utils
-Remotes: MilesMcBain/slippymath
 Suggests: 
     testthat,
     covr,
