@@ -20,6 +20,7 @@ raster_readAll <- function(x) {
 }
 
 find_format <- function(x) {
+  fmt <- NULL
   ## jpg or png
   if (is_jpeg(x)) fmt <- "jpg"
   if (is_png(x))  fmt <- "png"
