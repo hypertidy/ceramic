@@ -16,7 +16,7 @@
 #' "?access_token=",
 #' Sys.getenv("MAPBOX_API_KEY"))
 #' @importFrom curl curl_download
-#' @importFrom fs dir_exists dir_create
+#' @importFrom fs dir_exists dir_create file_info
 #' @importFrom glue glue
 #' @importFrom rappdirs user_cache_dir
 #' @importFrom purrr pmap
@@ -30,7 +30,7 @@ down_loader <- function(x, query_string, clobber = FALSE, ..., debug = FALSE) {
                   print(outfile)
                 }
 
-                if (!file.exists(outfile) || clobber) {
+                if (!file.exists(outfile) || clobber || fs::file_info(outfile)$size < 101) {
                   cachedir <- fs::path_dir(outfile)
 
                   if (!fs::dir_exists(cachedir)) fs::dir_create(cachedir, recursive = TRUE)
