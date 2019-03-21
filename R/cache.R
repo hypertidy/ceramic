@@ -1,3 +1,27 @@
+#' Clear ceramic cache
+#'
+#' Delete all downloaded files in the `slippy_cache()`.
+#' @param clobber set to `TRUE` to avoid checks and delete files
+#' @export
+#' @return this function is called for its side effect, but also returns the file list invisibly whether deleted or not, or NULL if the user cancels.
+clear_ceramic_cache <- function(clobber = FALSE, ...){
+ files <- fs::dir_ls(slippy_cache(), all = TRUE, recursive = TRUE)
+ if (!clobber) {
+   if (!interactive()) stop("Cannot delete cache without interactive mode, unless 'clobber = TRUE'")
+   answer <- utils::askYesNo(sprintf("Delete all downloaded ceramic tiles? (%i files in cache)", length(files)))
+ } else {
+   answer <- TRUE
+ }
+ if (is.na(answer)) {message("Cancelled."); return(invisible(NULL))}
+ if (!answer) {message("Cache not removed.")}
+ if (answer) {
+   tst <- fs::file_delete(files)
+   message(sprintf("%i cache files removed.", length(tst)))
+   return(invisible(tst))
+ }
+ invisible(files)
+}
+
 #' Download tool for image tiles
 #'
 #' Tiles are cached with the native name of the source.
