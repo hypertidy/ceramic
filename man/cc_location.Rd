@@ -12,7 +12,7 @@
 \title{Miscellaneous places}
 \usage{
 cc_location(loc = NULL, buffer = 5000, type = "mapbox.satellite",
-  ..., debug = FALSE)
+  ..., zoom = NULL, debug = FALSE)
 
 cc_macquarie(loc = c(158.93835, -54.49871), buffer = 5000,
   type = "mapbox.outdoors", ..., debug = FALSE)
@@ -42,6 +42,8 @@ cc_elevation(loc = NULL, buffer = 5000, ..., debug = FALSE)
 \item{type}{character string of Mapbox service (see Details)}
 
 \item{...}{arguments passed to internal function, specifically `base_url` (see Details)}
+
+\item{zoom}{desired zoom for tiles, use with caution - if `NULL` is chosen automatically}
 
 \item{debug}{optionally print out files that will be used}
 }

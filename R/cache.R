@@ -42,6 +42,7 @@ down_loader <- function(x, query_string, clobber = FALSE, ..., debug = FALSE) {
               zoom = x$zoom)
 }
 
+
 #' Tile files
 #'
 #' Find existing files in the cache. Various options can be controlled, this is WIP
