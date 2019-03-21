@@ -33,9 +33,9 @@ mk_query_string_custom <- function(baseurl) {
 
 
 
-get_loc <- function(loc, buffer, type = "mapbox.satellite", crop_to_buffer = TRUE, format = "jpg", ..., zoom = NULL, debug = debug, max_tiles = 16L,
+get_loc <- function(loc, buffer, type = "mapbox.satellite", crop_to_buffer = TRUE, format = "jpg", ..., zoom = NULL, debug = debug, max_tiles = NULL,
                     base_url = NULL) {
-
+  if (!is.null(zoom)) max_tiles <- NULL
   if (!is.null(base_url)) {
     ## zap the type because input was a custom mapbox style (we assume)
     type <- ""
@@ -75,7 +75,7 @@ get_loc <- function(loc, buffer, type = "mapbox.satellite", crop_to_buffer = TRU
   my_bbox <- c(xmin = bb_points_lonlat[1,1], ymin = bb_points_lonlat[1,2],
                xmax = bb_points_lonlat[2,1], ymax = bb_points_lonlat[2,2])
 
-  if (!is.null(zoom)) max_tiles <- NULL
+
   tile_grid <- slippymath::bbox_to_tile_grid(my_bbox, max_tiles = max_tiles, zoom = zoom)
   zoom <- tile_grid$zoom
 

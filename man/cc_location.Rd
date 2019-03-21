@@ -12,27 +12,34 @@
 \title{Miscellaneous places}
 \usage{
 cc_location(loc = NULL, buffer = 5000, type = "mapbox.satellite",
-  ..., zoom = NULL, debug = FALSE)
+  ..., zoom = NULL, max_tiles = NULL, debug = FALSE)
 
 cc_macquarie(loc = c(158.93835, -54.49871), buffer = 5000,
-  type = "mapbox.outdoors", ..., debug = FALSE)
+  type = "mapbox.outdoors", ..., zoom = NULL, max_tiles = NULL,
+  debug = FALSE)
 
 cc_davis(loc = c(77 + 58/60 + 3/3600, -(68 + 34/60 + 36/3600)),
-  buffer = 5000, type = "mapbox.outdoors", ..., debug = FALSE)
+  buffer = 5000, type = "mapbox.outdoors", ..., zoom = NULL,
+  max_tiles = NULL, debug = FALSE)
 
 cc_mawson(loc = c(62 + 52/60 + 27/3600, -(67 + 36/60 + 12/3600)),
-  buffer = 5000, type = "mapbox.outdoors", ..., debug = FALSE)
+  buffer = 5000, type = "mapbox.outdoors", ..., zoom = NULL,
+  max_tiles = NULL, debug = FALSE)
 
 cc_casey(loc = cbind(110 + 31/60 + 36/3600, -(66 + 16/60 + 57/3600)),
-  buffer = 5000, type = "mapbox.outdoors", ..., debug = FALSE)
+  buffer = 5000, type = "mapbox.outdoors", ..., zoom = NULL,
+  max_tiles = NULL, debug = FALSE)
 
 cc_heard(loc = c(73 + 30/60 + 30/3600, -(53 + 0 + 0/3600)),
-  buffer = 5000, type = "mapbox.outdoors", ..., debug = FALSE)
+  buffer = 5000, type = "mapbox.outdoors", ..., zoom = NULL,
+  max_tiles = NULL, debug = FALSE)
 
 cc_kingston(loc = c(-147.70837, -42.98682), buffer = 5000,
-  type = "mapbox.outdoors", ..., debug = FALSE)
+  type = "mapbox.outdoors", ..., zoom = NULL, max_tiles = NULL,
+  debug = FALSE)
 
-cc_elevation(loc = NULL, buffer = 5000, ..., debug = FALSE)
+cc_elevation(loc = NULL, buffer = 5000, ..., zoom = NULL,
+  max_tiles = NULL, debug = FALSE)
 }
 \arguments{
 \item{loc}{a longitude, latitude pair of coordinates}
@@ -44,6 +51,8 @@ cc_elevation(loc = NULL, buffer = 5000, ..., debug = FALSE)
 \item{...}{arguments passed to internal function, specifically `base_url` (see Details)}
 
 \item{zoom}{desired zoom for tiles, use with caution - if `NULL` is chosen automatically}
+
+\item{max_tiles}{maximum number of tiles to be read into memory - if `NULL` is set by zoom constraints}
 
 \item{debug}{optionally print out files that will be used}
 }
@@ -58,12 +67,16 @@ Visit some nice locales with web tiles.
 
 Available types are 'mapbox.satellite', 'mapbox.outdoors', 'mapbox.terrain-rgb' but any string
 accepted by Mapbox services will be passed through.
+
+Note that arguments `max_tiles` and `zoom` are mutually exclusive. One or both must be `NULL`. If
+both are NULL then `max_tiles = 16L`.
 }
 \section{Custom styles}{
 
 
 Custom Mapbox styles may be specified with the argument `base_url` in the form:
 `"https://api.mapbox.com/styles/v1/mdsumner/cjs6yn9hu0coo1fqhdqgw3o18/tiles/512/{zoom}/{x}/{y}"`
+
 
 Currently must be considered in-development.
 }
