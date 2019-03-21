@@ -2,7 +2,7 @@ context("test-dud-clobber")
 
 dudfile <- file.path(slippy_cache(),
  "api.mapbox.com/v4/mapbox.satellite/13/7440/5149.jpg")
-unlink(dudfile)
+fs::file_delete(dudfile)
 ## the first 11 bytes of this message is
 ## rawToChar(as.raw(c(0x7b, 0x22, 0x6d, 0x65, 0x73,
 ##             0x73, 0x61, 0x67, 0x65, 0x22, 0x3a)))
