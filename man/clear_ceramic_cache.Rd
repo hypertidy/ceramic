@@ -13,5 +13,5 @@ clear_ceramic_cache(clobber = FALSE, ...)
 this function is called for its side effect, but also returns the file list invisibly whether deleted or not, or NULL if the user cancels.
 }
 \description{
-Delete all downloaded files in the `slippy_cache()`.
+Delete all downloaded files in the [slippy_cache()].
 }

@@ -1,11 +1,15 @@
 #' Clear ceramic cache
 #'
-#' Delete all downloaded files in the `slippy_cache()`.
+#' Delete all downloaded files in the [slippy_cache()].
 #' @param clobber set to `TRUE` to avoid checks and delete files
 #' @export
 #' @return this function is called for its side effect, but also returns the file list invisibly whether deleted or not, or NULL if the user cancels.
 clear_ceramic_cache <- function(clobber = FALSE, ...){
- files <- fs::dir_ls(slippy_cache(), all = TRUE, recursive = TRUE)
+ files <- fs::dir_ls(slippy_cache(), all = FALSE, recursive = TRUE)
+ if (length(files) < 1) {
+   message("No files in cache. Nothing to do.")
+   return(invisible(NULL))
+ }
  if (!clobber) {
    if (!interactive()) stop("Cannot delete cache without interactive mode, unless 'clobber = TRUE'")
    answer <- utils::askYesNo(sprintf("Delete all downloaded ceramic tiles? (%i files in cache)", length(files)))
@@ -15,9 +19,9 @@ clear_ceramic_cache <- function(clobber = FALSE, ...){
  if (is.na(answer)) {message("Cancelled."); return(invisible(NULL))}
  if (!answer) {message("Cache not removed.")}
  if (answer) {
-   tst <- fs::file_delete(files)
-   message(sprintf("%i cache files removed.", length(tst)))
-   return(invisible(tst))
+   tst <- fs::dir_delete(slippy_cache())
+   message(sprintf("%i cache files removed.", length(files)))
+   return(invisible(files))
  }
  invisible(files)
 }
@@ -145,6 +149,13 @@ tile_zoom <- function(x) {
   as.integer(basename(dirname(dirname(x))))
 }
 
+#' Ceramic file cache
+#'
+#' File system location where ceramice stores its cache.
+#' @return character value of location of cache
+#' @export
+#' @examples
+#' slippy_cache()
 slippy_cache <- function() {
   cache <- file.path(rappdirs::user_cache_dir(), ".ceramic")
   if (!fs::dir_exists(cache)) fs::dir_create(cache)
