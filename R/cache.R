@@ -2,6 +2,7 @@
 #'
 #' Delete all downloaded files in the [slippy_cache()].
 #' @param clobber set to `TRUE` to avoid checks and delete files
+#' @param ... reserved for future arguments, currently ignored
 #' @export
 #' @return this function is called for its side effect, but also returns the file list invisibly whether deleted or not, or NULL if the user cancels.
 clear_ceramic_cache <- function(clobber = FALSE, ...){
