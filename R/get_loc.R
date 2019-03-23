@@ -55,8 +55,15 @@ is_spatial <- function(x) {
 spex_to_pt <- function(x) {
   pt <- cbind(mean(c(raster::xmax(x), raster::xmin(x))),
         mean(c(raster::ymax(x), raster::ymin(x))))
+  srcproj <- raster::projection(x)
+  if (is.na(srcproj)) {
+    if (raster::couldBeLonLat(x, warnings = FALSE)) {
+      warning("loc CRS is not set, assuming longlat")
+      raster::projection(x) <- "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0 "
+    }
+  }
   if (!raster::isLonLat(x)) {
-    pt <- reproj::reproj(pt, "+proj=longlat +datum=WGS84", source = raster::projection(x))
+    pt <- reproj::reproj(pt, "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0 ", source = raster::projection(x))[, 1:2, drop = FALSE]
   }
   pt
 }
@@ -67,7 +74,16 @@ project_spex <- function(x, crs) {
            3, 4, 4, 3, 3)
   xy <- matrix(ex[idx], ncol = 2L)
   afun <- function(aa) stats::approx(seq_along(aa), aa, n = 180L)$y
-  raster::extent(reproj::reproj(cbind(afun(xy[,1L]), afun(xy[,2L])), target = crs, source = raster::projection(x))[, 1:2])
+  srcproj <- raster::projection(x)
+  if (is.na(srcproj)) {
+    if (raster::couldBeLonLat(x, warnings = FALSE)) {
+      warning("loc CRS is not set, assuming longlat")
+      srcproj <- "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0 "
+    } else {
+      stop("loc CRS is not set, and does not seem to be longitude/latitude data")
+    }
+  }
+  raster::extent(reproj::reproj(cbind(afun(xy[,1L]), afun(xy[,2L])), target = crs, source = srcproj)[, 1:2])
 }
 spex_to_buff <- function(x) {
   ex <- project_spex(x, "+proj=merc +a=6378137 +b=6378137")
@@ -88,7 +104,17 @@ get_loc <- function(loc, buffer, type = "mapbox.satellite", crop_to_buffer = TRU
     ## and a buffer
     spx <- spex::spex(loc)
     loc <- spex_to_pt(spx)
-   buffer <- spex_to_buff(spx)/2
+    buffer <- spex_to_buff(spx)/2
+  }
+
+  ## handle case where loc had either no width or no height
+  if (any(!buffer > 0)) {
+    # one of the values is gt 0
+    if (any(buffer > 0)) buffer <- rep(max(buffer, 2L))
+    if (all(!buffer > 0)) {
+      warning("input object has no width or height, using default buffer (5000m)")
+      buffer <- c(5000, 5000)
+    }
   }
   custom <- TRUE
   if (is.null(base_url)) {
