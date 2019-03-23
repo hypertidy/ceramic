@@ -58,9 +58,19 @@ spex_to_pt <- function(x) {
   if (!raster::isLonLat(x)) {
     pt <- reproj::reproj(pt, "+proj=longlat +datum=WGS84", source = raster::projection(x))
   }
+  pt
+}
+project_spex <- function(x, crs) {
+  ex <- c(raster::xmin(x), raster::xmax(x), raster::ymin(x), raster::ymax(x))
+  idx <- c(1, 1, 2, 2, 1,
+           3, 4, 4, 3, 3)
+  xy <- matrix(ex[idx], ncol = 2L)
+  raster::extent(reproj::reproj(do.call(cbind, approx(xy, n = 180)), target = crs, source = raster::projection(x))[, 1:2])
 }
 spex_to_buff <- function(x) {
-
+  ex <- project_spex(x, "+proj=merc +a=6378137 +b=6378137")
+  c(raster::xmax(ex) - raster::xmin(ex),
+    raster::ymax(ex) - raster::ymin(ex))
 }
 get_loc <- function(loc, buffer, type = "mapbox.satellite", crop_to_buffer = TRUE, format = "jpg", ..., zoom = NULL, debug = debug, max_tiles = NULL,
                     base_url = NULL) {
@@ -72,7 +82,9 @@ get_loc <- function(loc, buffer, type = "mapbox.satellite", crop_to_buffer = TRU
   if (is_spatial(loc)) {
     ## turn loc into a longlat point
     ## and a buffer
-
+    spx <- spex::spex(loc)
+    loc <- spex_to_pt(spx)
+   buffer <- spex_to_buff(spx)/2
   }
   custom <- TRUE
   if (is.null(base_url)) {
