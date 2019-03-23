@@ -41,8 +41,27 @@ mk_query_string_custom <- function(baseurl) {
 }
 
 
+is_spatial <- function(x) {
+  if (inherits(x, "Spatial") ||
+      inherits(x, "sf") ||
+      inherits(x, "sfc") ||
+      inherits(x, "BasicRaster") ||
+      inherits(x, "Extent")) {
+    return(TRUE)
+  }
+  FALSE
+}
 
+spex_to_pt <- function(x) {
+  pt <- cbind(mean(c(raster::xmax(x), raster::xmin(x))),
+        mean(c(raster::ymax(x), raster::ymin(x))))
+  if (!raster::isLonLat(x)) {
+    pt <- reproj::reproj(pt, "+proj=longlat +datum=WGS84", source = raster::projection(x))
+  }
+}
+spex_to_buff <- function(x) {
 
+}
 get_loc <- function(loc, buffer, type = "mapbox.satellite", crop_to_buffer = TRUE, format = "jpg", ..., zoom = NULL, debug = debug, max_tiles = NULL,
                     base_url = NULL) {
   if (!is.null(zoom)) max_tiles <- NULL
@@ -50,7 +69,11 @@ get_loc <- function(loc, buffer, type = "mapbox.satellite", crop_to_buffer = TRU
     ## zap the type because input was a custom mapbox style (we assume)
     type <- ""
   }
+  if (is_spatial(loc)) {
+    ## turn loc into a longlat point
+    ## and a buffer
 
+  }
   custom <- TRUE
   if (is.null(base_url)) {
     custom <- FALSE
