@@ -78,6 +78,22 @@ text(middle(tiles$xmin, tiles$xmax), middle(tiles$ymin, tiles$ymax), lab = sprin
 ```
 
 
+## Input a spatial object
+
+We can use raster, sp, or sf objects to define an extent. Use `max_tiles` or `zoom` to increase or decrease resolution. 
+
+```{r}
+lux <- spex::lux
+
+im1 <- cc_location(lux, debug = TRUE)
+im2 <- cc_location(raster(lux), zoom = 7)
+plotRGB(im1); plot(sp::spTransform(lux, projection(im1)), add = TRUE, border = "white")
+plotRGB(im2)
+## objects with different projections can also be used
+plux <- sp::spTransform(lux, "+proj=laea +lon_0=5")
+im3 <- cc_location(plux)  ## same as im1
+
+```
 
 There is a helper function to find existing tiles. 
 
