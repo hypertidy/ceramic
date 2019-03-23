@@ -16,7 +16,7 @@ sz <- fs::file_info(dudfile)$size
 test_that("dud file gets clobbered", {
   expect_true(sz < 100)
   ## that bad file should be replaced
-  im <-   cc_location(cbind(147, -42))
+  im <-   cc_location(cbind(147, -42), debug = TRUE)
 
   expect_true(fs::file_info(dudfile)$size > 101)
 })
