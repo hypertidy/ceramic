@@ -36,10 +36,13 @@ test_that("sf loc works", {
 
 test_that("Raster loc works", {
   ## projected raster, longlat raster
+  cc_location(ozdata$ll$raster)
+  cc_location(ozdata$proj$raster)
 
   ## degeneracy
   ## ??
 
   ## extent, no CRS
-
+  cc_location(extent(147, 150, -50, -30))
+  expect_error(cc_location(extent(-1e6, 1e6, 0, 2000)))
 })

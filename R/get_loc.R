@@ -62,6 +62,7 @@ spex_to_pt <- function(x) {
       raster::projection(x) <- "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0 "
     }
   }
+
   if (!raster::isLonLat(x)) {
     pt <- reproj::reproj(pt, "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0 ", source = raster::projection(x))[, 1:2, drop = FALSE]
   }
@@ -102,7 +103,14 @@ get_loc <- function(loc, buffer, type = "mapbox.satellite", crop_to_buffer = TRU
   if (is_spatial(loc)) {
     ## turn loc into a longlat point
     ## and a buffer
-    spx <- spex::spex(loc)
+    if (inherits(loc, "Extent")) {
+      if (!raster::couldBeLonLat(loc)) {
+        stop("raw extent 'loc' does not seem to be longitude/latitude (use object with CRS)")
+      }
+      spx <- spex::spex(loc, crs = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0")
+    } else {
+      spx <- spex::spex(loc)
+    }
     loc <- spex_to_pt(spx)
     buffer <- spex_to_buff(spx)/2
   }

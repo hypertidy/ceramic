@@ -59,18 +59,18 @@ library(ceramic)
 ## a point in longlat, and a buffer with in metres
 pt <- cbind(136, -34)
 im <- cc_location(pt, buffer = c(1e6, 5e5), type = "mapbox.satellite", debug = T)
-#> [1] "C:\\Users\\mdsumner\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/54/37.jpg"
-#> [1] "C:\\Users\\mdsumner\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/55/37.jpg"
-#> [1] "C:\\Users\\mdsumner\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/56/37.jpg"
-#> [1] "C:\\Users\\mdsumner\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/57/37.jpg"
-#> [1] "C:\\Users\\mdsumner\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/54/38.jpg"
-#> [1] "C:\\Users\\mdsumner\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/55/38.jpg"
-#> [1] "C:\\Users\\mdsumner\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/56/38.jpg"
-#> [1] "C:\\Users\\mdsumner\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/57/38.jpg"
-#> [1] "C:\\Users\\mdsumner\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/54/39.jpg"
-#> [1] "C:\\Users\\mdsumner\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/55/39.jpg"
-#> [1] "C:\\Users\\mdsumner\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/56/39.jpg"
-#> [1] "C:\\Users\\mdsumner\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/57/39.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/54/37.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/55/37.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/56/37.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/57/37.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/54/38.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/55/38.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/56/38.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/57/38.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/54/39.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/55/39.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/56/39.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/57/39.jpg"
 library(raster)
 #> Loading required package: sp
 plotRGB(im)
@@ -79,7 +79,7 @@ plotRGB(im)
 
 tiles <- ceramic_tiles(zoom = 6, type = "mapbox.satellite")
 library(sf)
-#> Linking to GEOS 3.6.1, GDAL 2.2.3, PROJ 4.9.3
+#> Linking to GEOS 3.7.0, GDAL 2.4.0, PROJ 5.2.0
 plot(st_geometry(ceramic:::tiles_to_polygon(tiles)), add = TRUE)
 middle <- function(x, y) {
   x + (y - x)/2
@@ -99,18 +99,18 @@ We can use raster, sp, or sf objects to define an extent. Use
 lux <- spex::lux
 
 im1 <- cc_location(lux, debug = TRUE)
-#> [1] "C:\\Users\\mdsumner\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/528/346.jpg"
-#> [1] "C:\\Users\\mdsumner\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/529/346.jpg"
-#> [1] "C:\\Users\\mdsumner\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/530/346.jpg"
-#> [1] "C:\\Users\\mdsumner\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/528/347.jpg"
-#> [1] "C:\\Users\\mdsumner\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/529/347.jpg"
-#> [1] "C:\\Users\\mdsumner\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/530/347.jpg"
-#> [1] "C:\\Users\\mdsumner\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/528/348.jpg"
-#> [1] "C:\\Users\\mdsumner\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/529/348.jpg"
-#> [1] "C:\\Users\\mdsumner\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/530/348.jpg"
-#> [1] "C:\\Users\\mdsumner\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/528/349.jpg"
-#> [1] "C:\\Users\\mdsumner\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/529/349.jpg"
-#> [1] "C:\\Users\\mdsumner\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/530/349.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/528/346.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/529/346.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/530/346.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/528/347.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/529/347.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/530/347.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/528/348.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/529/348.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/530/348.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/528/349.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/529/349.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/530/349.jpg"
 im2 <- cc_location(raster(lux), zoom = 7)
 plotRGB(im1); plot(sp::spTransform(lux, projection(im1)), add = TRUE, border = "white")
 ```
@@ -127,9 +127,6 @@ plotRGB(im2)
 ## objects with different projections can also be used
 plux <- sp::spTransform(lux, "+proj=laea +lon_0=5")
 im3 <- cc_location(plux)  ## same as im1
-#> Warning in get_loc(loc = loc, buffer = buffer, type = type, ..., zoom
-#> = zoom, : 'loc' should be a length-2 vector 'c(lon, lat)' or matrix
-#> 'cbind(lon, lat)'
 ```
 
 There is a helper function to find existing
@@ -138,21 +135,28 @@ tiles.
 ``` r
 aa <- cc_location(loc = cbind(0, 0), buffer = 330000, type = "mapbox.satellite")
 ceramic_tiles(zoom = 7, type = "mapbox.satellite")
-#> # A tibble: 48 x 11
+#> # A tibble: 17 x 11
 #>    tile_x tile_y  zoom type  version source
 #>     <int>  <int> <int> <chr> <chr>   <chr> 
-#>  1     26     44     7 mapb~ v4      api.m~
-#>  2     26     45     7 mapb~ v4      api.m~
-#>  3     26     46     7 mapb~ v4      api.m~
-#>  4     26     47     7 mapb~ v4      api.m~
-#>  5     27     44     7 mapb~ v4      api.m~
-#>  6     27     45     7 mapb~ v4      api.m~
-#>  7     27     46     7 mapb~ v4      api.m~
-#>  8     27     47     7 mapb~ v4      api.m~
-#>  9     28     44     7 mapb~ v4      api.m~
-#> 10     28     45     7 mapb~ v4      api.m~
-#> # ... with 38 more rows, and 5 more variables: fullname <fs::path>,
-#> #   xmin <dbl>, xmax <dbl>, ymin <dbl>, ymax <dbl>
+#>  1     62     62     7 mapb… v4      api.m…
+#>  2     62     63     7 mapb… v4      api.m…
+#>  3     62     64     7 mapb… v4      api.m…
+#>  4     62     65     7 mapb… v4      api.m…
+#>  5     63     62     7 mapb… v4      api.m…
+#>  6     63     63     7 mapb… v4      api.m…
+#>  7     63     64     7 mapb… v4      api.m…
+#>  8     63     65     7 mapb… v4      api.m…
+#>  9     64     62     7 mapb… v4      api.m…
+#> 10     64     63     7 mapb… v4      api.m…
+#> 11     64     64     7 mapb… v4      api.m…
+#> 12     64     65     7 mapb… v4      api.m…
+#> 13     65     62     7 mapb… v4      api.m…
+#> 14     65     63     7 mapb… v4      api.m…
+#> 15     65     64     7 mapb… v4      api.m…
+#> 16     65     65     7 mapb… v4      api.m…
+#> 17     66     43     7 mapb… v4      api.m…
+#> # … with 5 more variables: fullname <fs::path>, xmin <dbl>, xmax <dbl>,
+#> #   ymin <dbl>, ymax <dbl>
 ```
 
 and every row has the extent values useable directly by raster:
@@ -164,38 +168,38 @@ ceramic_tiles(zoom = 7, type = "mapbox.satellite") %>%
   purrr::map(~raster::extent(unlist(.x[c("xmin", "xmax", "ymin", "ymax")])))
 #> [[1]]
 #> class       : Extent 
-#> xmin        : -11897271 
-#> xmax        : -11584185 
-#> ymin        : 5948635 
-#> ymax        : 6261721 
+#> xmin        : -626172.1 
+#> xmax        : -313086.1 
+#> ymin        : 313086.1 
+#> ymax        : 626172.1 
 #> 
 #> [[2]]
 #> class       : Extent 
-#> xmin        : -11897271 
-#> xmax        : -11584185 
-#> ymin        : 5635549 
-#> ymax        : 5948635 
+#> xmin        : -626172.1 
+#> xmax        : -313086.1 
+#> ymin        : 0 
+#> ymax        : 313086.1 
 #> 
 #> [[3]]
 #> class       : Extent 
-#> xmin        : -11897271 
-#> xmax        : -11584185 
-#> ymin        : 5322463 
-#> ymax        : 5635549 
+#> xmin        : -626172.1 
+#> xmax        : -313086.1 
+#> ymin        : -313086.1 
+#> ymax        : 0 
 #> 
 #> [[4]]
 #> class       : Extent 
-#> xmin        : -11897271 
-#> xmax        : -11584185 
-#> ymin        : 5009377 
-#> ymax        : 5322463 
+#> xmin        : -626172.1 
+#> xmax        : -313086.1 
+#> ymin        : -626172.1 
+#> ymax        : -313086.1 
 #> 
 #> [[5]]
 #> class       : Extent 
-#> xmin        : -11584185 
-#> xmax        : -11271098 
-#> ymin        : 5948635 
-#> ymax        : 6261721
+#> xmin        : -313086.1 
+#> xmax        : 0 
+#> ymin        : 313086.1 
+#> ymax        : 626172.1
 ```
 
 Another example
