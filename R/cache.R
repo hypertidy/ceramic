@@ -61,9 +61,10 @@ down_loader <- function(x, query_string, clobber = FALSE, ..., debug = FALSE) {
                 if (!file.exists(outfile) || clobber || fs::file_info(outfile)$size < 101) {
                   cachedir <- fs::path_dir(outfile)
 
-                  if (!fs::dir_exists(cachedir)) fs::dir_create(cachedir, recursive = TRUE)
+                  if (!fs::dir_exists(cachedir)) dir.create(cachedir, recursive = TRUE)
                 ## FIXME: need to error on no API_KEY present
-                  zup <- curl::curl_fetch_disk(url = api_query,
+
+                  zup <- curl::curl_download(url = api_query,
                                        outfile)
                 }
                 outfile

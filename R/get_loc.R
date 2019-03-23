@@ -9,11 +9,21 @@ fast_merge <- function(x) {
   raster::setValues(raster::brick(out, out, out), vals[order(cells), ])
 }
 
+token_url <- function(api = "mapbox") {
+ switch(api, mapbox = "https://account.mapbox.com/access-tokens/", stop("api not known"))
+}
+instruct_on_key_creation <- function() {
+  cat(sprintf("To set your Mapbox API key obtain a key from %s\n", token_url()))
+  cat(sprintf("Run 'Sys.setenv(MAPBOX_API_KEY=<yourkey>)'\n"))
+}
 get_api_key <- function(...) {
   key <- Sys.getenv("MAPBOX_API_KEY")
 
-  if (is.null(key)) warning("no mapbox key found")
-  key
+  if (is.null(key) || nchar(key) < 1) {
+    instruct_on_key_creation()
+    stop("no mapbox key found")
+  }
+ key
 }
 mk_query_string <- function(baseurl,
                             type,
