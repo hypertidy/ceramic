@@ -42,9 +42,9 @@ cc_elevation(loc = NULL, buffer = 5000, ..., zoom = NULL,
   max_tiles = NULL, debug = FALSE)
 }
 \arguments{
-\item{loc}{a longitude, latitude pair of coordinates}
+\item{loc}{a longitude, latitude pair of coordinates, or a spatial object}
 
-\item{buffer}{with in metres to extend around the location}
+\item{buffer}{with in metres to extend around the location, ignored if 'loc' is a spatial object with extent}
 
 \item{type}{character string of Mapbox service (see Details)}
 

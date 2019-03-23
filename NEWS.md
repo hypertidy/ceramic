@@ -1,5 +1,7 @@
 # ceramic 0.1.0.9000
 
+* Function `cc_location`, `cc_elevation` and friends now allow `loc` input to be sf, raster, sp types in any projection. 
+
 * Function `cc_location` and `cc_elevation` and friends now allow input of either `max_tiles` or `zoom`. 
 
 # ceramic 0.1.0

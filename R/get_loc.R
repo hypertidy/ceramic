@@ -60,12 +60,14 @@ spex_to_pt <- function(x) {
   }
   pt
 }
+#' @importFrom stats approx
 project_spex <- function(x, crs) {
   ex <- c(raster::xmin(x), raster::xmax(x), raster::ymin(x), raster::ymax(x))
   idx <- c(1, 1, 2, 2, 1,
            3, 4, 4, 3, 3)
   xy <- matrix(ex[idx], ncol = 2L)
-  raster::extent(reproj::reproj(do.call(cbind, approx(xy, n = 180)), target = crs, source = raster::projection(x))[, 1:2])
+  afun <- function(aa) stats::approx(seq_along(aa), aa, n = 180L)$y
+  raster::extent(reproj::reproj(cbind(afun(xy[,1L]), afun(xy[,2L])), target = crs, source = raster::projection(x))[, 1:2])
 }
 spex_to_buff <- function(x) {
   ex <- project_spex(x, "+proj=merc +a=6378137 +b=6378137")
@@ -79,6 +81,8 @@ get_loc <- function(loc, buffer, type = "mapbox.satellite", crop_to_buffer = TRU
     ## zap the type because input was a custom mapbox style (we assume)
     type <- ""
   }
+
+ # browser()
   if (is_spatial(loc)) {
     ## turn loc into a longlat point
     ## and a buffer

@@ -19,8 +19,8 @@
 #'
 #'
 #' Currently must be considered in-development.
-#' @param loc a longitude, latitude pair of coordinates
-#' @param buffer with in metres to extend around the location
+#' @param loc a longitude, latitude pair of coordinates, or a spatial object
+#' @param buffer with in metres to extend around the location, ignored if 'loc' is a spatial object with extent
 #' @param type character string of Mapbox service (see Details)
 #' @param ... arguments passed to internal function, specifically `base_url` (see Details)
 #' @param zoom desired zoom for tiles, use with caution - if `NULL` is chosen automatically

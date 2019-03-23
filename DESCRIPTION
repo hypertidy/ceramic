@@ -32,7 +32,8 @@ Imports:
     spex,
     jpeg,
     png,
-    utils
+    utils,
+    reproj
 Suggests: 
     testthat,
     covr,
