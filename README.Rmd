@@ -30,7 +30,39 @@ raster::plotRGB(im)
 ```
 
 
+
+
 We can use raster, sp, or sf objects to define an extent. This provides a very easy way to obtain imagery or elevation data for any almost any region using our own data. 
+
+```{r}
+ne <- rnaturalearth::ne_countries(returnclass = "sf")
+im_nz <- cc_location(subset(ne, name == "New Zealand"))
+raster::plotRGB(im_nz)
+```
+
+Even if the data uses a map projection it will be converted into a region to match the Mercator extents used by Mapbox image servers. 
+
+```{r nz-spData}
+data("nz", package = "spData")
+library(sf)
+im_nz2 <- cc_location(nz)
+raster::plotRGB(im_nz2)
+plot(st_transform(nz, raster::projection(im_nz2)), add = TRUE, col = rainbow(nrow(nz), alpha = 0.5))
+```
+
+Raster elevation data is also available. 
+
+```{r}
+north <- nz[nz$Island == "North", ]
+dem_nz <- cc_elevation(north)
+
+
+## plot elevation data for NZ north
+dem_nz[!dem_nz > 0] <- NA
+raster::plot(dem_nz, col = grey(seq(0, 1, length = 51)), breaks = quantile(raster::values(dem_nz), seq(0, 1, length = 52), na.rm = TRUE), legend = FALSE)
+plot(st_transform(st_cast(north, "MULTILINESTRING")["Name"], raster::projection(dem_nz)), add = TRUE, lwd = 5)
+
+```
 
 ```{r, eval=FALSE, include = FALSE}
 north_carolina <- sf::read_sf(system.file("gpkg/nc.gpkg", package = "sf", mustWork = TRUE))
@@ -51,21 +83,15 @@ box(col= "white")
 par(op)
 ```
 
-
-
 Use `max_tiles` or `zoom` to increase or decrease resolution. 
 
 ```{r}
-lux <- spex::lux
+im1 <- cc_location(im_nz, debug = TRUE)
+im2 <- cc_location(im_nz, zoom = 7)
 
-im1 <- cc_location(lux, debug = TRUE)
-im2 <- cc_location(raster::raster(lux), zoom = 7)
-raster::plotRGB(im1); sp::plot(sp::spTransform(lux, raster::projection(im1)), add = TRUE, border = "white")
-raster::plotRGB(im2)
-## objects with different projections can also be used
-plux <- sp::spTransform(lux, "+proj=laea +lon_0=5")
-im3 <- cc_location(plux)  ## same as im1
+im1
 
+im2
 ```
 
 

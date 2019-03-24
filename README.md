@@ -41,40 +41,84 @@ We can use raster, sp, or sf objects to define an extent. This provides
 a very easy way to obtain imagery or elevation data for any almost any
 region using our own data.
 
+``` r
+ne <- rnaturalearth::ne_countries(returnclass = "sf")
+im_nz <- cc_location(subset(ne, name == "New Zealand"))
+raster::plotRGB(im_nz)
+```
+
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+
+Even if the data uses a map projection it will be converted into a
+region to match the Mercator extents used by Mapbox image servers.
+
+``` r
+data("nz", package = "spData")
+library(sf)
+#> Linking to GEOS 3.7.0, GDAL 2.4.0, PROJ 5.2.0
+im_nz2 <- cc_location(nz)
+raster::plotRGB(im_nz2)
+plot(st_transform(nz, raster::projection(im_nz2)), add = TRUE, col = rainbow(nrow(nz), alpha = 0.5))
+#> Warning in plot.sf(st_transform(nz, raster::projection(im_nz2)), add =
+#> TRUE, : ignoring all but the first attribute
+```
+
+<img src="man/figures/README-nz-spData-1.png" width="100%" />
+
+Raster elevation data is also available.
+
+``` r
+north <- nz[nz$Island == "North", ]
+dem_nz <- cc_elevation(north)
+
+
+## plot elevation data for NZ north
+dem_nz[!dem_nz > 0] <- NA
+raster::plot(dem_nz, col = grey(seq(0, 1, length = 51)), breaks = quantile(raster::values(dem_nz), seq(0, 1, length = 52), na.rm = TRUE), legend = FALSE)
+plot(st_transform(st_cast(north, "MULTILINESTRING")["Name"], raster::projection(dem_nz)), add = TRUE, lwd = 5)
+```
+
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+
 Use `max_tiles` or `zoom` to increase or decrease resolution.
 
 ``` r
-lux <- spex::lux
+im1 <- cc_location(im_nz, debug = TRUE)
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/61/38.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/62/38.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/63/38.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/61/39.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/62/39.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/63/39.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/61/40.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/62/40.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/63/40.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/61/41.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/62/41.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/63/41.jpg"
+im2 <- cc_location(im_nz, zoom = 7)
 
-im1 <- cc_location(lux, debug = TRUE)
-#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/528/346.jpg"
-#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/529/346.jpg"
-#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/530/346.jpg"
-#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/528/347.jpg"
-#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/529/347.jpg"
-#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/530/347.jpg"
-#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/528/348.jpg"
-#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/529/348.jpg"
-#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/530/348.jpg"
-#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/528/349.jpg"
-#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/529/349.jpg"
-#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/530/349.jpg"
-im2 <- cc_location(raster::raster(lux), zoom = 7)
-raster::plotRGB(im1); sp::plot(sp::spTransform(lux, raster::projection(im1)), add = TRUE, border = "white")
-```
+im1
+#> class       : RasterBrick 
+#> dimensions  : 736, 548, 403328, 3  (nrow, ncol, ncell, nlayers)
+#> resolution  : 2445.985, 2445.985  (x, y)
+#> extent      : 18533228, 19873627, -5845904, -4045659  (xmin, xmax, ymin, ymax)
+#> coord. ref. : +proj=merc +a=6378137 +b=6378137 
+#> data source : in memory
+#> names       : layer.1, layer.2, layer.3 
+#> min values  :       0,       4,       0 
+#> max values  :     255,     255,     255
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
-
-``` r
-raster::plotRGB(im2)
-```
-
-<img src="man/figures/README-unnamed-chunk-4-2.png" width="100%" />
-
-``` r
-## objects with different projections can also be used
-plux <- sp::spTransform(lux, "+proj=laea +lon_0=5")
-im3 <- cc_location(plux)  ## same as im1
+im2
+#> class       : RasterBrick 
+#> dimensions  : 1470, 1095, 1609650, 3  (nrow, ncol, ncell, nlayers)
+#> resolution  : 1222.992, 1222.992  (x, y)
+#> extent      : 18534451, 19873627, -5844681, -4046882  (xmin, xmax, ymin, ymax)
+#> coord. ref. : +proj=merc +a=6378137 +b=6378137 
+#> data source : in memory
+#> names       : layer.1, layer.2, layer.3 
+#> min values  :       0,       5,       0 
+#> max values  :     255,     255,     255
 ```
 
 ## Installation
@@ -131,7 +175,6 @@ plotRGB(im)
 
 tiles <- ceramic_tiles(zoom = 6, type = "mapbox.satellite")
 library(sf)
-#> Linking to GEOS 3.7.0, GDAL 2.4.0, PROJ 5.2.0
 plot(st_geometry(ceramic:::tiles_to_polygon(tiles)), add = TRUE)
 middle <- function(x, y) {
   x + (y - x)/2
@@ -156,20 +199,20 @@ tiles.
 ``` r
 aa <- cc_location(loc = cbind(0, 0), buffer = 330000, type = "mapbox.satellite")
 ceramic_tiles(zoom = 7, type = "mapbox.satellite")
-#> # A tibble: 25 x 11
+#> # A tibble: 60 x 11
 #>    tile_x tile_y  zoom type  version source
 #>     <int>  <int> <int> <chr> <chr>   <chr> 
-#>  1     34     50     7 mapb… v4      api.m…
-#>  2     34     51     7 mapb… v4      api.m…
-#>  3     35     50     7 mapb… v4      api.m…
-#>  4     35     51     7 mapb… v4      api.m…
-#>  5     36     50     7 mapb… v4      api.m…
-#>  6     36     51     7 mapb… v4      api.m…
-#>  7     37     50     7 mapb… v4      api.m…
-#>  8     37     51     7 mapb… v4      api.m…
-#>  9     62     62     7 mapb… v4      api.m…
-#> 10     62     63     7 mapb… v4      api.m…
-#> # … with 15 more rows, and 5 more variables: fullname <fs::path>,
+#>  1    123     76     7 mapb… v4      api.m…
+#>  2    123     77     7 mapb… v4      api.m…
+#>  3    123     78     7 mapb… v4      api.m…
+#>  4    123     79     7 mapb… v4      api.m…
+#>  5    123     80     7 mapb… v4      api.m…
+#>  6    123     81     7 mapb… v4      api.m…
+#>  7    123     82     7 mapb… v4      api.m…
+#>  8    124     76     7 mapb… v4      api.m…
+#>  9    124     77     7 mapb… v4      api.m…
+#> 10    124     78     7 mapb… v4      api.m…
+#> # … with 50 more rows, and 5 more variables: fullname <fs::path>,
 #> #   xmin <dbl>, xmax <dbl>, ymin <dbl>, ymax <dbl>
 ```
 
@@ -182,38 +225,38 @@ ceramic_tiles(zoom = 7, type = "mapbox.satellite") %>%
   purrr::map(~raster::extent(unlist(.x[c("xmin", "xmax", "ymin", "ymax")])))
 #> [[1]]
 #> class       : Extent 
-#> xmin        : -9392582 
-#> xmax        : -9079496 
-#> ymin        : 4070119 
-#> ymax        : 4383205 
+#> xmin        : 18472078 
+#> xmax        : 18785164 
+#> ymin        : -4070119 
+#> ymax        : -3757033 
 #> 
 #> [[2]]
 #> class       : Extent 
-#> xmin        : -9392582 
-#> xmax        : -9079496 
-#> ymin        : 3757033 
-#> ymax        : 4070119 
+#> xmin        : 18472078 
+#> xmax        : 18785164 
+#> ymin        : -4383205 
+#> ymax        : -4070119 
 #> 
 #> [[3]]
 #> class       : Extent 
-#> xmin        : -9079496 
-#> xmax        : -8766410 
-#> ymin        : 4070119 
-#> ymax        : 4383205 
+#> xmin        : 18472078 
+#> xmax        : 18785164 
+#> ymin        : -4696291 
+#> ymax        : -4383205 
 #> 
 #> [[4]]
 #> class       : Extent 
-#> xmin        : -9079496 
-#> xmax        : -8766410 
-#> ymin        : 3757033 
-#> ymax        : 4070119 
+#> xmin        : 18472078 
+#> xmax        : 18785164 
+#> ymin        : -5009377 
+#> ymax        : -4696291 
 #> 
 #> [[5]]
 #> class       : Extent 
-#> xmin        : -8766410 
-#> xmax        : -8453324 
-#> ymin        : 4070119 
-#> ymax        : 4383205
+#> xmin        : 18472078 
+#> xmax        : 18785164 
+#> ymin        : -5322463 
+#> ymax        : -5009377
 ```
 
 Another example
