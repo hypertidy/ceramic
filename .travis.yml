@@ -4,6 +4,12 @@ language: R
 sudo: required
 cache: packages
 
+addons:
+  apt:
+    sources:
+      - sourceline: 'ppa:ubuntugis/ubuntugis-unstable'
+    packages:
+      - libproj-dev
 
 matrix:
     include:

@@ -18,7 +18,7 @@ cache:
 
 environment:
   USE_RTOOLS: true
-  MAPBOX_API_KEY: "pk.eyJ1IjoibWRzdW1uZXIiLCJhIjoiY2p0bDI1aGY1MTRiNDQ0bWR2djh4dzgxOSJ9.zPM71aZwRWHc9U5kvDQDIA"
+  MAPBOX_API_KEY: pk.eyJ1IjoibWRzdW1uZXIiLCJhIjoiY2p0bDI1aGY1MTRiNDQ0bWR2djh4dzgxOSJ9.zPM71aZwRWHc9U5kvDQDIA
 
 build_script:
   - travis-tool.sh install_deps
