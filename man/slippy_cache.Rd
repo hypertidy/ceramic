@@ -10,7 +10,7 @@ slippy_cache()
 character value of location of cache
 }
 \description{
-File system location where ceramice stores its cache.
+File system location where ceramic stores its cache.
 }
 \examples{
 slippy_cache()

@@ -153,7 +153,7 @@ tile_zoom <- function(x) {
 
 #' Ceramic file cache
 #'
-#' File system location where ceramice stores its cache.
+#' File system location where ceramic stores its cache.
 #' @return character value of location of cache
 #' @export
 #' @examples

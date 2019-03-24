@@ -6,7 +6,16 @@ ex <- raster::extent(rep(rpt, each = 2L) + c(-2, 2, -3, 3))
 test_that("raw loc works", {
   cc_location(rpt)
   cc_location(rpt, buffer = 1e5)
+  cc_location(rpt, buffer = c(10, 0))
 
+  ## too many values, assumes first 2
+  expect_warning(cc_location(c(rpt, 10)))
+  ## flat vector ok
+  expect_silent(cc_location(c(rpt)))
+  expect_error(cc_location(raster::extent(-1e6, 1000, 0, 300000)))
+
+  expect_warning(cc_location(cbind(0, 0), buffer = 1e8),
+                 "The combination of buffer and location extends beyond the tile grid extent. The buffer will be truncated.")
   ## TODO out of range lonlat
 })
 
