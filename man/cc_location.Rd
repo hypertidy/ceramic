@@ -9,7 +9,7 @@
 \alias{cc_casey}
 \alias{cc_heard}
 \alias{cc_kingston}
-\title{Miscellaneous places}
+\title{Mapbox imagery by location query}
 \usage{
 cc_location(loc = NULL, buffer = 5000, type = "mapbox.satellite",
   ..., zoom = NULL, max_tiles = NULL, debug = FALSE)
@@ -60,7 +60,11 @@ cc_elevation(loc = NULL, buffer = 5000, ..., zoom = NULL,
 RasterBrick, with RGB
 }
 \description{
-Visit some nice locales with web tiles.
+Obtain Mapbox imagery or elevation data by location query. The first argument
+`loc` may be a spatial object (sp, raster, sf) or a 2-column matrix with a single
+longitude and latitude value. Use `buffer` to define a width and height to pad
+around the raw longitude and latitude in metres. If `loc` has an extent, then
+`buffer` is ignored.
 }
 \details{
 `cc_elevation` does extra work to unpack the DEM tiles from the RGB format.

@@ -1,8 +1,12 @@
 
 
-#' Miscellaneous places
+#' Mapbox imagery by location query
 #'
-#' Visit some nice locales with web tiles.
+#' Obtain Mapbox imagery or elevation data by location query. The first argument
+#' `loc` may be a spatial object (sp, raster, sf) or a 2-column matrix with a single
+#' longitude and latitude value. Use `buffer` to define a width and height to pad
+#' around the raw longitude and latitude in metres. If `loc` has an extent, then
+#' `buffer` is ignored.
 #'
 #' `cc_elevation` does extra work to unpack the DEM tiles from the RGB format.
 #'
