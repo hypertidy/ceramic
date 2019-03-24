@@ -6,8 +6,7 @@ editor_options:
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-
-[![Travis-CI Build Status](https://travis-ci.org/hypertidy/ceramic.svg?branch=master)](https://travis-ci.org/hypertidy/ceramic) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/slut5jxc9lta8pml/branch/master?svg=true)](https://ci.appveyor.com/project/mdsumner/ceramic)  [![Coverage status](https://codecov.io/gh/hypertidy/ceramic/branch/master/graph/badge.svg)](https://codecov.io/github/hypertidy/ceramic?branch=master) [![CRAN status](https://www.r-pkg.org/badges/version/ceramic)](https://cran.r-project.org/package=ceramic)[![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/ceramic)](https://cran.r-project.org/package=ceramic)
+  [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)[![Travis-CI Build Status](https://travis-ci.org/hypertidy/ceramic.svg?branch=master)](https://travis-ci.org/hypertidy/ceramic) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/slut5jxc9lta8pml/branch/master?svg=true)](https://ci.appveyor.com/project/mdsumner/ceramic)  [![Coverage status](https://codecov.io/gh/hypertidy/ceramic/branch/master/graph/badge.svg)](https://codecov.io/github/hypertidy/ceramic?branch=master) [![CRAN status](https://www.r-pkg.org/badges/version/ceramic)](https://cran.r-project.org/package=ceramic)[![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/ceramic)](https://cran.r-project.org/package=ceramic)
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
@@ -19,17 +18,57 @@ knitr::opts_chunk$set(
 ```
 # ceramic
 
-The goal of ceramic is to obtain web map tiles for later re-use. Many tools for imagery services treat the imagery as transient, but here we take control over the raw data itself. 
+The goal of ceramic is to obtain web map tiles from Mapbox. Use a spatial object to define the region of interest. 
 
 
-# Goals
+```{r}
+library(ceramic)
+roi <- raster::extent(100, 160, -50, 10)
+(im <- cc_location(roi))
 
-Very much WIP. 
+raster::plotRGB(im)
+```
 
-* control download of raw tiles (we have this!)
-* allow lazy read access to tile caches
-* generalize across providers
-* provide interactive means to build access to imagery
+
+We can use raster, sp, or sf objects to define an extent. This provides a very easy way to obtain imagery or elevation data for any almost any region using our own data. 
+
+```{r, eval=FALSE, include = FALSE}
+north_carolina <- sf::read_sf(system.file("gpkg/nc.gpkg", package = "sf", mustWork = TRUE))
+nc_image <- cc_location(north_carolina)
+
+rowan_dem <- cc_elevation(dplyr::filter(north_carolina, NAME == "Rowan"))
+nc_contour <- raster::rasterToContour(raster::focal(cc_elevation(north_carolina), matrix(1, 3, 3)), levels = pretty(values(rowan_dem)))
+```
+
+```{r, eval=FALSE, include = FALSE}
+op <- par(mfrow = c(2, 1))
+raster::plotRGB(nc_image)
+plot(nc_contour, add = TRUE, col = "white")
+plot(raster::extent(rowan_dem), add = TRUE, col = "firebrick", lwd = 3)
+plot(rowan_dem, col = grey(seq(0, 1, length = 26)), add = TRUE, legend = FALSE)
+plot(rowan_dem, col = grey(seq(0, 1, length = 26)), add = TRUE, legend = FALSE)
+box(col= "white")
+par(op)
+```
+
+
+
+Use `max_tiles` or `zoom` to increase or decrease resolution. 
+
+```{r}
+lux <- spex::lux
+
+im1 <- cc_location(lux, debug = TRUE)
+im2 <- cc_location(raster::raster(lux), zoom = 7)
+raster::plotRGB(im1); sp::plot(sp::spTransform(lux, raster::projection(im1)), add = TRUE, border = "white")
+raster::plotRGB(im2)
+## objects with different projections can also be used
+plux <- sp::spTransform(lux, "+proj=laea +lon_0=5")
+im3 <- cc_location(plux)  ## same as im1
+
+```
+
+
 
 
 ## Installation
@@ -78,22 +117,12 @@ text(middle(tiles$xmin, tiles$xmax), middle(tiles$ymin, tiles$ymax), lab = sprin
 ```
 
 
-## Input a spatial object
 
-We can use raster, sp, or sf objects to define an extent. Use `max_tiles` or `zoom` to increase or decrease resolution. 
 
-```{r}
-lux <- spex::lux
 
-im1 <- cc_location(lux, debug = TRUE)
-im2 <- cc_location(raster(lux), zoom = 7)
-plotRGB(im1); plot(sp::spTransform(lux, projection(im1)), add = TRUE, border = "white")
-plotRGB(im2)
-## objects with different projections can also be used
-plux <- sp::spTransform(lux, "+proj=laea +lon_0=5")
-im3 <- cc_location(plux)  ## same as im1
+## Local caching of tiles
 
-```
+A key feature of ceramic is *caching*, all data is downloaded in a systematic way that is suitable for later re-use. Many tools for imagery services treat the imagery as transient, but here we take control over the raw data itself. All file names match exactly the address URL of the original source data. 
 
 There is a helper function to find existing tiles. 
 
@@ -195,6 +224,16 @@ plot(dem, col = grey(seq(0.2, 1, length.out =  7)))
 #shade3d(qm); rglwidget()
 
 ```
+
+# Future improvements
+
+
+* control download of raw tiles (we have this!)
+* allow lazy read access to tile caches
+* generalize across providers
+* provide interactive means to build access to imagery
+
+
 
 Please note that the 'ceramic' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 

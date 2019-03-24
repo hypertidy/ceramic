@@ -1,7 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-[![Travis-CI Build
+[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)[![Travis-CI
+Build
 Status](https://travis-ci.org/hypertidy/ceramic.svg?branch=master)](https://travis-ci.org/hypertidy/ceramic)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/slut5jxc9lta8pml/branch/master?svg=true)](https://ci.appveyor.com/project/mdsumner/ceramic)
@@ -12,18 +13,69 @@ status](https://www.r-pkg.org/badges/version/ceramic)](https://cran.r-project.or
 
 # ceramic
 
-The goal of ceramic is to obtain web map tiles for later re-use. Many
-tools for imagery services treat the imagery as transient, but here we
-take control over the raw data itself.
+The goal of ceramic is to obtain web map tiles from Mapbox. Use a
+spatial object to define the region of interest.
 
-# Goals
+``` r
+library(ceramic)
+roi <- raster::extent(100, 160, -50, 10)
+(im <- cc_location(roi))
+#> Warning in raster::couldBeLonLat(loc): CRS is NA. Assuming it is longitude/
+#> latitude
+#> class       : RasterBrick 
+#> dimensions  : 774, 684, 529416, 3  (nrow, ncol, ncell, nlayers)
+#> resolution  : 9783.94, 9783.94  (x, y)
+#> extent      : 11124339, 17816554, -6056259, 1516511  (xmin, xmax, ymin, ymax)
+#> coord. ref. : +proj=merc +a=6378137 +b=6378137 
+#> data source : in memory
+#> names       : layer.1, layer.2, layer.3 
+#> min values  :       0,       0,       0 
+#> max values  :     255,     253,     227
 
-Very much WIP.
+raster::plotRGB(im)
+```
 
-  - control download of raw tiles (we have this\!)
-  - allow lazy read access to tile caches
-  - generalize across providers
-  - provide interactive means to build access to imagery
+<img src="man/figures/README-unnamed-chunk-1-1.png" width="100%" />
+
+We can use raster, sp, or sf objects to define an extent. This provides
+a very easy way to obtain imagery or elevation data for any almost any
+region using our own data.
+
+Use `max_tiles` or `zoom` to increase or decrease resolution.
+
+``` r
+lux <- spex::lux
+
+im1 <- cc_location(lux, debug = TRUE)
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/528/346.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/529/346.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/530/346.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/528/347.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/529/347.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/530/347.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/528/348.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/529/348.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/530/348.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/528/349.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/529/349.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/530/349.jpg"
+im2 <- cc_location(raster::raster(lux), zoom = 7)
+raster::plotRGB(im1); sp::plot(sp::spTransform(lux, raster::projection(im1)), add = TRUE, border = "white")
+```
+
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+
+``` r
+raster::plotRGB(im2)
+```
+
+<img src="man/figures/README-unnamed-chunk-4-2.png" width="100%" />
+
+``` r
+## objects with different projections can also be used
+plux <- sp::spTransform(lux, "+proj=laea +lon_0=5")
+im3 <- cc_location(plux)  ## same as im1
+```
 
 ## Installation
 
@@ -90,44 +142,13 @@ text(middle(tiles$xmin, tiles$xmax), middle(tiles$ymin, tiles$ymax), lab = sprin
 
 <img src="man/figures/README-example-1.png" width="100%" />
 
-## Input a spatial object
+## Local caching of tiles
 
-We can use raster, sp, or sf objects to define an extent. Use
-`max_tiles` or `zoom` to increase or decrease resolution.
-
-``` r
-lux <- spex::lux
-
-im1 <- cc_location(lux, debug = TRUE)
-#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/528/346.jpg"
-#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/529/346.jpg"
-#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/530/346.jpg"
-#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/528/347.jpg"
-#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/529/347.jpg"
-#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/530/347.jpg"
-#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/528/348.jpg"
-#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/529/348.jpg"
-#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/530/348.jpg"
-#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/528/349.jpg"
-#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/529/349.jpg"
-#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/10/530/349.jpg"
-im2 <- cc_location(raster(lux), zoom = 7)
-plotRGB(im1); plot(sp::spTransform(lux, projection(im1)), add = TRUE, border = "white")
-```
-
-<img src="man/figures/README-unnamed-chunk-1-1.png" width="100%" />
-
-``` r
-plotRGB(im2)
-```
-
-<img src="man/figures/README-unnamed-chunk-1-2.png" width="100%" />
-
-``` r
-## objects with different projections can also be used
-plux <- sp::spTransform(lux, "+proj=laea +lon_0=5")
-im3 <- cc_location(plux)  ## same as im1
-```
+A key feature of ceramic is *caching*, all data is downloaded in a
+systematic way that is suitable for later re-use. Many tools for imagery
+services treat the imagery as transient, but here we take control over
+the raw data itself. All file names match exactly the address URL of the
+original source data.
 
 There is a helper function to find existing
 tiles.
@@ -135,28 +156,21 @@ tiles.
 ``` r
 aa <- cc_location(loc = cbind(0, 0), buffer = 330000, type = "mapbox.satellite")
 ceramic_tiles(zoom = 7, type = "mapbox.satellite")
-#> # A tibble: 17 x 11
+#> # A tibble: 25 x 11
 #>    tile_x tile_y  zoom type  version source
 #>     <int>  <int> <int> <chr> <chr>   <chr> 
-#>  1     62     62     7 mapb… v4      api.m…
-#>  2     62     63     7 mapb… v4      api.m…
-#>  3     62     64     7 mapb… v4      api.m…
-#>  4     62     65     7 mapb… v4      api.m…
-#>  5     63     62     7 mapb… v4      api.m…
-#>  6     63     63     7 mapb… v4      api.m…
-#>  7     63     64     7 mapb… v4      api.m…
-#>  8     63     65     7 mapb… v4      api.m…
-#>  9     64     62     7 mapb… v4      api.m…
-#> 10     64     63     7 mapb… v4      api.m…
-#> 11     64     64     7 mapb… v4      api.m…
-#> 12     64     65     7 mapb… v4      api.m…
-#> 13     65     62     7 mapb… v4      api.m…
-#> 14     65     63     7 mapb… v4      api.m…
-#> 15     65     64     7 mapb… v4      api.m…
-#> 16     65     65     7 mapb… v4      api.m…
-#> 17     66     43     7 mapb… v4      api.m…
-#> # … with 5 more variables: fullname <fs::path>, xmin <dbl>, xmax <dbl>,
-#> #   ymin <dbl>, ymax <dbl>
+#>  1     34     50     7 mapb… v4      api.m…
+#>  2     34     51     7 mapb… v4      api.m…
+#>  3     35     50     7 mapb… v4      api.m…
+#>  4     35     51     7 mapb… v4      api.m…
+#>  5     36     50     7 mapb… v4      api.m…
+#>  6     36     51     7 mapb… v4      api.m…
+#>  7     37     50     7 mapb… v4      api.m…
+#>  8     37     51     7 mapb… v4      api.m…
+#>  9     62     62     7 mapb… v4      api.m…
+#> 10     62     63     7 mapb… v4      api.m…
+#> # … with 15 more rows, and 5 more variables: fullname <fs::path>,
+#> #   xmin <dbl>, xmax <dbl>, ymin <dbl>, ymax <dbl>
 ```
 
 and every row has the extent values useable directly by raster:
@@ -168,38 +182,38 @@ ceramic_tiles(zoom = 7, type = "mapbox.satellite") %>%
   purrr::map(~raster::extent(unlist(.x[c("xmin", "xmax", "ymin", "ymax")])))
 #> [[1]]
 #> class       : Extent 
-#> xmin        : -626172.1 
-#> xmax        : -313086.1 
-#> ymin        : 313086.1 
-#> ymax        : 626172.1 
+#> xmin        : -9392582 
+#> xmax        : -9079496 
+#> ymin        : 4070119 
+#> ymax        : 4383205 
 #> 
 #> [[2]]
 #> class       : Extent 
-#> xmin        : -626172.1 
-#> xmax        : -313086.1 
-#> ymin        : 0 
-#> ymax        : 313086.1 
+#> xmin        : -9392582 
+#> xmax        : -9079496 
+#> ymin        : 3757033 
+#> ymax        : 4070119 
 #> 
 #> [[3]]
 #> class       : Extent 
-#> xmin        : -626172.1 
-#> xmax        : -313086.1 
-#> ymin        : -313086.1 
-#> ymax        : 0 
+#> xmin        : -9079496 
+#> xmax        : -8766410 
+#> ymin        : 4070119 
+#> ymax        : 4383205 
 #> 
 #> [[4]]
 #> class       : Extent 
-#> xmin        : -626172.1 
-#> xmax        : -313086.1 
-#> ymin        : -626172.1 
-#> ymax        : -313086.1 
+#> xmin        : -9079496 
+#> xmax        : -8766410 
+#> ymin        : 3757033 
+#> ymax        : 4070119 
 #> 
 #> [[5]]
 #> class       : Extent 
-#> xmin        : -313086.1 
-#> xmax        : 0 
-#> ymin        : 313086.1 
-#> ymax        : 626172.1
+#> xmin        : -8766410 
+#> xmax        : -8453324 
+#> ymin        : 4070119 
+#> ymax        : 4383205
 ```
 
 Another example
@@ -291,6 +305,13 @@ plot(dem, col = grey(seq(0.2, 1, length.out =  7)))
 #library(rgl)
 #shade3d(qm); rglwidget()
 ```
+
+# Future improvements
+
+  - control download of raw tiles (we have this\!)
+  - allow lazy read access to tile caches
+  - generalize across providers
+  - provide interactive means to build access to imagery
 
 Please note that the ‘ceramic’ project is released with a [Contributor
 Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,
