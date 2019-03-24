@@ -8,8 +8,8 @@ test_that("caching is sensible", {
 
   ## clobber the cache
   if (identical(Sys.getenv("TRAVIS"), "true")) {
-  clear_ceramic_cache(clobber = TRUE)
-  f2 <- fs::dir_ls(slippy_cache(), recursive = TRUE)
-  expect_length(f2, 0L)
+    clear_ceramic_cache(clobber = TRUE)
+    f2 <- fs::dir_ls(slippy_cache(), recursive = TRUE)
+    expect_length(f2, 0L)
   }
 })
