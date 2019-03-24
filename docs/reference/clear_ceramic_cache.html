@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Pipe operator — %&gt;% • ceramic</title>
+<title>Clear ceramic cache — clear_ceramic_cache • ceramic</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Pipe operator — %&gt;%" />
+<meta property="og:title" content="Clear ceramic cache — clear_ceramic_cache" />
 
-<meta property="og:description" content="See magrittr::%&amp;gt;% for details." />
+<meta property="og:description" content="Delete all downloaded files in the [slippy_cache()]." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -102,25 +102,45 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Pipe operator</h1>
-    <small class="dont-index">Source: <a href='https://github.com/hypertidy/ceramic/blob/master/R/utils-pipe.R'><code>R/utils-pipe.R</code></a></small>
-    <div class="hidden name"><code>pipe.Rd</code></div>
+    <h1>Clear ceramic cache</h1>
+    <small class="dont-index">Source: <a href='https://github.com/hypertidy/ceramic/blob/master/R/cache.R'><code>R/cache.R</code></a></small>
+    <div class="hidden name"><code>clear_ceramic_cache.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>See <code>magrittr::%&gt;%</code> for details.</p>
+    <p>Delete all downloaded files in the [slippy_cache()].</p>
     
     </div>
 
-    <pre class="usage"><span class='no'>lhs</span> <span class='kw'>%&gt;%</span> <span class='no'>rhs</span></pre>
-        
+    <pre class="usage"><span class='fu'>clear_ceramic_cache</span>(<span class='kw'>clobber</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>clobber</th>
+      <td><p>set to `TRUE` to avoid checks and delete files</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>reserved for future arguments, currently ignored</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>this function is called for its side effect, but also returns the file list invisibly whether deleted or not, or NULL if the user cancels.</p>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-                </ul>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+          </ul>
 
   </div>
 </div>

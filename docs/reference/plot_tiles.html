@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Pipe operator — %&gt;% • ceramic</title>
+<title>Plot slippy map tiles — plot_tiles • ceramic</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,11 @@
 
 
 
-<meta property="og:title" content="Pipe operator — %&gt;%" />
+<meta property="og:title" content="Plot slippy map tiles — plot_tiles" />
 
-<meta property="og:description" content="See magrittr::%&amp;gt;% for details." />
+<meta property="og:description" content="Create a new plot of tile rectangles, or add to an existing plot. The extent
+('xmin', 'xmax', 'ymin', 'ymax') is used directly to draw the tiles so must be in the
+native Mercator coordinate system used by most tile servers." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -102,24 +104,63 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Pipe operator</h1>
-    <small class="dont-index">Source: <a href='https://github.com/hypertidy/ceramic/blob/master/R/utils-pipe.R'><code>R/utils-pipe.R</code></a></small>
-    <div class="hidden name"><code>pipe.Rd</code></div>
+    <h1>Plot slippy map tiles</h1>
+    <small class="dont-index">Source: <a href='https://github.com/hypertidy/ceramic/blob/master/R/georeference.R'><code>R/georeference.R</code></a></small>
+    <div class="hidden name"><code>plot_tiles.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>See <code>magrittr::%&gt;%</code> for details.</p>
+    <p>Create a new plot of tile rectangles, or add to an existing plot. The extent
+('xmin', 'xmax', 'ymin', 'ymax') is used directly to draw the tiles so must be in the
+native Mercator coordinate system used by most tile servers.</p>
     
     </div>
 
-    <pre class="usage"><span class='no'>lhs</span> <span class='kw'>%&gt;%</span> <span class='no'>rhs</span></pre>
-        
+    <pre class="usage"><span class='fu'>plot_tiles</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>cex</span> <span class='kw'>=</span> <span class='fl'>0.6</span>,
+  <span class='kw'>add_coast</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>include_zoom</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='fu'>tiles_to_polygon</span>(<span class='no'>x</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>tiles as create by `ceramic_tiles()`</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>arguments passed to `graphics::rect()`</p></td>
+    </tr>
+    <tr>
+      <th>add</th>
+      <td><p>add to an existing plot?</p></td>
+    </tr>
+    <tr>
+      <th>label</th>
+      <td><p>include text label?</p></td>
+    </tr>
+    <tr>
+      <th>cex</th>
+      <td><p>relative size of text label if drawn (see `text()`)</p></td>
+    </tr>
+    <tr>
+      <th>add_coast</th>
+      <td><p>include a basic coastline on the plot?</p></td>
+    </tr>
+    <tr>
+      <th>include_zoom</th>
+      <td><p>include zoom level with text label if drawn?</p></td>
+    </tr>
+    </table>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
                 </ul>
 
   </div>
