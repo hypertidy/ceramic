@@ -9,7 +9,7 @@
 \alias{cc_casey}
 \alias{cc_heard}
 \alias{cc_kingston}
-\title{Mapbox imagery by location query}
+\title{Obtain tiled imagery by location query}
 \usage{
 cc_location(loc = NULL, buffer = 5000, type = "mapbox.satellite",
   ..., zoom = NULL, max_tiles = NULL, debug = FALSE)
@@ -34,7 +34,7 @@ cc_heard(loc = c(73 + 30/60 + 30/3600, -(53 + 0 + 0/3600)),
   buffer = 5000, type = "mapbox.outdoors", ..., zoom = NULL,
   max_tiles = NULL, debug = FALSE)
 
-cc_kingston(loc = c(-147.70837, -42.98682), buffer = 5000,
+cc_kingston(loc = c(147.70837, -42.98682), buffer = 5000,
   type = "mapbox.outdoors", ..., zoom = NULL, max_tiles = NULL,
   debug = FALSE)
 
@@ -46,7 +46,7 @@ cc_elevation(loc = NULL, buffer = 5000, ..., zoom = NULL,
 
 \item{buffer}{with in metres to extend around the location, ignored if 'loc' is a spatial object with extent}
 
-\item{type}{character string of Mapbox service (see Details)}
+\item{type}{character string of provider imagery type (see Details)}
 
 \item{...}{arguments passed to internal function, specifically `base_url` (see Details)}
 
@@ -60,7 +60,7 @@ cc_elevation(loc = NULL, buffer = 5000, ..., zoom = NULL,
 RasterBrick, with RGB
 }
 \description{
-Obtain Mapbox imagery or elevation data by location query. The first argument
+Obtain imagery or elevation data by location query. The first argument
 `loc` may be a spatial object (sp, raster, sf) or a 2-column matrix with a single
 longitude and latitude value. Use `buffer` to define a width and height to pad
 around the raw longitude and latitude in metres. If `loc` has an extent, then
@@ -69,8 +69,8 @@ around the raw longitude and latitude in metres. If `loc` has an extent, then
 \details{
 `cc_elevation` does extra work to unpack the DEM tiles from the RGB format.
 
-Available types are 'mapbox.satellite', 'mapbox.outdoors', 'mapbox.terrain-rgb' but any string
-accepted by Mapbox services will be passed through.
+Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
+'mapbox.outdoors', 'mapbox.terrain-rgb'or any string accepted by Mapbox services.
 
 Note that arguments `max_tiles` and `zoom` are mutually exclusive. One or both must be `NULL`. If
 both are NULL then `max_tiles = 16L`.
@@ -81,11 +81,13 @@ both are NULL then `max_tiles = 16L`.
 Custom Mapbox styles may be specified with the argument `base_url` in the form:
 `"https://api.mapbox.com/styles/v1/mdsumner/cjs6yn9hu0coo1fqhdqgw3o18/tiles/512/{zoom}/{x}/{y}"`
 
-
 Currently must be considered in-development.
 }
 
 \examples{
+dem <- cc_kingston(buffer = 1e5, type = "elevation-tiles-prod")
+plot(dem, col = grey(seq(0, 1, length = 94)))
+
 ## requres Mapbox key set in env var 'MAPBOX_API_KEY'
 \dontrun{
 im <- cc_macquarie()

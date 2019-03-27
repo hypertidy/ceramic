@@ -39,11 +39,6 @@ clear_ceramic_cache <- function(clobber = FALSE, ...){
 #' @param debug simple debugging info printed if `TRUE`
 #' @return WIP
 #' @export
-#'
-#' @examples
-#' mapbox_query_string <- paste0("https://api.mapbox.com/v4/mapbox.satellite/{zoom}/{x}/{y}.jpg",
-#' "?access_token=",
-#' Sys.getenv("MAPBOX_API_KEY"))
 #' @importFrom curl curl_download
 #' @importFrom fs dir_exists dir_create file_info
 #' @importFrom glue glue

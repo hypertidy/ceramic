@@ -19,5 +19,5 @@ mercator_tile_extent(tile_x, tile_y, zoom, tile_size = 256)
 Calculate tile extent for a given x, y tile at a zoom level.
 }
 \details{
-Currently only Mapbox spherical Mercator is supported.
+Currently only spherical Mercator is supported.
 }

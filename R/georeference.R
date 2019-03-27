@@ -12,7 +12,7 @@ spherical_mercator <- function(provider) {
 #'
 #' Calculate tile extent for a given x, y tile at a zoom level.
 #'
-#' Currently only Mapbox spherical Mercator is supported.
+#' Currently only spherical Mercator is supported.
 #'
 #' @param tile_x x coordinate of tile
 #'
