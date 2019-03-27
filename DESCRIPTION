@@ -38,6 +38,7 @@ Imports:
 Suggests: 
     testthat,
     covr,
+    rgdal,
     spelling
 URL: https://github.com/hypertidy/ceramic
 BugReports: https://github.com/hypertidy/ceramic/issues

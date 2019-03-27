@@ -20,6 +20,9 @@ raster_brick <- function(x) {
   out <- NULL
   if (find_format(x) == "tif") {
     ## jump out now
+    if (!requireNamespace("rgdal", quietly = TRUE)) {
+      stop(sprintf("rgdal is required (by raster) for reading GeoTIFF files: %s", x))
+    }
     out <-  raster::brick(x)
     return(raster::setExtent(out, raster::extent(0, nrow(out), 0, ncol(out))))
   }
