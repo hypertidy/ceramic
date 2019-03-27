@@ -16,12 +16,15 @@ instruct_on_key_creation <- function() {
   cat(sprintf("To set your Mapbox API key obtain a key from %s\n", token_url()))
   cat(sprintf("Run 'Sys.setenv(MAPBOX_API_KEY=<yourkey>)'\n"))
 }
-get_api_key <- function(...) {
-  key <- Sys.getenv("MAPBOX_API_KEY")
+get_api_key <- function(api = "mapbox", ...) {
+  key <- ""
+  if (api == "mapbox") {
+   key <- Sys.getenv("MAPBOX_API_KEY")
 
-  if (is.null(key) || nchar(key) < 1) {
+   if (is.null(key) || nchar(key) < 1) {
     instruct_on_key_creation()
     stop("no mapbox key found")
+   }
   }
  key
 }
