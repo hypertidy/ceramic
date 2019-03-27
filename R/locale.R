@@ -37,7 +37,7 @@
 #' @aliases cc_elevation
 #' @examples
 #' dem <- cc_kingston(buffer = 1e5, type = "elevation-tiles-prod")
-#' plot(dem, col = grey(seq(0, 1, length = 94)))
+#' raster::plot(dem, col = grey(seq(0, 1, length = 94)))
 #'
 #' ## requres Mapbox key set in env var 'MAPBOX_API_KEY'
 #' \dontrun{
