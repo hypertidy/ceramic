@@ -53,6 +53,7 @@ down_loader <- function(x, query_string, clobber = FALSE, ..., debug = FALSE) {
   purrr::pmap(x$tiles,
               function(x, y, zoom){
                 api_query <- glue::glue(query_string)
+                browser()
                 outfile <- url_to_cache(api_query)
 
                 if (debug) {
