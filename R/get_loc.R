@@ -23,7 +23,7 @@ get_loc <- function(loc, buffer, type = "mapbox.satellite", crop_to_buffer = TRU
 
   if (is.null(base_url)) {
     provider <- provider_from_type(type)
-    if (is.null(provider)) stop("Provider for '%s' not known", type)
+    if (is.null(provider)) stop(sprintf("Provider for '%s' not known", type))
     query_string <- switch(provider,
                            mapbox = mapbox_string(type = type, format = format),
                            aws = aws_string())
