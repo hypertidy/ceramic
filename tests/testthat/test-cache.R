@@ -6,10 +6,11 @@ test_that("caching is sensible", {
   expect_s3_class(f <- ceramic_tiles(zoom = 13), "tbl_df")
   expect_true(nrow(f) > 40)
 
-  ## clobber the cache
-  if (identical(Sys.getenv("TRAVIS"), "true")) {
-    clear_ceramic_cache(clobber = TRUE)
-    f2 <- fs::dir_ls(slippy_cache(), recursive = TRUE)
-    expect_length(f2, 0L)
-  }
+  ## turn off temporarily
+  # ## clobber the cache
+  # if (identical(Sys.getenv("TRAVIS"), "true")) {
+  #   clear_ceramic_cache(clobber = TRUE)
+  #   f2 <- fs::dir_ls(slippy_cache(), recursive = TRUE)
+  #   expect_length(f2, 0L)
+  # }
 })

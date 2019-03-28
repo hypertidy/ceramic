@@ -1,11 +1,11 @@
 library(testthat)
 library(ceramic)
-## default public key  https://account.mapbox.com/access-tokens/
+##   https://account.mapbox.com/access-tokens/
 if (identical(Sys.getenv("APPVEYOR"), "True")) {
-  Sys.setenv(MAPBOX_API_KEY="pk.eyJ1IjoibWRzdW1uZXIiLCJhIjoiY2lleHM3dDk5MDBzbHM4bTM1bjkyY2kwayJ9.IrUihishnOa8w0JFXhXqZA")
+  #Sys.setenv(MAPBOX_API_KEY="pk.eyJ1IjoibWRzdW1uZXIiLCJhIjoiY2p0bDI1aGY1MTRiNDQ0bWR2djh4dzgxOSJ9.zPM71aZwRWHc9U5kvDQDIA")
   print(ceramic:::get_api_key())
 }
-  test_check("ceramic")
+test_check("ceramic")
 
 # if (identical(Sys.getenv("TRAVIS"), "true")) {
 #   clear_ceramic_cache(clobber = TRUE)
