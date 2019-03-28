@@ -10,6 +10,7 @@ addons:
       - sourceline: 'ppa:ubuntugis/ubuntugis-unstable'
     packages:
       - libproj-dev
+      - libgdal-dev
 
 matrix:
     include:

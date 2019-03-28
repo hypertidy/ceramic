@@ -1,199 +1,46 @@
-
-
-fast_merge <- function(x) {
-  ## about 3 times faster than reduce(, merge)
-  out <- raster::raster(purrr::reduce(purrr::map(x, raster::extent), raster::union), crs = raster::projection(x[[1]]))
-  raster::res(out) <- raster::res(x[[1]])
-  cells <- unlist(purrr::map(x, ~raster::cellsFromExtent(out, .x)))
-  vals <- do.call(rbind, purrr::map(x, ~raster::values(raster_readAll(.x))))
-  raster::setValues(raster::brick(out, out, out), vals[order(cells), ])
+provider_from_type <- function(type) {
+  if (grepl("mapbox", type)) return("mapbox")
+  if (grepl("elevation-tiles-prod", type)) return("aws")
+  NULL
 }
-
-token_url <- function(api = "mapbox") {
- switch(api, mapbox = "https://account.mapbox.com/access-tokens/", stop("api not known"))
-}
-instruct_on_key_creation <- function() {
-  cat(sprintf("To set your Mapbox API key obtain a key from %s\n", token_url()))
-  cat(sprintf("Run 'Sys.setenv(MAPBOX_API_KEY=<yourkey>)'\n"))
-}
-get_api_key <- function(...) {
-  key <- Sys.getenv("MAPBOX_API_KEY")
-
-  if (is.null(key) || nchar(key) < 1) {
-    instruct_on_key_creation()
-    stop("no mapbox key found")
-  }
- key
-}
-mk_query_string <- function(baseurl,
-                            type,
-                            tok = "", format = "jpg") {
-
-  paste0(sprintf("%s%s/{zoom}/{x}/{y}%s.%s", baseurl, type, tok, format),
-         "?access_token=",
-         get_api_key())
-}
-
-mk_query_string_custom <- function(baseurl) {
-  paste0(baseurl,
-         "?access_token=",
-         get_api_key())
-}
-
-
-is_spatial <- function(x) {
-  if (inherits(x, "Spatial") ||
-      inherits(x, "sf") ||
-      inherits(x, "sfc") ||
-      inherits(x, "BasicRaster") ||
-      inherits(x, "Extent")) {
-    return(TRUE)
-  }
-  FALSE
-}
-
-spex_to_pt <- function(x) {
-  pt <- cbind(mean(c(raster::xmax(x), raster::xmin(x))),
-        mean(c(raster::ymax(x), raster::ymin(x))))
-  srcproj <- raster::projection(x)
-  if (is.na(srcproj)) {
-    if (raster::couldBeLonLat(x, warnings = FALSE)) {
-      warning("loc CRS is not set, assuming longlat")
-      raster::projection(x) <- "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0 "
-    }
-  }
-
-  if (!raster::isLonLat(x)) {
-    pt <- reproj::reproj(pt, "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0 ", source = raster::projection(x))[, 1:2, drop = FALSE]
-  }
-  pt
-}
-#' @importFrom stats approx
-project_spex <- function(x, crs) {
-  ex <- c(raster::xmin(x), raster::xmax(x), raster::ymin(x), raster::ymax(x))
-  idx <- c(1, 1, 2, 2, 1,
-           3, 4, 4, 3, 3)
-  xy <- matrix(ex[idx], ncol = 2L)
-  afun <- function(aa) stats::approx(seq_along(aa), aa, n = 180L)$y
-  srcproj <- raster::projection(x)
-  if (is.na(srcproj)) {
-    if (raster::couldBeLonLat(x, warnings = FALSE)) {
-      warning("loc CRS is not set, assuming longlat")
-      srcproj <- "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0 "
-    } else {
-      stop("loc CRS is not set, and does not seem to be longitude/latitude data")
-    }
-  }
-  raster::extent(reproj::reproj(cbind(afun(xy[,1L]), afun(xy[,2L])), target = crs, source = srcproj)[, 1:2])
-}
-spex_to_buff <- function(x) {
-  ex <- project_spex(x, "+proj=merc +a=6378137 +b=6378137")
-  c(raster::xmax(ex) - raster::xmin(ex),
-    raster::ymax(ex) - raster::ymin(ex))
-}
-get_loc <- function(loc, buffer, type = "mapbox.satellite", crop_to_buffer = TRUE, format = "jpg", ..., zoom = NULL, debug = debug, max_tiles = NULL,
-                    base_url = NULL) {
+get_loc <- function(loc, buffer, type = "mapbox.satellite", crop_to_buffer = TRUE,
+                    format = "jpg", ..., zoom = NULL, debug = FALSE, max_tiles = NULL, base_url = NULL) {
   if (!is.null(zoom)) max_tiles <- NULL
   if (!is.null(base_url)) {
     ## zap the type because input was a custom mapbox style (we assume)
     type <- ""
   }
 
- # browser()
-  if (is_spatial(loc)) {
-    ## turn loc into a longlat point
-    ## and a buffer
-    if (inherits(loc, "Extent")) {
-      if (!raster::couldBeLonLat(loc)) {
-        stop("raw extent 'loc' does not seem to be longitude/latitude (use object with CRS)")
-      }
-      spx <- spex::spex(loc, crs = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0")
-    } else {
-      spx <- spex::spex(loc)
-    }
-    loc <- spex_to_pt(spx)
-    buffer <- spex_to_buff(spx)/2
-  }
+  bbox_pair <- slippy_bbox(loc, buffer)
 
-  ## handle case where loc had either no width or no height
-  if (any(!buffer > 0)) {
-    # one of the values is gt 0
-    if (any(buffer > 0)) buffer <- rep(max(buffer, 2L))
-    if (all(!buffer > 0)) {
-      warning("input object has no width or height, using default buffer (5000m)")
-      buffer <- c(5000, 5000)
-    }
-  }
-  custom <- TRUE
-  if (is.null(base_url)) {
-    custom <- FALSE
-    base_url <-  "https://api.mapbox.com/v4/"
-  }
-  buffer <- rep(buffer, length.out = 2L)
-  if (length(loc) > 2) {
-    warning("'loc' should be a length-2 vector 'c(lon, lat)' or matrix 'cbind(lon, lat)'")
-  }
-  if (is.null(dim(loc))) {
-    loc <- matrix(loc[1:2], ncol = 2L)
-  }
+  my_bbox <- bbox_pair$tile_bbox
+  bb_points <- bbox_pair$user_points
 
-  ## convert loc to mercator meters
-  loc <- slippymath::lonlat_to_merc(loc)
-
-  xp <- buffer[1] ## buffer is meant to be from a central point, so a radius
-  yp <- buffer[2]
-
-  ## xmin, ymin
-  ## xmax, ymax
-  bb_points <- matrix(c(loc[1,1] - xp, loc[1,2] - yp, loc[1,1] + xp, loc[1,2] + yp), 2, 2, byrow = TRUE)
-
-  if (!slippymath::within_merc_extent(bb_points)){
-    warning("The combination of buffer and location extends beyond the tile grid extent. The buffer will be truncated.")
-    bb_points <- slippymath::merc_truncate(bb_points)
-  }
-
-  ## convert bb_points back to lonlat
-  bb_points_lonlat <- slippymath::merc_to_lonlat(bb_points)
-
-  my_bbox <- c(xmin = bb_points_lonlat[1,1], ymin = bb_points_lonlat[1,2],
-               xmax = bb_points_lonlat[2,1], ymax = bb_points_lonlat[2,2])
 
 
   tile_grid <- slippymath::bbox_to_tile_grid(my_bbox, max_tiles = max_tiles, zoom = zoom)
   zoom <- tile_grid$zoom
 
-  #slippymath::bbox_tile_query(my_bbox)
-
-  tok <- ""
-  if (type == "mapbox.terrain-rgb") {
-    format <- "png"
-    tok <- "@2x"
+  if (is.null(base_url)) {
+    provider <- provider_from_type(type)
+    if (is.null(provider)) stop(sprintf("Provider for '%s' not known", type))
+    query_string <- switch(provider,
+                           mapbox = mapbox_string(type = type, format = format),
+                           aws = aws_string())
+  } else {  ## handle custom
+    query_string <- mk_query_string_custom(baseurl = base_url)
   }
 
-  if (!custom) {
-    mapbox_query_string <- mk_query_string(baseurl = base_url, type = type, tok = tok, format = format)
-  } else {
-    mapbox_query_string <- mk_query_string_custom(baseurl = base_url)
-  }
 
-  files <- unlist(down_loader(tile_grid, mapbox_query_string, debug = debug))
+ files <- unlist(down_loader(tile_grid, query_string, debug = debug))
    bad <- file.info(files)$size < 35
   if (all(bad)) {
     mess <-paste(files, collapse = "\n")
     stop(sprintf("no sensible tiles found, check cache?\n%s", mess))
   }
-# print(cbind(files, file.exists(files))[!bad, , drop = FALSE])
-  br <- lapply(files[!bad], raster_brick)
-
-  for (i in seq_along(br)) {
-    br[[i]] <- raster::setExtent(br[[i]],
-                                 mercator_tile_extent(tile_grid$tiles$x[i], tile_grid$tiles$y[i], zoom = zoom))
-  }
-
-  out <- fast_merge(br)
-  projection(out) <- "+proj=merc +a=6378137 +b=6378137"
-  if (crop_to_buffer) out <- raster::crop(out, raster::extent(as.vector(bb_points)), snap = "out")
-  out
+   user_x <- NULL
+  if (crop_to_buffer) user_ex <- raster::extent(as.vector(bb_points))
+  list(files = files[!bad], tiles = tile_grid, extent = user_ex)
 }
 
 
