@@ -3,6 +3,8 @@ provider_from_type <- function(type) {
   if (grepl("elevation-tiles-prod", type)) return("aws")
   NULL
 }
+
+
 get_loc <- function(loc, buffer, type = "mapbox.satellite", crop_to_buffer = TRUE,
                     format = "jpg", ..., zoom = NULL, debug = FALSE, max_tiles = NULL, base_url = NULL) {
   if (!is.null(zoom)) max_tiles <- NULL
@@ -15,7 +17,6 @@ get_loc <- function(loc, buffer, type = "mapbox.satellite", crop_to_buffer = TRU
 
   my_bbox <- bbox_pair$tile_bbox
   bb_points <- bbox_pair$user_points
-
 
 
   tile_grid <- slippymath::bbox_to_tile_grid(my_bbox, max_tiles = max_tiles, zoom = zoom)
