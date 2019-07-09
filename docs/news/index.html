@@ -60,7 +60,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ceramic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9001</span>
       </span>
     </div>
 
@@ -103,17 +103,22 @@
       <small>Source: <a href='https://github.com/hypertidy/ceramic/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="ceramic-0-1-0-9000" class="section level1">
+    <div id="ceramic-0109001" class="section level1">
 <h1 class="page-header">
-<a href="#ceramic-0-1-0-9000" class="anchor"></a>ceramic 0.1.0.9000</h1>
+<a href="#ceramic-0109001" class="anchor"></a>ceramic 0.1.0.9001</h1>
 <ul>
+<li><p>In <code>debug</code> mode the files are only printed, not downloaded. In this case the tile object is returned invisibly.</p></li>
+<li><p><code><a href="../reference/down_loader.html">down_loader()</a></code> and higher level functions that use it will report on the download task about to occur.</p></li>
+<li><p>Function <code><a href="../reference/get_tiles.html">get_tiles()</a></code> will happily download tiles for any source at any zoom for the entire world.</p></li>
+<li><p>Renamed internal <code>get_loc()</code> function to <code><a href="../reference/get_tiles.html">get_tiles()</a></code>.</p></li>
+<li><p>Imagery getter functions now accept <code>type = "elevation-tiles-prod"</code> for AWS terrain tiles.</p></li>
 <li><p>Function <code>cc_location</code>, <code>cc_elevation</code> and friends now allow <code>loc</code> input to be sf, raster, sp types in any projection.</p></li>
 <li><p>Function <code>cc_location</code> and <code>cc_elevation</code> and friends now allow input of either <code>max_tiles</code> or <code>zoom</code>.</p></li>
 </ul>
 </div>
-    <div id="ceramic-0-1-0" class="section level1">
+    <div id="ceramic-010" class="section level1">
 <h1 class="page-header">
-<a href="#ceramic-0-1-0" class="anchor"></a>ceramic 0.1.0</h1>
+<a href="#ceramic-010" class="anchor"></a>ceramic 0.1.0</h1>
 <ul>
 <li><p>Now aligned to <code>slippymath</code> 0.3.0.</p></li>
 <li><p>Added function <code>cc_elevation</code>.</p></li>
@@ -126,8 +131,8 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#ceramic-0-1-0-9000">0.1.0.9000</a></li>
-        <li><a href="#ceramic-0-1-0">0.1.0</a></li>
+        <li><a href="#ceramic-0109001">0.1.0.9001</a></li>
+        <li><a href="#ceramic-010">0.1.0</a></li>
       </ul>
     </div>
   </div>

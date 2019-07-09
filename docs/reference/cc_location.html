@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Mapbox imagery by location query — cc_location • ceramic</title>
+<title>Obtain tiled imagery by location query — cc_location • ceramic</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Mapbox imagery by location query — cc_location" />
+<meta property="og:title" content="Obtain tiled imagery by location query — cc_location" />
 
-<meta property="og:description" content="Obtain Mapbox imagery or elevation data by location query. The first argument
+<meta property="og:description" content="Obtain imagery or elevation data by location query. The first argument
 `loc` may be a spatial object (sp, raster, sf) or a 2-column matrix with a single
 longitude and latitude value. Use `buffer` to define a width and height to pad
 around the raw longitude and latitude in metres. If `loc` has an extent, then
@@ -67,7 +67,7 @@ around the raw longitude and latitude in metres. If `loc` has an extent, then
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ceramic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9001</span>
       </span>
     </div>
 
@@ -106,14 +106,14 @@ around the raw longitude and latitude in metres. If `loc` has an extent, then
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Mapbox imagery by location query</h1>
+    <h1>Obtain tiled imagery by location query</h1>
     <small class="dont-index">Source: <a href='https://github.com/hypertidy/ceramic/blob/master/R/locale.R'><code>R/locale.R</code></a></small>
     <div class="hidden name"><code>cc_location.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Obtain Mapbox imagery or elevation data by location query. The first argument
+    <p>Obtain imagery or elevation data by location query. The first argument
 `loc` may be a spatial object (sp, raster, sf) or a 2-column matrix with a single
 longitude and latitude value. Use `buffer` to define a width and height to pad
 around the raw longitude and latitude in metres. If `loc` has an extent, then
@@ -144,7 +144,7 @@ around the raw longitude and latitude in metres. If `loc` has an extent, then
   <span class='kw'>buffer</span> <span class='kw'>=</span> <span class='fl'>5000</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"mapbox.outdoors"</span>, <span class='no'>...</span>, <span class='kw'>zoom</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>max_tiles</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>debug</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'>cc_kingston</span>(<span class='kw'>loc</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(-<span class='fl'>147.70837</span>, -<span class='fl'>42.98682</span>), <span class='kw'>buffer</span> <span class='kw'>=</span> <span class='fl'>5000</span>,
+<span class='fu'>cc_kingston</span>(<span class='kw'>loc</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>147.70837</span>, -<span class='fl'>42.98682</span>), <span class='kw'>buffer</span> <span class='kw'>=</span> <span class='fl'>5000</span>,
   <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"mapbox.outdoors"</span>, <span class='no'>...</span>, <span class='kw'>zoom</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>max_tiles</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>debug</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
@@ -164,7 +164,7 @@ around the raw longitude and latitude in metres. If `loc` has an extent, then
     </tr>
     <tr>
       <th>type</th>
-      <td><p>character string of Mapbox service (see Details)</p></td>
+      <td><p>character string of provider imagery type (see Details)</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -191,8 +191,8 @@ around the raw longitude and latitude in metres. If `loc` has an extent, then
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>`cc_elevation` does extra work to unpack the DEM tiles from the RGB format.</p>
-<p>Available types are 'mapbox.satellite', 'mapbox.outdoors', 'mapbox.terrain-rgb' but any string
-accepted by Mapbox services will be passed through.</p>
+<p>Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
+'mapbox.outdoors', 'mapbox.terrain-rgb' or any string accepted by Mapbox services.</p>
 <p>Note that arguments `max_tiles` and `zoom` are mutually exclusive. One or both must be `NULL`. If
 both are NULL then `max_tiles = 16L`.</p>
     
@@ -201,11 +201,13 @@ both are NULL then `max_tiles = 16L`.</p>
     
     <p>Custom Mapbox styles may be specified with the argument `base_url` in the form:
 `"https://api.mapbox.com/styles/v1/mdsumner/cjs6yn9hu0coo1fqhdqgw3o18/tiles/512/zoom/x/y"`</p>
-    <p>Currently must be considered in-development.</p>
+<p>Currently must be considered in-development.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>## requres Mapbox key set in env var 'MAPBOX_API_KEY'
+    <pre class="examples"><div class='input'><span class='no'>dem</span> <span class='kw'>&lt;-</span> <span class='fu'>cc_kingston</span>(<span class='kw'>buffer</span> <span class='kw'>=</span> <span class='fl'>1e5</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"elevation-tiles-prod"</span>)</div><div class='output co'>#&gt; Preparing to download: 16 tiles at zoom = 9 from 
+#&gt; https://s3.amazonaws.com/elevation-tiles-prod/geotiff/</div><div class='input'><span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/raster/topics/plot'>plot</a></span>(<span class='no'>dem</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grDevices/topics/gray'>grey</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>, <span class='kw'>length</span> <span class='kw'>=</span> <span class='fl'>94</span>)))</div><div class='img'><img src='cc_location-1.png' alt='' width='700' height='433' /></div><div class='input'>
+## requres Mapbox key set in env var 'MAPBOX_API_KEY'
 </div><span class='co'># NOT RUN {</span>
 <span class='no'>im</span> <span class='kw'>&lt;-</span> <span class='fu'>cc_macquarie</span>()
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>raster</span>)

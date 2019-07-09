@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Tile files — ceramic_tiles • ceramic</title>
+<title>Download Mapbox imagery tiles — get_tiles • ceramic</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,13 @@
 
 
 
-<meta property="og:title" content="Tile files — ceramic_tiles" />
+<meta property="og:title" content="Download Mapbox imagery tiles — get_tiles" />
 
-<meta property="og:description" content="Find existing files in the cache. Various options can be controlled, this is WIP
-and due to change pending generalization across providers." />
+<meta property="og:description" content="Obtain imagery or elevation tiles by location query. The first argument
+`loc` may be a spatial object (sp, raster, sf) or a 2-column matrix with a single
+longitude and latitude value. Use `buffer` to define a width and height to pad
+around the raw longitude and latitude in metres. If `loc` has an extent, then
+`buffer` is ignored." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -103,45 +106,88 @@ and due to change pending generalization across providers." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Tile files</h1>
-    <small class="dont-index">Source: <a href='https://github.com/hypertidy/ceramic/blob/master/R/cache.R'><code>R/cache.R</code></a></small>
-    <div class="hidden name"><code>ceramic_tiles.Rd</code></div>
+    <h1>Download Mapbox imagery tiles</h1>
+    <small class="dont-index">Source: <a href='https://github.com/hypertidy/ceramic/blob/master/R/get_tiles.R'><code>R/get_tiles.R</code></a></small>
+    <div class="hidden name"><code>get_tiles.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Find existing files in the cache. Various options can be controlled, this is WIP
-and due to change pending generalization across providers.</p>
+    <p>Obtain imagery or elevation tiles by location query. The first argument
+`loc` may be a spatial object (sp, raster, sf) or a 2-column matrix with a single
+longitude and latitude value. Use `buffer` to define a width and height to pad
+around the raw longitude and latitude in metres. If `loc` has an extent, then
+`buffer` is ignored.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>ceramic_tiles</span>(<span class='kw'>zoom</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"mapbox.satellite"</span>,
-  <span class='kw'>source</span> <span class='kw'>=</span> <span class='st'>"api.mapbox.com"</span>, <span class='kw'>glob</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>regexp</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>get_tiles</span>(<span class='no'>x</span>, <span class='no'>buffer</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"mapbox.satellite"</span>, <span class='kw'>crop_to_buffer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>format</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>, <span class='kw'>zoom</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>debug</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>max_tiles</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>base_url</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>zoom</th>
-      <td><p>zoom level</p></td>
+      <th>x</th>
+      <td><p>a longitude, latitude pair of coordinates, or a spatial object</p></td>
+    </tr>
+    <tr>
+      <th>buffer</th>
+      <td><p>width in metres to extend around the location, ignored if 'x' is a spatial object with extent</p></td>
     </tr>
     <tr>
       <th>type</th>
-      <td><p>imagery type</p></td>
+      <td><p>character string of provider imagery type (see Details)</p></td>
     </tr>
     <tr>
-      <th>source</th>
-      <td><p>imagery source</p></td>
+      <th>crop_to_buffer</th>
+      <td><p>crop to the user extent, used for creation of output objects (otherwise is padded tile extent)</p></td>
     </tr>
     <tr>
-      <th>glob</th>
-      <td><p>see `fs::dir_ls`</p></td>
+      <th>format</th>
+      <td><p>tile format to use, defaults to "jpg" for Mapbox satellite imagery and "png" otherwise</p></td>
     </tr>
     <tr>
-      <th>regexp</th>
-      <td><p>see `fs::dir_ls`</p></td>
+      <th>...</th>
+      <td><p>arguments passed to internal function, specifically `base_url` (see Details)</p></td>
+    </tr>
+    <tr>
+      <th>zoom</th>
+      <td><p>desired zoom for tiles, use with caution - if `NULL` is chosen automatically</p></td>
+    </tr>
+    <tr>
+      <th>debug</th>
+      <td><p>optionally print out files that will be used</p></td>
+    </tr>
+    <tr>
+      <th>max_tiles</th>
+      <td><p>maximum number of tiles - if `NULL` is set by zoom constraints</p></td>
+    </tr>
+    <tr>
+      <th>base_url</th>
+      <td><p>tile provider URL expert use only</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>report messages or suppress them</p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>`get_tiles()` may be run with no arguments, and will download (and report on) the default
+tile source at zoom 0. Arguments `type`, `zoom` (or `max_tiles`), `format` may be used
+without setting `loc` or `buffer` and the entire world extent will be used. Please use with caution!
+There is no maximum on what will be downloaded, but it can be interrupted at any time.</p>
+<p>Use `debug = TRUE` to avoid download and simply report on what would be done.</p>
+<p>`cc_elevation` does extra work to unpack the DEM tiles from the RGB format.</p>
+<p>Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
+'mapbox.outdoors', 'mapbox.terrain-rgb' or any string accepted by Mapbox services.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>get_tiles_zoom get_tiles_dim get_tiles_buffer</p></div>
     
 
   </div>
@@ -149,7 +195,11 @@ and due to change pending generalization across providers.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
+          </ul>
 
   </div>
 </div>
