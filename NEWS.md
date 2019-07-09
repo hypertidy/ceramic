@@ -1,4 +1,12 @@
-# ceramic 0.1.0.9000
+# ceramic 0.1.0.9001
+
+* In `debug` mode the files are only printed, not downloaded. In this case the tile object is returned invisibly. 
+
+* `down_loader()` and higher level functions that use it will report on the download task about to occur. 
+
+* Function `get_tiles()` will happily download tiles for any source at any zoom for the entire world. 
+
+* Renamed internal `get_loc()` function to `get_tiles()`. 
 
 * Imagery getter functions now accept `type = "elevation-tiles-prod"` for AWS terrain tiles. 
 

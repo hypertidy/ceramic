@@ -4,7 +4,8 @@
 \alias{down_loader}
 \title{Download tool for image tiles}
 \usage{
-down_loader(x, query_string, clobber = FALSE, ..., debug = FALSE)
+down_loader(x, query_string, clobber = FALSE, ..., debug = FALSE,
+  verbose = TRUE)
 }
 \arguments{
 \item{x}{tiles object}
@@ -16,6 +17,8 @@ down_loader(x, query_string, clobber = FALSE, ..., debug = FALSE)
 \item{...}{ignored}
 
 \item{debug}{simple debugging info printed if `TRUE`}
+
+\item{verbose}{print messages}
 }
 \value{
 WIP

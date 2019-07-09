@@ -10,3 +10,13 @@
 #' @name oz_laea
 #' @docType data
 NULL
+
+
+#' Deprecated functions from ceramic
+#'
+#' @keywords internal
+#' @NoRd
+get_loc <- function(...) {
+  .Deprecated("get_tiles")
+  get_tiles(...)
+}

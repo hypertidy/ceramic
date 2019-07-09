@@ -37,6 +37,7 @@ clear_ceramic_cache <- function(clobber = FALSE, ...){
 #' @param clobber if `TRUE` re download any existing tiles
 #' @param ... ignored
 #' @param debug simple debugging info printed if `TRUE`
+#' @param verbose print messages
 #' @return WIP
 #' @export
 #' @importFrom curl curl_download
@@ -44,7 +45,11 @@ clear_ceramic_cache <- function(clobber = FALSE, ...){
 #' @importFrom glue glue
 #' @importFrom rappdirs user_cache_dir
 #' @importFrom purrr pmap
-down_loader <- function(x, query_string, clobber = FALSE, ..., debug = FALSE) {
+down_loader <- function(x, query_string, clobber = FALSE, ..., debug = FALSE, verbose = TRUE) {
+  if (verbose) {
+    provider <- strsplit(query_string, '\\{')[[1]][1]
+    print(glue::glue("Preparing to download: {nrow(x$tiles)} tiles at zoom = {x$zoom} from \n {provider}"))
+  }
   purrr::pmap(x$tiles,
               function(x, y, zoom){
                 api_query <- glue::glue(query_string)
@@ -53,6 +58,7 @@ down_loader <- function(x, query_string, clobber = FALSE, ..., debug = FALSE) {
 
                 if (debug) {
                   print(outfile)
+                  return(outfile)
                 }
                 if (!file.exists(outfile) || clobber || fs::file_info(outfile)$size < 101) {
                   cachedir <- fs::path_dir(outfile)
