@@ -26,21 +26,20 @@ guess_format <- function(x) {
 #' `cc_elevation` does extra work to unpack the DEM tiles from the RGB format.
 #'
 #' Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
-#' 'mapbox.outdoors', 'mapbox.terrain-rgb'or any string accepted by Mapbox services.
+#' 'mapbox.outdoors', 'mapbox.terrain-rgb' or any string accepted by Mapbox services.
 #'
 #'
 #' @param x a longitude, latitude pair of coordinates, or a spatial object
 #' @param buffer width in metres to extend around the location, ignored if 'x' is a spatial object with extent
 #' @param type character string of provider imagery type (see Details)
-#' @param crop_to_buffer
+#' @param crop_to_buffer crop to the user extent, used for creation of output objects (otherwise is padded tile extent)
 #' @param format tile format to use, defaults to "jpg" for Mapbox satellite imagery and "png" otherwise
-#' @param type character string of provider imagery type (see Details)
 #' @param ... arguments passed to internal function, specifically `base_url` (see Details)
 #' @param zoom desired zoom for tiles, use with caution - if `NULL` is chosen automatically
 #' @param debug optionally print out files that will be used
 #' @param max_tiles maximum number of tiles - if `NULL` is set by zoom constraints
-#' @param base_url
-#' @param verbose
+#' @param base_url tile provider URL expert use only
+#' @param verbose report messages or suppress them
 #' @export
 #' @name get_tiles
 #' @seealso get_tiles_zoom get_tiles_dim get_tiles_buffer
@@ -111,7 +110,8 @@ get_tiles <- function(x, buffer, type = "mapbox.satellite", crop_to_buffer = TRU
 #' `get_tiles_dim()` requires a dim value, default to `c(512, 512)`, a set of 4 tiles
 #'
 #' `get_tiles_buffer()` requires a single location (longitude, latitude) and a buffer in metres
-#'
+#' @param x a spatial object with an extent
+#' @param ... passed to `get_tiles()`
 #' @param dim for `get_tiles_dim` the overall maximum dimensions of the image (padded out to tile size of 256x256)
 #' @param zoom desired zoom for tiles, use with caution - cannot be unset in `get_tiles_zoom`
 #' @param buffer width in metres to extend around the location, ignored if 'x' is a spatial object with extent

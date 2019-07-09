@@ -70,7 +70,7 @@ around the raw longitude and latitude in metres. If `loc` has an extent, then
 `cc_elevation` does extra work to unpack the DEM tiles from the RGB format.
 
 Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
-'mapbox.outdoors', 'mapbox.terrain-rgb'or any string accepted by Mapbox services.
+'mapbox.outdoors', 'mapbox.terrain-rgb' or any string accepted by Mapbox services.
 
 Note that arguments `max_tiles` and `zoom` are mutually exclusive. One or both must be `NULL`. If
 both are NULL then `max_tiles = 16L`.

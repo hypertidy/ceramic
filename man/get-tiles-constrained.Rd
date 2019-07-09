@@ -14,7 +14,11 @@ get_tiles_dim(x, dim = c(512, 512), ...)
 get_tiles_buffer(x, buffer = NULL, ..., max_tiles = 9)
 }
 \arguments{
+\item{x}{a spatial object with an extent}
+
 \item{zoom}{desired zoom for tiles, use with caution - cannot be unset in `get_tiles_zoom`}
+
+\item{...}{passed to `get_tiles()`}
 
 \item{dim}{for `get_tiles_dim` the overall maximum dimensions of the image (padded out to tile size of 256x256)}
 

@@ -30,8 +30,6 @@ raster::plotRGB(im)
 ```
 
 
-
-
 We can use raster, sp, or sf objects to define an extent. This provides a very easy way to obtain imagery or elevation data for any almost any region using our own data. 
 
 ```{r}
@@ -63,6 +61,21 @@ raster::plot(dem_nz, col = grey(seq(0, 1, length = 51)), breaks = quantile(raste
 plot(st_transform(st_cast(north, "MULTILINESTRING")["Name"], raster::projection(dem_nz)), add = TRUE, lwd = 5)
 
 ```
+
+## I thought you said *tiles*?
+
+Indeed, the `cc_location()` and `cc_elevation()` functions run `get_tiles()` behind the scenes. 
+
+This function and its counterparts `get_tiles_zoom()`, `get_tiles_dim()` and `get_tiles_buffer()` will *only download
+files*. 
+
+```{r tiles}
+tile_summ <- get_tiles_zoom(north, zoom = 8)
+length(tile_summ$files)
+str(tile_summ$tiles)
+```
+
+This is really for expert use when you want to control the downloaded tile files yourself directly. 
 
 
 ## Providers
@@ -136,7 +149,7 @@ The code here
 library(ceramic)
 ## a point in longlat, and a buffer with in metres
 pt <- cbind(136, -34)
-im <- cc_location(pt, buffer = c(1e6, 5e5), type = "mapbox.satellite", debug = T)
+im <- cc_location(pt, buffer = c(1e6, 5e5), type = "mapbox.satellite")
 library(raster)
 plotRGB(im)
 
@@ -208,59 +221,6 @@ ceramic::plot_tiles(ceramic_tiles(zoom = 7), add = TRUE)
 
 ![tile add plot](man/figures/README-tile-add-plot.png)
 
-
-## Address helper
-
-```{r get-address}
-## DEPENDS ON Sys.getenv("OPENCAGE_KEY")
-get_address <- function(address) {
-  x <- opencage::opencage_forward(address, no_annotations = T, no_dedupe = T)
-  
-  cbind(x$results$geometry.lng[1], x$results$geometry.lat[1])
-}
-```
-
-rgb helper
-
-```{r rgb}
-values_to_hex <- function(x) {
-  rgb(x[,1], x[,2], x[, 3], max = 255)
-}
-raster_to_hex <- function(x) {
-  values_to_hex(raster::values(x))
-}
-quadmesh_to_tex <- function(x, im) {
-  xy_to_tex(t(x$vb[1:2, ]), im)
-}
-xy_to_tex <- function(xy, im) {
-  xyFromCell(setExtent(im, extent(0, 1, 0, 1)), 
-             cellFromXY(im, xy))  ## must be the same projection
-}
-```
-# Textures 
-
-See `quadmesh::quadmesh`. 
-
-## Elevation
-
-Get DEM, get image, make a scene. 
-
-```{r elevation}
-
-loc <- cbind(147.3565, -43.19052)
-dem <- cc_elevation(loc)
-zap0 <- function(x) x[x > 0]
-plot(dem, col = grey(seq(0.2, 1, length.out =  7)))
-
-
-#library(quadmesh)  # @textures branch
-
-#qm <- quadmesh(dem, texture = cc_location(loc, type = "mapbox.satellite"))
-#library(rgl)
-#shade3d(qm); rglwidget()
-
-```
-
 # Future improvements
 
 
@@ -270,6 +230,7 @@ plot(dem, col = grey(seq(0.2, 1, length.out =  7)))
 * provide interactive means to build access to imagery
 
 
+---
 
 Please note that the 'ceramic' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 

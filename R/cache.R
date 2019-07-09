@@ -6,7 +6,7 @@
 #' @export
 #' @return this function is called for its side effect, but also returns the file list invisibly whether deleted or not, or NULL if the user cancels.
 clear_ceramic_cache <- function(clobber = FALSE, ...){
- files <- fs::dir_ls(slippy_cache(), all = FALSE, recursive = TRUE)
+ files <- fs::dir_ls(slippy_cache(), all = FALSE, recurse = TRUE)
  if (length(files) < 1) {
    message("No files in cache. Nothing to do.")
    return(invisible(NULL))
@@ -94,7 +94,7 @@ ceramic_tiles <- function(zoom = NULL, type = "mapbox.satellite",
 
   ## FIXME: assert that zoom, type, source, all are length 1
   bfiles <-
-    fs::dir_ls(slippy_cache(), recursive = TRUE, type = "file",
+    fs::dir_ls(slippy_cache(), recurse = TRUE, type = "file",
                glob = glob, regexp = regexp)
   #strex <- function(x, y) regmatches(x, regexec(y, x))
   #browser()

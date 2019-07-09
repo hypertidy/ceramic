@@ -15,7 +15,7 @@ NULL
 #' Deprecated functions from ceramic
 #'
 #' @keywords internal
-#' @NoRd
+#' @noRd
 get_loc <- function(...) {
   .Deprecated("get_tiles")
   get_tiles(...)

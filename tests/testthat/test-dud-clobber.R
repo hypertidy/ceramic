@@ -8,7 +8,7 @@ if (fs::file_exists(dudfile)) fs::file_delete(dudfile)
 ##             0x73, 0x61, 0x67, 0x65, 0x22, 0x3a)))
 
 cachedir <- fs::path_dir(dudfile)
-if (!fs::dir_exists(cachedir)) fs::dir_create(cachedir, recursive = TRUE)
+if (!fs::dir_exists(cachedir)) fs::dir_create(cachedir, recurse = TRUE)
 
 writeLines("{\"message\":\"Tile does not exist\"}",
            dudfile)
@@ -16,7 +16,7 @@ sz <- fs::file_info(dudfile)$size
 test_that("dud file gets clobbered", {
   expect_true(sz < 100)
   ## that bad file should be replaced
-  im <-   cc_location(cbind(147, -42), debug = TRUE)
+  im <-   cc_location(cbind(147, -42), debug = FALSE)
 
   expect_true(fs::file_info(dudfile)$size > 101)
 })

@@ -15,6 +15,8 @@ get_tiles(x, buffer, type = "mapbox.satellite", crop_to_buffer = TRUE,
 
 \item{type}{character string of provider imagery type (see Details)}
 
+\item{crop_to_buffer}{crop to the user extent, used for creation of output objects (otherwise is padded tile extent)}
+
 \item{format}{tile format to use, defaults to "jpg" for Mapbox satellite imagery and "png" otherwise}
 
 \item{...}{arguments passed to internal function, specifically `base_url` (see Details)}
@@ -25,7 +27,9 @@ get_tiles(x, buffer, type = "mapbox.satellite", crop_to_buffer = TRUE,
 
 \item{max_tiles}{maximum number of tiles - if `NULL` is set by zoom constraints}
 
-\item{type}{character string of provider imagery type (see Details)}
+\item{base_url}{tile provider URL expert use only}
+
+\item{verbose}{report messages or suppress them}
 }
 \description{
 Obtain imagery or elevation tiles by location query. The first argument
@@ -45,7 +49,7 @@ Use `debug = TRUE` to avoid download and simply report on what would be done.
 `cc_elevation` does extra work to unpack the DEM tiles from the RGB format.
 
 Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
-'mapbox.outdoors', 'mapbox.terrain-rgb'or any string accepted by Mapbox services.
+'mapbox.outdoors', 'mapbox.terrain-rgb' or any string accepted by Mapbox services.
 }
 \seealso{
 get_tiles_zoom get_tiles_dim get_tiles_buffer

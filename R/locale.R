@@ -11,7 +11,7 @@
 #' `cc_elevation` does extra work to unpack the DEM tiles from the RGB format.
 #'
 #' Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
-#' 'mapbox.outdoors', 'mapbox.terrain-rgb'or any string accepted by Mapbox services.
+#' 'mapbox.outdoors', 'mapbox.terrain-rgb' or any string accepted by Mapbox services.
 #'
 #' Note that arguments `max_tiles` and `zoom` are mutually exclusive. One or both must be `NULL`. If
 #' both are NULL then `max_tiles = 16L`.
@@ -54,7 +54,7 @@ cc_location <- function(loc = NULL, buffer = 5000,
                         type = "mapbox.satellite", ..., zoom = NULL, max_tiles = NULL,  debug = FALSE) {
   if (!is.null(zoom) && !is.null(max_tiles)) stop("'zoom' and 'max_tiles' cannot be both set, one must be NULL")
   if (is.null(zoom) && is.null(max_tiles)) max_tiles <- 16L
-  locdata <- get_tiles(loc = loc, buffer = buffer, type = type, ..., zoom = zoom, max_tiles = max_tiles, debug = debug)
+  locdata <- get_tiles(x = loc, buffer = buffer, type = type, ..., zoom = zoom, max_tiles = max_tiles, debug = debug)
   make_raster(locdata)
 }
 #' @name cc_location
@@ -112,7 +112,7 @@ cc_kingston <- function(loc = c(147.70837,
 #' @name cc_location
 #' @export
 cc_elevation <- function(loc = NULL, buffer = 5000, ...,zoom = NULL, max_tiles = NULL, debug = FALSE) {
-  dat <- cc_location(loc, buffer = buffer,  type = "mapbox.terrain-rgb", zoom = zoom, max_tiles = max_tiles, debug = debug)
+  dat <- cc_location(loc, buffer = buffer,  type = "mapbox.terrain-rgb", zoom = zoom, max_tiles = max_tiles, debug = debug, ...)
   height <-  -10000 + ((dat[[1]] * 256 * 256 + dat[[2]] * 256 + dat[[3]]) * 0.1)
   projection(height) <- "+proj=merc +a=6378137 +b=6378137"
   height
