@@ -19,7 +19,7 @@ Imports:
     slippymath (>= 0.3.0),
     curl,
     dplyr,
-    fs,
+    fs (>= 1.3.0),
     glue,
     rappdirs,
     tibble,
