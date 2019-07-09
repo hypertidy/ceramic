@@ -16,15 +16,15 @@ get_tiles_buffer(x, buffer = NULL, ..., max_tiles = 9)
 \arguments{
 \item{x}{a spatial object with an extent}
 
-\item{zoom}{desired zoom for tiles, use with caution - cannot be unset in `get_tiles_zoom`}
+\item{zoom}{desired zoom for tiles, use with caution - cannot be unset in \code{get_tiles_zoom}}
 
-\item{...}{passed to `get_tiles()`}
+\item{...}{passed to \code{get_tiles()}}
 
-\item{dim}{for `get_tiles_dim` the overall maximum dimensions of the image (padded out to tile size of 256x256)}
+\item{dim}{for \code{get_tiles_dim} the overall maximum dimensions of the image (padded out to tile size of 256x256)}
 
 \item{buffer}{width in metres to extend around the location, ignored if 'x' is a spatial object with extent}
 
-\item{max_tiles}{maximum number of tiles - if `NULL` is set by zoom constraints}
+\item{max_tiles}{maximum number of tiles - if \code{NULL} is set by zoom constraints}
 }
 \description{
 Get tiles by zoom, by overall dimension, or by buffer on a single point.
@@ -32,11 +32,11 @@ Get tiles by zoom, by overall dimension, or by buffer on a single point.
 \details{
 Each function expects an extent in longitude latitude or a spatial object with extent as the first argument.
 
-`get_tiles_zoom()` requires a zoom value, defaulting to 0
+\code{get_tiles_zoom()} requires a zoom value, defaulting to 0
 
-`get_tiles_dim()` requires a dim value, default to `c(512, 512)`, a set of 4 tiles
+\code{get_tiles_dim()} requires a dim value, default to \code{c(512, 512)}, a set of 4 tiles
 
-`get_tiles_buffer()` requires a single location (longitude, latitude) and a buffer in metres
+\code{get_tiles_buffer()} requires a single location (longitude, latitude) and a buffer in metres
 }
 \seealso{
 get_tiles

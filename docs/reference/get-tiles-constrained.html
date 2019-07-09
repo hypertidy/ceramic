@@ -128,15 +128,15 @@
     </tr>
     <tr>
       <th>zoom</th>
-      <td><p>desired zoom for tiles, use with caution - cannot be unset in `get_tiles_zoom`</p></td>
+      <td><p>desired zoom for tiles, use with caution - cannot be unset in <code>get_tiles_zoom</code></p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>passed to `get_tiles()`</p></td>
+      <td><p>passed to <code><a href='get_tiles.html'>get_tiles()</a></code></p></td>
     </tr>
     <tr>
       <th>dim</th>
-      <td><p>for `get_tiles_dim` the overall maximum dimensions of the image (padded out to tile size of 256x256)</p></td>
+      <td><p>for <code>get_tiles_dim</code> the overall maximum dimensions of the image (padded out to tile size of 256x256)</p></td>
     </tr>
     <tr>
       <th>buffer</th>
@@ -144,16 +144,16 @@
     </tr>
     <tr>
       <th>max_tiles</th>
-      <td><p>maximum number of tiles - if `NULL` is set by zoom constraints</p></td>
+      <td><p>maximum number of tiles - if <code>NULL</code> is set by zoom constraints</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Each function expects an extent in longitude latitude or a spatial object with extent as the first argument.</p>
-<p>`get_tiles_zoom()` requires a zoom value, defaulting to 0</p>
-<p>`get_tiles_dim()` requires a dim value, default to `c(512, 512)`, a set of 4 tiles</p>
-<p>`get_tiles_buffer()` requires a single location (longitude, latitude) and a buffer in metres</p>
+<p><code>get_tiles_zoom()</code> requires a zoom value, defaulting to 0</p>
+<p><code>get_tiles_dim()</code> requires a dim value, default to <code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c(512, 512)</a></code>, a set of 4 tiles</p>
+<p><code>get_tiles_buffer()</code> requires a single location (longitude, latitude) and a buffer in metres</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

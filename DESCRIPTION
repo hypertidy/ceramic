@@ -8,13 +8,14 @@ Authors@R: c(
     comment = c(ORCID = "0000-0003-2865-2548")),
     person("Ben", "Raymond", role = c("ctb"), comment = "regex wizardry")
     )
-Description: Download imagery tiles to a standard cache and convert into raster objects. 
+Description: Download imagery tiles to a standard cache and optionally convert into raster objects. 
  Providers for 'AWS' terrain and 'Mapbox' are available. 
 Depends: R (>= 3.4.0)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
+Roxygen: list(markdown = TRUE)
 Imports: 
     slippymath (>= 0.3.0),
     curl,

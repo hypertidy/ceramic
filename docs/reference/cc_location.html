@@ -33,10 +33,10 @@
 <meta property="og:title" content="Obtain tiled imagery by location query — cc_location" />
 
 <meta property="og:description" content="Obtain imagery or elevation data by location query. The first argument
-`loc` may be a spatial object (sp, raster, sf) or a 2-column matrix with a single
-longitude and latitude value. Use `buffer` to define a width and height to pad
-around the raw longitude and latitude in metres. If `loc` has an extent, then
-`buffer` is ignored." />
+loc may be a spatial object (sp, raster, sf) or a 2-column matrix with a single
+longitude and latitude value. Use buffer to define a width and height to pad
+around the raw longitude and latitude in metres. If loc has an extent, then
+buffer is ignored." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,10 +114,10 @@ around the raw longitude and latitude in metres. If `loc` has an extent, then
     <div class="ref-description">
     
     <p>Obtain imagery or elevation data by location query. The first argument
-`loc` may be a spatial object (sp, raster, sf) or a 2-column matrix with a single
-longitude and latitude value. Use `buffer` to define a width and height to pad
-around the raw longitude and latitude in metres. If `loc` has an extent, then
-`buffer` is ignored.</p>
+<code>loc</code> may be a spatial object (sp, raster, sf) or a 2-column matrix with a single
+longitude and latitude value. Use <code>buffer</code> to define a width and height to pad
+around the raw longitude and latitude in metres. If <code>loc</code> has an extent, then
+<code>buffer</code> is ignored.</p>
     
     </div>
 
@@ -168,15 +168,15 @@ around the raw longitude and latitude in metres. If `loc` has an extent, then
     </tr>
     <tr>
       <th>...</th>
-      <td><p>arguments passed to internal function, specifically `base_url` (see Details)</p></td>
+      <td><p>arguments passed to internal function, specifically <code>base_url</code> (see Details)</p></td>
     </tr>
     <tr>
       <th>zoom</th>
-      <td><p>desired zoom for tiles, use with caution - if `NULL` is chosen automatically</p></td>
+      <td><p>desired zoom for tiles, use with caution - if <code>NULL</code> is chosen automatically</p></td>
     </tr>
     <tr>
       <th>max_tiles</th>
-      <td><p>maximum number of tiles to be read into memory - if `NULL` is set by zoom constraints</p></td>
+      <td><p>maximum number of tiles to be read into memory - if <code>NULL</code> is set by zoom constraints</p></td>
     </tr>
     <tr>
       <th>debug</th>
@@ -190,17 +190,17 @@ around the raw longitude and latitude in metres. If `loc` has an extent, then
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>`cc_elevation` does extra work to unpack the DEM tiles from the RGB format.</p>
+    <p><code>cc_elevation</code> does extra work to unpack the DEM tiles from the RGB format.</p>
 <p>Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
 'mapbox.outdoors', 'mapbox.terrain-rgb' or any string accepted by Mapbox services.</p>
-<p>Note that arguments `max_tiles` and `zoom` are mutually exclusive. One or both must be `NULL`. If
-both are NULL then `max_tiles = 16L`.</p>
+<p>Note that arguments <code>max_tiles</code> and <code>zoom</code> are mutually exclusive. One or both must be <code>NULL</code>. If
+both are NULL then <code>max_tiles = 16L</code>.</p>
     
     <h2 class="hasAnchor" id="custom-styles"><a class="anchor" href="#custom-styles"></a>Custom styles</h2>
 
     
-    <p>Custom Mapbox styles may be specified with the argument `base_url` in the form:
-`"https://api.mapbox.com/styles/v1/mdsumner/cjs6yn9hu0coo1fqhdqgw3o18/tiles/512/zoom/x/y"`</p>
+    <p>Custom Mapbox styles may be specified with the argument <code>base_url</code> in the form:
+<code>"https://api.mapbox.com/styles/v1/mdsumner/cjs6yn9hu0coo1fqhdqgw3o18/tiles/512/{zoom}/{x}/{y}"</code></p>
 <p>Currently must be considered in-development.</p>
     
 

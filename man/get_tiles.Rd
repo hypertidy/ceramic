@@ -19,13 +19,13 @@ get_tiles(x, buffer, type = "mapbox.satellite", crop_to_buffer = TRUE,
 
 \item{format}{tile format to use, defaults to "jpg" for Mapbox satellite imagery and "png" otherwise}
 
-\item{...}{arguments passed to internal function, specifically `base_url` (see Details)}
+\item{...}{arguments passed to internal function, specifically \code{base_url} (see Details)}
 
-\item{zoom}{desired zoom for tiles, use with caution - if `NULL` is chosen automatically}
+\item{zoom}{desired zoom for tiles, use with caution - if \code{NULL} is chosen automatically}
 
 \item{debug}{optionally print out files that will be used}
 
-\item{max_tiles}{maximum number of tiles - if `NULL` is set by zoom constraints}
+\item{max_tiles}{maximum number of tiles - if \code{NULL} is set by zoom constraints}
 
 \item{base_url}{tile provider URL expert use only}
 
@@ -33,20 +33,20 @@ get_tiles(x, buffer, type = "mapbox.satellite", crop_to_buffer = TRUE,
 }
 \description{
 Obtain imagery or elevation tiles by location query. The first argument
-`loc` may be a spatial object (sp, raster, sf) or a 2-column matrix with a single
-longitude and latitude value. Use `buffer` to define a width and height to pad
-around the raw longitude and latitude in metres. If `loc` has an extent, then
-`buffer` is ignored.
+\code{loc} may be a spatial object (sp, raster, sf) or a 2-column matrix with a single
+longitude and latitude value. Use \code{buffer} to define a width and height to pad
+around the raw longitude and latitude in metres. If \code{loc} has an extent, then
+\code{buffer} is ignored.
 }
 \details{
-`get_tiles()` may be run with no arguments, and will download (and report on) the default
-tile source at zoom 0. Arguments `type`, `zoom` (or `max_tiles`), `format` may be used
-without setting `loc` or `buffer` and the entire world extent will be used. Please use with caution!
+\code{get_tiles()} may be run with no arguments, and will download (and report on) the default
+tile source at zoom 0. Arguments \code{type}, \code{zoom} (or \code{max_tiles}), \code{format} may be used
+without setting \code{loc} or \code{buffer} and the entire world extent will be used. Please use with caution!
 There is no maximum on what will be downloaded, but it can be interrupted at any time.
 
-Use `debug = TRUE` to avoid download and simply report on what would be done.
+Use \code{debug = TRUE} to avoid download and simply report on what would be done.
 
-`cc_elevation` does extra work to unpack the DEM tiles from the RGB format.
+\code{cc_elevation} does extra work to unpack the DEM tiles from the RGB format.
 
 Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
 'mapbox.outdoors', 'mapbox.terrain-rgb' or any string accepted by Mapbox services.

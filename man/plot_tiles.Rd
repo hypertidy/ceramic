@@ -11,15 +11,15 @@ plot_tiles(x, ..., add = FALSE, label = TRUE, cex = 0.6,
 tiles_to_polygon(x)
 }
 \arguments{
-\item{x}{tiles as create by `ceramic_tiles()`}
+\item{x}{tiles as create by \code{ceramic_tiles()}}
 
-\item{...}{arguments passed to `graphics::rect()`}
+\item{...}{arguments passed to \code{graphics::rect()}}
 
 \item{add}{add to an existing plot?}
 
 \item{label}{include text label?}
 
-\item{cex}{relative size of text label if drawn (see `text()`)}
+\item{cex}{relative size of text label if drawn (see \code{text()})}
 
 \item{add_coast}{include a basic coastline on the plot?}
 

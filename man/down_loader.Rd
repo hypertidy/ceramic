@@ -12,11 +12,11 @@ down_loader(x, query_string, clobber = FALSE, ..., debug = FALSE,
 
 \item{query_string}{an api query template (see Details)}
 
-\item{clobber}{if `TRUE` re download any existing tiles}
+\item{clobber}{if \code{TRUE} re download any existing tiles}
 
 \item{...}{ignored}
 
-\item{debug}{simple debugging info printed if `TRUE`}
+\item{debug}{simple debugging info printed if \code{TRUE}}
 
 \item{verbose}{print messages}
 }
@@ -27,5 +27,5 @@ WIP
 Tiles are cached with the native name of the source.
 }
 \details{
-`query_string` takes the form of a template, see examples
+\code{query_string} takes the form of a template, see examples
 }

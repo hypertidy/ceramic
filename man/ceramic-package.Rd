@@ -6,7 +6,7 @@
 \alias{ceramic-package}
 \title{ceramic: Get imagery tiles}
 \description{
-Download imagery tiles to a standard cache and convert into raster objects. 
+Download imagery tiles to a standard cache and optionally convert into raster objects. 
  Providers for 'AWS' terrain and 'Mapbox' are available.
 }
 \seealso{

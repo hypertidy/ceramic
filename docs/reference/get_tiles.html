@@ -33,10 +33,10 @@
 <meta property="og:title" content="Download Mapbox imagery tiles — get_tiles" />
 
 <meta property="og:description" content="Obtain imagery or elevation tiles by location query. The first argument
-`loc` may be a spatial object (sp, raster, sf) or a 2-column matrix with a single
-longitude and latitude value. Use `buffer` to define a width and height to pad
-around the raw longitude and latitude in metres. If `loc` has an extent, then
-`buffer` is ignored." />
+loc may be a spatial object (sp, raster, sf) or a 2-column matrix with a single
+longitude and latitude value. Use buffer to define a width and height to pad
+around the raw longitude and latitude in metres. If loc has an extent, then
+buffer is ignored." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,10 +114,10 @@ around the raw longitude and latitude in metres. If `loc` has an extent, then
     <div class="ref-description">
     
     <p>Obtain imagery or elevation tiles by location query. The first argument
-`loc` may be a spatial object (sp, raster, sf) or a 2-column matrix with a single
-longitude and latitude value. Use `buffer` to define a width and height to pad
-around the raw longitude and latitude in metres. If `loc` has an extent, then
-`buffer` is ignored.</p>
+<code>loc</code> may be a spatial object (sp, raster, sf) or a 2-column matrix with a single
+longitude and latitude value. Use <code>buffer</code> to define a width and height to pad
+around the raw longitude and latitude in metres. If <code>loc</code> has an extent, then
+<code>buffer</code> is ignored.</p>
     
     </div>
 
@@ -150,11 +150,11 @@ around the raw longitude and latitude in metres. If `loc` has an extent, then
     </tr>
     <tr>
       <th>...</th>
-      <td><p>arguments passed to internal function, specifically `base_url` (see Details)</p></td>
+      <td><p>arguments passed to internal function, specifically <code>base_url</code> (see Details)</p></td>
     </tr>
     <tr>
       <th>zoom</th>
-      <td><p>desired zoom for tiles, use with caution - if `NULL` is chosen automatically</p></td>
+      <td><p>desired zoom for tiles, use with caution - if <code>NULL</code> is chosen automatically</p></td>
     </tr>
     <tr>
       <th>debug</th>
@@ -162,7 +162,7 @@ around the raw longitude and latitude in metres. If `loc` has an extent, then
     </tr>
     <tr>
       <th>max_tiles</th>
-      <td><p>maximum number of tiles - if `NULL` is set by zoom constraints</p></td>
+      <td><p>maximum number of tiles - if <code>NULL</code> is set by zoom constraints</p></td>
     </tr>
     <tr>
       <th>base_url</th>
@@ -176,12 +176,12 @@ around the raw longitude and latitude in metres. If `loc` has an extent, then
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>`get_tiles()` may be run with no arguments, and will download (and report on) the default
-tile source at zoom 0. Arguments `type`, `zoom` (or `max_tiles`), `format` may be used
-without setting `loc` or `buffer` and the entire world extent will be used. Please use with caution!
+    <p><code>get_tiles()</code> may be run with no arguments, and will download (and report on) the default
+tile source at zoom 0. Arguments <code>type</code>, <code>zoom</code> (or <code>max_tiles</code>), <code>format</code> may be used
+without setting <code>loc</code> or <code>buffer</code> and the entire world extent will be used. Please use with caution!
 There is no maximum on what will be downloaded, but it can be interrupted at any time.</p>
-<p>Use `debug = TRUE` to avoid download and simply report on what would be done.</p>
-<p>`cc_elevation` does extra work to unpack the DEM tiles from the RGB format.</p>
+<p>Use <code>debug = TRUE</code> to avoid download and simply report on what would be done.</p>
+<p><code>cc_elevation</code> does extra work to unpack the DEM tiles from the RGB format.</p>
 <p>Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
 'mapbox.outdoors', 'mapbox.terrain-rgb' or any string accepted by Mapbox services.</p>
     

@@ -7,7 +7,7 @@
 clear_ceramic_cache(clobber = FALSE, ...)
 }
 \arguments{
-\item{clobber}{set to `TRUE` to avoid checks and delete files}
+\item{clobber}{set to \code{TRUE} to avoid checks and delete files}
 
 \item{...}{reserved for future arguments, currently ignored}
 }
@@ -15,5 +15,5 @@ clear_ceramic_cache(clobber = FALSE, ...)
 this function is called for its side effect, but also returns the file list invisibly whether deleted or not, or NULL if the user cancels.
 }
 \description{
-Delete all downloaded files in the [slippy_cache()].
+Delete all downloaded files in the \code{\link[=slippy_cache]{slippy_cache()}}.
 }

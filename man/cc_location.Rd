@@ -48,11 +48,11 @@ cc_elevation(loc = NULL, buffer = 5000, ..., zoom = NULL,
 
 \item{type}{character string of provider imagery type (see Details)}
 
-\item{...}{arguments passed to internal function, specifically `base_url` (see Details)}
+\item{...}{arguments passed to internal function, specifically \code{base_url} (see Details)}
 
-\item{zoom}{desired zoom for tiles, use with caution - if `NULL` is chosen automatically}
+\item{zoom}{desired zoom for tiles, use with caution - if \code{NULL} is chosen automatically}
 
-\item{max_tiles}{maximum number of tiles to be read into memory - if `NULL` is set by zoom constraints}
+\item{max_tiles}{maximum number of tiles to be read into memory - if \code{NULL} is set by zoom constraints}
 
 \item{debug}{optionally print out files that will be used}
 }
@@ -61,25 +61,25 @@ RasterBrick, with RGB
 }
 \description{
 Obtain imagery or elevation data by location query. The first argument
-`loc` may be a spatial object (sp, raster, sf) or a 2-column matrix with a single
-longitude and latitude value. Use `buffer` to define a width and height to pad
-around the raw longitude and latitude in metres. If `loc` has an extent, then
-`buffer` is ignored.
+\code{loc} may be a spatial object (sp, raster, sf) or a 2-column matrix with a single
+longitude and latitude value. Use \code{buffer} to define a width and height to pad
+around the raw longitude and latitude in metres. If \code{loc} has an extent, then
+\code{buffer} is ignored.
 }
 \details{
-`cc_elevation` does extra work to unpack the DEM tiles from the RGB format.
+\code{cc_elevation} does extra work to unpack the DEM tiles from the RGB format.
 
 Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
 'mapbox.outdoors', 'mapbox.terrain-rgb' or any string accepted by Mapbox services.
 
-Note that arguments `max_tiles` and `zoom` are mutually exclusive. One or both must be `NULL`. If
-both are NULL then `max_tiles = 16L`.
+Note that arguments \code{max_tiles} and \code{zoom} are mutually exclusive. One or both must be \code{NULL}. If
+both are NULL then \code{max_tiles = 16L}.
 }
 \section{Custom styles}{
 
 
-Custom Mapbox styles may be specified with the argument `base_url` in the form:
-`"https://api.mapbox.com/styles/v1/mdsumner/cjs6yn9hu0coo1fqhdqgw3o18/tiles/512/{zoom}/{x}/{y}"`
+Custom Mapbox styles may be specified with the argument \code{base_url} in the form:
+\code{"https://api.mapbox.com/styles/v1/mdsumner/cjs6yn9hu0coo1fqhdqgw3o18/tiles/512/{zoom}/{x}/{y}"}
 
 Currently must be considered in-development.
 }

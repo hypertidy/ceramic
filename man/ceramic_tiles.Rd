@@ -14,9 +14,9 @@ ceramic_tiles(zoom = NULL, type = "mapbox.satellite",
 
 \item{source}{imagery source}
 
-\item{glob}{see `fs::dir_ls`}
+\item{glob}{see \code{fs::dir_ls}}
 
-\item{regexp}{see `fs::dir_ls`}
+\item{regexp}{see \code{fs::dir_ls}}
 }
 \description{
 Find existing files in the cache. Various options can be controlled, this is WIP
