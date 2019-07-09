@@ -7,11 +7,12 @@
 \alias{get_tiles_buffer}
 \title{Get tiles with specific constraints}
 \usage{
-get_tiles_zoom(x, zoom = 0, ...)
+get_tiles_zoom(x, zoom = 0, ..., format = "png")
 
-get_tiles_dim(x, dim = c(512, 512), ...)
+get_tiles_dim(x, dim = c(512, 512), ..., format = "png")
 
-get_tiles_buffer(x, buffer = NULL, ..., max_tiles = 9)
+get_tiles_buffer(x, buffer = NULL, ..., max_tiles = 9,
+  format = "png")
 }
 \arguments{
 \item{x}{a spatial object with an extent}
@@ -19,6 +20,8 @@ get_tiles_buffer(x, buffer = NULL, ..., max_tiles = 9)
 \item{zoom}{desired zoom for tiles, use with caution - cannot be unset in \code{get_tiles_zoom}}
 
 \item{...}{passed to \code{get_tiles()}}
+
+\item{format}{defaults to "png", also available is "jpg"}
 
 \item{dim}{for \code{get_tiles_dim} the overall maximum dimensions of the image (padded out to tile size of 256x256)}
 

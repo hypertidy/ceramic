@@ -49,7 +49,8 @@ Use \code{debug = TRUE} to avoid download and simply report on what would be don
 \code{cc_elevation} does extra work to unpack the DEM tiles from the RGB format.
 
 Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
-'mapbox.outdoors', 'mapbox.terrain-rgb' or any string accepted by Mapbox services.
+'mapbox.outdoors', 'mapbox.terrain-rgb', 'mapbox.streets', 'mapbox.light', 'mapbox.dark'
+or any other string accepted by Mapbox services.
 }
 \seealso{
 get_tiles_zoom get_tiles_dim get_tiles_buffer

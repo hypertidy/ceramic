@@ -26,7 +26,8 @@ guess_format <- function(x) {
 #' `cc_elevation` does extra work to unpack the DEM tiles from the RGB format.
 #'
 #' Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
-#' 'mapbox.outdoors', 'mapbox.terrain-rgb' or any string accepted by Mapbox services.
+#' 'mapbox.outdoors', 'mapbox.terrain-rgb', 'mapbox.streets', 'mapbox.light', 'mapbox.dark'
+#'  or any other string accepted by Mapbox services.
 #'
 #'
 #' @param x a longitude, latitude pair of coordinates, or a spatial object
