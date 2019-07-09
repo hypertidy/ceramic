@@ -116,35 +116,36 @@ get_tiles <- function(x, buffer, type = "mapbox.satellite", crop_to_buffer = TRU
 #' @param zoom desired zoom for tiles, use with caution - cannot be unset in `get_tiles_zoom`
 #' @param buffer width in metres to extend around the location, ignored if 'x' is a spatial object with extent
 #' @param max_tiles maximum number of tiles - if `NULL` is set by zoom constraints
+#' @param format defaults to "png", also available is "jpg"
 #' @name get-tiles-constrained
 #' @aliases get_tiles_zoom get_tiles_dim get_tiles_buffer
 #' @export
 #' @seealso get_tiles
-get_tiles_zoom <- function(x, zoom = 0, ...) {
+get_tiles_zoom <- function(x, zoom = 0, ..., format = "png") {
   if ("max_tiles" %in% names(list(...))) {
     stop("max_tiles cannot be set by 'get_tiles_zoom()', use 'get_tiles_dim()'")
   }
-  get_tiles(x, zoom = zoom, ...)
+  get_tiles(x, zoom = zoom, ..., format = format)
 }
 #' @export
 #' @name get-tiles-constrained
-get_tiles_dim <- function(x, dim = c(512, 512), ...) {
+get_tiles_dim <- function(x, dim = c(512, 512), ..., format = "png") {
   max_tiles <- prod(ceiling(dim / c(256, 256)))
   if ("zoom" %in% names(list(...))) {
     stop("zoom cannot be set by 'get_tiles_dim()', use 'get_tiles_zoom()'")
   }
-  get_tiles(x, max_tiles = max_tiles, ...)
+  get_tiles(x, max_tiles = max_tiles, ..., format = format)
 }
 #' @export
 #' @name get-tiles-constrained
-get_tiles_buffer <- function(x, buffer = NULL, ..., max_tiles = 9) {
+get_tiles_buffer <- function(x, buffer = NULL, ..., max_tiles = 9, format = "png") {
   if (is.null(buffer)) {
     stop("buffer cannot be NULL in 'get_tiles_buffer()'")
   }
   if (!is.numeric(x) || !length(x) == 2L) {
     stop("get_tiles_buffer() expects a single point location longitude,latitude")
   }
-  get_tiles(x, buffer = buffer, max_tiles = max_tiles, ...)
+  get_tiles(x, buffer = buffer, max_tiles = max_tiles, ..., format = format)
 }
 
 
