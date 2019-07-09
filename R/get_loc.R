@@ -13,7 +13,7 @@ get_loc <- function(loc, buffer, type = "mapbox.satellite", crop_to_buffer = TRU
     type <- ""
   }
 
-  bbox_pair <- slippy_bbox(loc, buffer)
+  bbox_pair <- spatial_bbox(loc, buffer)
 
   my_bbox <- bbox_pair$tile_bbox
   bb_points <- bbox_pair$user_points
@@ -39,7 +39,7 @@ get_loc <- function(loc, buffer, type = "mapbox.satellite", crop_to_buffer = TRU
     mess <-paste(files, collapse = "\n")
     stop(sprintf("no sensible tiles found, check cache?\n%s", mess))
   }
-   user_x <- NULL
+   user_ex <- NULL
   if (crop_to_buffer) user_ex <- raster::extent(as.vector(bb_points))
   list(files = files[!bad], tiles = tile_grid, extent = user_ex)
 }

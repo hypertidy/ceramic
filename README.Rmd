@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 ```
 # ceramic
 
-The goal of ceramic is to obtain web map tiles from Mapbox. Use a spatial object to define the region of interest. 
+The goal of ceramic is to obtain web map tiles. Use a spatial object to define the region of interest. 
 
 
 ```{r}
@@ -62,6 +62,16 @@ dem_nz[!dem_nz > 0] <- NA
 raster::plot(dem_nz, col = grey(seq(0, 1, length = 51)), breaks = quantile(raster::values(dem_nz), seq(0, 1, length = 52), na.rm = TRUE), legend = FALSE)
 plot(st_transform(st_cast(north, "MULTILINESTRING")["Name"], raster::projection(dem_nz)), add = TRUE, lwd = 5)
 
+```
+
+
+## Providers
+
+The default map provider is [Mapbox](https://mapbox.com/), but ceramic is written for general usage and also provides access to the [joerd tiles]() via the `type = "elevation-tiles-prod"` argument. 
+
+```{r}
+pt <- cbind(175.6082, -37.994)
+nz_z12 <- cc_location(pt, zoom = 12, type = "elevation-tiles-prod")
 ```
 
 ```{r, eval=FALSE, include = FALSE}

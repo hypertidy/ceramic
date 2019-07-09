@@ -11,7 +11,7 @@ is_spatial <- function(x) {
   FALSE
 }
 
-slippy_bbox <- function(loc, buffer) {
+spatial_bbox <- function(loc, buffer = NULL) {
   if (is_spatial(loc)) {
     ## turn loc into a longlat point
     ## and a buffer
