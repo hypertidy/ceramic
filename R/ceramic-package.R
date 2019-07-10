@@ -49,7 +49,8 @@
 #'   }
 #'   }
 #'
-#'
+#' @name ceramic-package
+#' @docType package
 NULL
 
 #' Australian coastline
