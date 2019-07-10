@@ -6,7 +6,7 @@
 \alias{ceramic-package}
 \title{ceramic: Get Online Imagery Tiles}
 \description{
-Download imagery tiles to a standard cache and optionally convert into raster objects. 
+Download imagery tiles to a standard cache and load the data into raster objects. 
  Providers for 'AWS' terrain <https://aws.amazon.com/public-datasets/terrain/> terrain and 'Mapbox' 
  <https://www.mapbox.com/> servers are available.
 
