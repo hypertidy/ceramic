@@ -80,7 +80,7 @@ This is really for expert use when you want to control the downloaded tile files
 
 ## Providers
 
-The default map provider is [Mapbox](https://mapbox.com/), but ceramic is written for general usage and also provides access to the [joerd tiles]() via the `type = "elevation-tiles-prod"` argument. 
+The default map provider is [Mapbox](https://www.mapbox.com/), but ceramic is written for general usage and also provides access to the [joerd tiles]() via the `type = "elevation-tiles-prod"` argument. 
 
 ```{r}
 pt <- cbind(175.6082, -37.994)
@@ -224,7 +224,7 @@ ceramic::plot_tiles(ceramic_tiles(zoom = 7), add = TRUE)
 # Future improvements
 
 
-See the [Issue tab](https://github.com/hypertidy/ceramic/issues) and please make suggestions and give feedback!
+See the [Issue tab](https://github.com/hypertidy/ceramic/issues/) and please make suggestions and give feedback!
 
 ---
 

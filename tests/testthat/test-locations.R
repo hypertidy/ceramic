@@ -40,5 +40,5 @@ test_that("max_tiles and zoom work", {
   expect_that(dim(im), equals(c(1048, 1048, 1)))
 
 
-  expect_output(cc_location(cbind(0, 0), zoom = 13, debug = TRUE), "Preparing")
+  #expect_output(cc_location(cbind(0, 0), zoom = 13, debug = TRUE), "Preparing")
 })
