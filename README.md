@@ -8,6 +8,8 @@ Status](https://travis-ci.org/hypertidy/ceramic.svg?branch=master)](https://trav
 status](https://ci.appveyor.com/api/projects/status/slut5jxc9lta8pml/branch/master?svg=true)](https://ci.appveyor.com/project/mdsumner/ceramic)
 [![Coverage
 status](https://codecov.io/gh/hypertidy/ceramic/branch/master/graph/badge.svg)](https://codecov.io/github/hypertidy/ceramic?branch=master)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/ceramic)](https://cran.r-project.org/package=ceramic)[![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/ceramic)](https://cran.r-project.org/package=ceramic)
 
 # ceramic
 
@@ -115,7 +117,8 @@ tile files yourself directly.
 
 The default map provider is [Mapbox](https://www.mapbox.com/), but
 ceramic is written for general usage and also provides access to the
-[joerd tiles]() via the `type = "elevation-tiles-prod"` argument.
+[joerd AWS tiles](https://github.com/tilezen/joerd/) via the `type =
+"elevation-tiles-prod"` argument.
 
 ``` r
 pt <- cbind(175.6082, -37.994)

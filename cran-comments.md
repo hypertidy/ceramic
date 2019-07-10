@@ -1,4 +1,6 @@
-New package, ceramic for online image server data. 
+Second submission,  ceramic for online image server data. 
+
+Fixed empty URL problem in README.md. 
 
 Thank you. 
 
@@ -9,14 +11,6 @@ Thank you.
 
 ## R CMD check results
 
-0 errors | 0 warnings | 2 notes
-
-I cannot figure out what is causing this empty URL message?
+0 errors | 0 warnings | 1 note
 
 * This is a new release.
-
-* Found the following (possibly) invalid URLs:
-  URL: 
-    From: README.md
-    Message: Empty URL
-
