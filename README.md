@@ -8,8 +8,6 @@ Status](https://travis-ci.org/hypertidy/ceramic.svg?branch=master)](https://trav
 status](https://ci.appveyor.com/api/projects/status/slut5jxc9lta8pml/branch/master?svg=true)](https://ci.appveyor.com/project/mdsumner/ceramic)
 [![Coverage
 status](https://codecov.io/gh/hypertidy/ceramic/branch/master/graph/badge.svg)](https://codecov.io/github/hypertidy/ceramic?branch=master)
-[![CRAN
-status](https://www.r-pkg.org/badges/version/ceramic)](https://cran.r-project.org/package=ceramic)[![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/ceramic)](https://cran.r-project.org/package=ceramic)
 
 # ceramic
 
@@ -192,7 +190,7 @@ This complete example gets tiled imagery that we can use as real data.
 The code here
 
   - generates a bounding box in longitude-latitude
-  - uses [slippymath](https://CRAN.r-project.org/package=slippymath/) to
+  - uses [slippymath](https://CRAN.r-project.org/package=slippymath) to
     find sensible tiles for the region
   - downloads them to a local cache
   - georeferences them and merges the tiles into a sensible raster

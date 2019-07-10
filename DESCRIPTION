@@ -1,5 +1,5 @@
 Package: ceramic
-Title: Get Online Imagery Tiles
+Title: Download Online Imagery Tiles
 Version: 0.5.0
 Authors@R: c(
     person("Michael", "Sumner", email = "mdsumner@gmail.com", role = c("aut", "cre"), 
@@ -9,8 +9,8 @@ Authors@R: c(
     person("Ben", "Raymond", role = c("ctb"), comment = "regex wizardry")
     )
 Description: Download imagery tiles to a standard cache and load the data into raster objects. 
- Providers for 'AWS' terrain <https://aws.amazon.com/public-datasets/terrain/> terrain and 'Mapbox' 
- <https://www.mapbox.com/> servers are available. 
+ Facilities for 'AWS' terrain <https://aws.amazon.com/public-datasets/terrain/> terrain and 'Mapbox' 
+ <https://www.mapbox.com/> servers are provided. 
 Depends: R (>= 3.5.0)
 License: GPL-3
 Encoding: UTF-8
