@@ -197,7 +197,7 @@ This complete example gets tiled imagery that we can use as real data.
 The code here
 
   - generates a bounding box in longitude-latitude
-  - uses [slippymath](https://github.com/MilesMcBain/slippymath/) to
+  - uses [slippymath](https://CRAN.r-project.org/package=slippymath/) to
     find sensible tiles for the region
   - downloads them to a local cache
   - georeferences them and merges the tiles into a sensible raster

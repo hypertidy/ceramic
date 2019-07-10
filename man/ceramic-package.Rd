@@ -9,7 +9,7 @@
 The ceramic package provides tools to download and load imagery and raster tiles from online servers.
 }
 \details{
-Any process that can trigger downloads will first check the \href{cache}{ceramic_cache()} in case the tile already exists.
+Any process that can trigger downloads will first check the \code{\link[=ceramic_cache]{ceramic_cache()}} in case the tile already exists.
 
 The main functions are for downloading tiles and loading them as raster objects, and each accepts a spatial
 object for the first argument, alternatively a raster extent, or location:

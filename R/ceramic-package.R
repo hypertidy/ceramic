@@ -2,7 +2,7 @@
 #'
 #' The ceramic package provides tools to download and load imagery and raster tiles from online servers.
 #'
-#' Any process that can trigger downloads will first check the [ceramic_cache()](cache) in case the tile already exists.
+#' Any process that can trigger downloads will first check the [ceramic_cache()] in case the tile already exists.
 #'
 #'
 #' The main functions are for downloading tiles and loading them as raster objects, and each accepts a spatial
