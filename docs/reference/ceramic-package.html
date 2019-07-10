@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ceramic: Get Online Imagery Tiles — ceramic-package • ceramic</title>
+<title>Obtain imagery tiles — ceramic-package • ceramic</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,12 +30,9 @@
 
 
 
-<meta property="og:title" content="ceramic: Get Online Imagery Tiles — ceramic-package" />
+<meta property="og:title" content="Obtain imagery tiles — ceramic-package" />
 
-<meta property="og:description" content="Download imagery tiles to a standard cache and optionally convert into raster objects. 
- Providers for 'AWS' terrain &amp;lt;https://aws.amazon.com/public-datasets/terrain/&amp;gt; terrain and 'Mapbox' 
- &amp;lt;https://www.mapbox.com/&amp;gt; servers are available.
-The ceramic package provides tools to download and load imagery and raster tiles from online servers." />
+<meta property="og:description" content="The ceramic package provides tools to download and load imagery and raster tiles from online servers." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -105,17 +102,14 @@ The ceramic package provides tools to download and load imagery and raster tiles
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>ceramic: Get Online Imagery Tiles</h1>
+    <h1>Obtain imagery tiles</h1>
     <small class="dont-index">Source: <a href='https://github.com/hypertidy/ceramic/blob/master/R/ceramic-package.R'><code>R/ceramic-package.R</code></a></small>
     <div class="hidden name"><code>ceramic-package.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Download imagery tiles to a standard cache and optionally convert into raster objects. 
- Providers for 'AWS' terrain &lt;https://aws.amazon.com/public-datasets/terrain/&gt; terrain and 'Mapbox' 
- &lt;https://www.mapbox.com/&gt; servers are available.</p>
-<p>The ceramic package provides tools to download and load imagery and raster tiles from online servers.</p>
+    <p>The ceramic package provides tools to download and load imagery and raster tiles from online servers.</p>
     
     </div>
 
@@ -123,9 +117,8 @@ The ceramic package provides tools to download and load imagery and raster tiles
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Any process that can trigger downloads will first check the <a href='cache'>ceramic_cache()</a> in case the tile already exists.</p>
-<p>I. Main user functions
-The main functions are for downloading tiles and loading them as raster objects, and each accepts a spatial
-object for the first argument, alternatively a raster extent, or location:
+<p>The main functions are for downloading tiles and loading them as raster objects, and each accepts a spatial
+object for the first argument, alternatively a raster extent, or location:</p>
 <table class='table'>
 <tr><td></td><td><code><a href='get_tiles.html'>get_tiles</a></code></td></tr>
 <tr><td></td><td>Download tiles for a given service for an extent and resolution</td></tr>
@@ -137,16 +130,15 @@ object for the first argument, alternatively a raster extent, or location:
 <tr><td></td><td>Download tiles base on extent and zoom level</td></tr>
 <tr><td></td><td></td></tr>
 </table>
-    Two helper functions will trigger the download of tiles and also collate the result into a raster object:
+    <p>Two helper functions will trigger the download of tiles and also collate the result into a raster object:</p>
 <table class='table'>
 <tr><td></td><td><code><a href='cc_location.html'>cc_location</a></code></td></tr>
 <tr><td></td><td>Download tiles and build a raster object of imagery</td></tr>
 <tr><td></td><td><code><a href='cc_location.html'>cc_elevation</a></code></td></tr>
 <tr><td></td><td>Download tiles and build a raster object of elevation data</td></tr>
 <tr><td></td><td></td></tr>
-</table></p>
-<p>II. Administration functions
-Administration functions for handling the file cache and required API key for on online service:
+</table>
+    <p>Administration functions for handling the file cache and required API key for on online service:</p>
 <table class='table'>
 <tr><td></td><td><code><a href='get_api_key.html'>get_api_key</a></code></td></tr>
 <tr><td></td><td>Return the stored key for online API, or NULL</td></tr>
@@ -155,9 +147,8 @@ Administration functions for handling the file cache and required API key for on
 <tr><td></td><td><code><a href='clear_ceramic_cache.html'>clear_ceramic_cache</a></code></td></tr>
 <tr><td></td><td>Delete all files in the tile cache (use with caution!)</td></tr>
 <tr><td></td><td></td></tr>
-</table></p>
-<p>III. Other functions
-Other functions that are either rarely used or considered subject to change:
+</table>
+    <p>Other functions that are either rarely used or considered subject to change:</p>
 <table class='table'>
 <tr><td></td><td><code><a href='ceramic_tiles.html'>ceramic_tiles</a></code></td></tr>
 <tr><td></td><td>Find particular tiles from the cache</td></tr>
@@ -188,14 +179,7 @@ Other functions that are either rarely used or considered subject to change:
 <tr><td></td><td>Specific location hardcoded form of</td></tr>
 <tr><td><code><a href='cc_location.html'>cc_location</a></code></td><td></td></tr>
 <tr><td></td><td></td></tr>
-</table></p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Useful links:</p><ul>
-<li><p><a href='https://github.com/hypertidy/ceramic'>https://github.com/hypertidy/ceramic</a></p></li>
-<li><p>Report bugs at <a href='https://github.com/hypertidy/ceramic/issues'>https://github.com/hypertidy/ceramic/issues</a></p></li>
-</ul></div>
+</table>
     
 
   </div>
@@ -204,17 +188,7 @@ Other functions that are either rarely used or considered subject to change:
     <ul class="nav nav-pills nav-stacked">
       
       <li><a href="#details">Details</a></li>
-
-      <li><a href="#see-also">See also</a></li>
           </ul>
-
-    <h2>Author</h2>
-    <p><strong>Maintainer</strong>: Michael Sumner <a href='mailto:mdsumner@gmail.com'>mdsumner@gmail.com</a> (0000-0002-2471-7511)</p>
-<p>Other contributors:</p><ul>
-<li><p>Miles McBain (0000-0003-2865-2548) [contributor]</p></li>
-<li><p>Ben Raymond (regex wizardry) [contributor]</p></li>
-</ul>
-
 
   </div>
 </div>

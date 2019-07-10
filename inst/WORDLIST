@@ -1,4 +1,5 @@
 api
+aws
 AppVeyor
 Azimuthal
 ceramic’
@@ -7,6 +8,8 @@ FOSS
 georeferences
 getter
 Github
+hardcoded
+https
 joerd
 jpg
 lifecycle
@@ -23,6 +26,7 @@ slippymath
 sp
 useable
 WIP
+www
 xmax
 xmin
 ymax
