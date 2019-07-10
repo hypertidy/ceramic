@@ -32,9 +32,7 @@
 
 <meta property="og:title" content="Plot slippy map tiles — plot_tiles" />
 
-<meta property="og:description" content="Create a new plot of tile rectangles, or add to an existing plot. The extent
-('xmin', 'xmax', 'ymin', 'ymax') is used directly to draw the tiles so must be in the
-native Mercator coordinate system used by most tile servers." />
+<meta property="og:description" content="Create a new plot of tile rectangles, or add to an existing plot." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -65,7 +63,7 @@ native Mercator coordinate system used by most tile servers." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ceramic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -111,9 +109,7 @@ native Mercator coordinate system used by most tile servers." />
 
     <div class="ref-description">
     
-    <p>Create a new plot of tile rectangles, or add to an existing plot. The extent
-('xmin', 'xmax', 'ymin', 'ymax') is used directly to draw the tiles so must be in the
-native Mercator coordinate system used by most tile servers.</p>
+    <p>Create a new plot of tile rectangles, or add to an existing plot.</p>
     
     </div>
 
@@ -155,13 +151,29 @@ native Mercator coordinate system used by most tile servers.</p>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
+    <p>The extent ('xmin', 'xmax', 'ymin', 'ymax') is used directly to draw the tiles so must be in the
+native Mercator coordinate system used by most tile servers.</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (!<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/NULL'>is.null</a></span>(<span class='fu'><a href='get_api_key.html'>get_api_key</a></span>())) {
+  <span class='fu'><a href='get-tiles-constrained.html'>get_tiles_zoom</a></span>(<span class='kw'>zoom</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+  <span class='no'>tiles</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ceramic_tiles.html'>ceramic_tiles</a></span>(<span class='kw'>zoom</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+  <span class='fu'>plot_tiles</span>(<span class='no'>tiles</span>)
+}</div><div class='output co'>#&gt; Preparing to download: 4 tiles at zoom = 1 from 
+#&gt; https://api.mapbox.com/v4/mapbox.satellite/</div><div class='img'><img src='plot_tiles-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#details">Details</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

@@ -67,7 +67,7 @@ buffer is ignored." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ceramic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -183,13 +183,19 @@ There is no maximum on what will be downloaded, but it can be interrupted at any
 <p>Use <code>debug = TRUE</code> to avoid download and simply report on what would be done.</p>
 <p><code>cc_elevation</code> does extra work to unpack the DEM tiles from the RGB format.</p>
 <p>Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
-'mapbox.outdoors', 'mapbox.terrain-rgb' or any string accepted by Mapbox services.</p>
+'mapbox.outdoors', 'mapbox.terrain-rgb', 'mapbox.streets', 'mapbox.light', 'mapbox.dark'
+or any other string accepted by Mapbox services.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>get_tiles_zoom get_tiles_dim get_tiles_buffer</p></div>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (!<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/NULL'>is.null</a></span>(<span class='fu'><a href='get_api_key.html'>get_api_key</a></span>())) {
+   <span class='no'>tile_info</span> <span class='kw'>&lt;-</span> <span class='fu'>get_tiles</span>(<span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/raster/topics/extent'>extent</a></span>(<span class='fl'>146</span>, <span class='fl'>147</span>, -<span class='fl'>43</span>, -<span class='fl'>42</span>), <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"mapbox.outdoors"</span>, <span class='kw'>zoom</span> <span class='kw'>=</span> <span class='fl'>5</span>)
+}</div><div class='output co'>#&gt; Preparing to download: 2 tiles at zoom = 5 from 
+#&gt; https://api.mapbox.com/v4/mapbox.outdoors/</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -199,7 +205,9 @@ There is no maximum on what will be downloaded, but it can be interrupted at any
       <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

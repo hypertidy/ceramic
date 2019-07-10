@@ -16,5 +16,5 @@ this function is called for its side effect, but also returns the file list invi
 whether deleted or not, or NULL if the user cancels.
 }
 \description{
-Delete all downloaded files in the \code{\link[=slippy_cache]{slippy_cache()}}.
+Delete all downloaded files in the \code{\link[=ceramic_cache]{ceramic_cache()}}.
 }

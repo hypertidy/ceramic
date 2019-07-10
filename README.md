@@ -98,17 +98,6 @@ and `get_tiles_buffer()` will *only download files*.
 tile_summ <- get_tiles_zoom(north, zoom = 8)
 #> Preparing to download: 48 tiles at zoom = 8 from 
 #> https://api.mapbox.com/v4/mapbox.satellite/
-#> Warning: `recursive` is deprecated, please use `recurse` instead
-
-#> Warning: `recursive` is deprecated, please use `recurse` instead
-
-#> Warning: `recursive` is deprecated, please use `recurse` instead
-
-#> Warning: `recursive` is deprecated, please use `recurse` instead
-
-#> Warning: `recursive` is deprecated, please use `recurse` instead
-
-#> Warning: `recursive` is deprecated, please use `recurse` instead
 length(tile_summ$files)
 #> [1] 48
 str(tile_summ$tiles)

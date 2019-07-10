@@ -224,11 +224,7 @@ ceramic::plot_tiles(ceramic_tiles(zoom = 7), add = TRUE)
 # Future improvements
 
 
-* control download of raw tiles (we have this!)
-* allow lazy read access to tile caches
-* generalize across providers
-* provide interactive means to build access to imagery
-
+See the [Issue tab](https://github.com/hypertidy/ceramic/issues) and please make suggestions and give feedback!
 
 ---
 

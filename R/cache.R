@@ -1,13 +1,13 @@
 #' Clear ceramic cache
 #'
-#' Delete all downloaded files in the [slippy_cache()].
+#' Delete all downloaded files in the [ceramic_cache()].
 #' @param clobber set to `TRUE` to avoid checks and delete files
 #' @param ... reserved for future arguments, currently ignored
 #' @export
 #' @return this function is called for its side effect, but also returns the file list invisibly
 #' whether deleted or not, or NULL if the user cancels.
 clear_ceramic_cache <- function(clobber = FALSE, ...){
- files <- fs::dir_ls(slippy_cache(), all = FALSE, recurse = TRUE)
+ files <- fs::dir_ls(ceramic_cache(), all = FALSE, recurse = TRUE)
  if (length(files) < 1) {
    message("No files in cache. Nothing to do.")
    return(invisible(NULL))
@@ -21,7 +21,7 @@ clear_ceramic_cache <- function(clobber = FALSE, ...){
  if (is.na(answer)) {message("Cancelled."); return(invisible(NULL))}
  if (!answer) {message("Cache not removed.")}
  if (answer) {
-   tst <- fs::dir_delete(slippy_cache())
+   tst <- fs::dir_delete(ceramic_cache())
    message(sprintf("%i cache files removed.", length(files)))
    return(invisible(files))
  }
@@ -100,7 +100,7 @@ ceramic_tiles <- function(zoom = NULL, type = "mapbox.satellite",
 
   ## FIXME: assert that zoom, type, source, all are length 1
   bfiles <-
-    fs::dir_ls(slippy_cache(), recurse = TRUE, type = "file",
+    fs::dir_ls(ceramic_cache(), recurse = TRUE, type = "file",
                glob = glob, regexp = regexp)
   #strex <- function(x, y) regmatches(x, regexec(y, x))
   #browser()
@@ -178,23 +178,30 @@ tile_zoom <- function(x) {
 #' @importFrom utils askYesNo
 #' @examples
 #' if (interactive()) {
-#'  slippy_cache()
+#'  ceramic_cache()
 #' }
-slippy_cache <- function(force = FALSE) {
+ceramic_cache <- function(force = FALSE) {
   cache <- file.path(rappdirs::user_cache_dir(), ".ceramic")
   if (!fs::dir_exists(cache)) {
     if (!force) {
       val <- NA
       if (interactive()) val <- utils::askYesNo(sprintf("Create file cache for storing tiles in%s? ", cache))
-      if (is.na(val) || !val) stop("No cache available, set up cache by running 'slippy_cache()'")
+      if (is.na(val) || !val) stop("No cache available, set up cache by running 'ceramic_cache()'")
     }
     fs::dir_create(cache)
   }
   cache
 }
 
+#' @name ceramic_cache
+#' @keywords internal
+#' @export
+slippy_cache <- function(...) {
+  .Deprecated("ceramic_cache")
+  ceramic_cache(...)
+}
 url_to_cache <- function(x) {
-  base_filepath <- file.path(slippy_cache(), gsub("^//", "", gsub("^https\\:", "", gsub("^https\\:", "", x))))
+  base_filepath <- file.path(ceramic_cache(), gsub("^//", "", gsub("^https\\:", "", gsub("^https\\:", "", x))))
   ## chuck off any ? junk
   out <- unlist(lapply(strsplit(base_filepath, "\\?"), "[", 1L))
   ## also append the default image format if it's not present

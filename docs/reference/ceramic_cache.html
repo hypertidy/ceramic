@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • ceramic</title>
+<title>Ceramic file cache — ceramic_cache • ceramic</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,10 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Ceramic file cache — ceramic_cache" />
+
+<meta property="og:description" content="File system location where ceramic stores its cache." />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -47,7 +50,7 @@
   </head>
 
   <body>
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -99,59 +102,62 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/hypertidy/ceramic/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>Ceramic file cache</h1>
+    <small class="dont-index">Source: <a href='https://github.com/hypertidy/ceramic/blob/master/R/cache.R'><code>R/cache.R</code></a></small>
+    <div class="hidden name"><code>ceramic_cache.Rd</code></div>
     </div>
 
-    <div id="ceramic-0-5-0" class="section level1">
-<h1 class="page-header">
-<a href="#ceramic-0-5-0" class="anchor"></a>ceramic 0.5.0</h1>
-<div id="breaking-changes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#breaking-changes" class="anchor"></a>Breaking changes</h2>
-<ul>
-<li><p>Function <code>down_loader()</code> is no longer exported.</p></li>
-<li><p>Function <code><a href="../reference/ceramic_cache.html">slippy_cache()</a></code> is now deprecated, plese use <code><a href="../reference/ceramic_cache.html">ceramic_cache()</a></code>.</p></li>
-</ul>
-</div>
-<div id="new-features" class="section level2">
-<h2 class="hasAnchor">
-<a href="#new-features" class="anchor"></a>New features</h2>
-<ul>
-<li><p>New focus on tile-downloading versus tile-loading (as a raster object). The function <code><a href="../reference/get_tiles.html">get_tiles()</a></code> does nothing but download the tiles. The functions <code><a href="../reference/cc_location.html">cc_location()</a></code> and <code><a href="../reference/cc_location.html">cc_elevation()</a></code> trigger <code><a href="../reference/get_tiles.html">get_tiles()</a></code> to download if needed, and then merge tiles into the appropriate raster object.</p></li>
-<li><p>New function <code><a href="../reference/ceramic_cache.html">ceramic_cache()</a></code> to replace deprecated older function.</p></li>
-<li><p>Function <code><a href="../reference/get_api_key.html">get_api_key()</a></code> is now exported.</p></li>
-<li><p>In <code>debug</code> mode the files are only printed, not downloaded. In this case the tile object is returned invisibly.</p></li>
-<li><p><code>down_loader()</code> and higher level functions that use it will report on the download task about to occur.</p></li>
-<li><p>Function <code><a href="../reference/get_tiles.html">get_tiles()</a></code> will happily download tiles for any source at any zoom for the entire world.</p></li>
-<li><p>Renamed internal <code>get_loc()</code> function to <code><a href="../reference/get_tiles.html">get_tiles()</a></code>.</p></li>
-<li><p>Imagery getter functions now accept <code>type = "elevation-tiles-prod"</code> for AWS terrain tiles.</p></li>
-<li><p>Function <code>cc_location</code>, <code>cc_elevation</code> and friends now allow <code>loc</code> input to be sf, raster, sp types in any projection.</p></li>
-<li><p>Function <code>cc_location</code> and <code>cc_elevation</code> and friends now allow input of either <code>max_tiles</code> or <code>zoom</code>.</p></li>
-</ul>
-</div>
-</div>
-    <div id="ceramic-0-1-0" class="section level1">
-<h1 class="page-header">
-<a href="#ceramic-0-1-0" class="anchor"></a>ceramic 0.1.0</h1>
-<ul>
-<li><p>Now aligned to <code>slippymath</code> 0.3.0.</p></li>
-<li><p>Added function <code>cc_elevation</code>.</p></li>
-<li><p>Early dev, with Miles McBain at FOSS4G Oceania 2018!</p></li>
-</ul>
-</div>
-  </div>
+    <div class="ref-description">
+    
+    <p>File system location where ceramic stores its cache.</p>
+    
+    </div>
 
+    <pre class="usage"><span class='fu'>ceramic_cache</span>(<span class='kw'>force</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
+<span class='fu'>slippy_cache</span>(<span class='no'>...</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>force</th>
+      <td><p>set to <code>TRUE</code> to create the location without asking the user</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>character value of location of cache</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>If allowed, the cache will be created at <code><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path(rappdirs::user_cache_dir(), ".ceramic")</a></code>,
+which corresponds to '~/.cache/.ceramic' for a given user.</p>
+<p>If the file cache location does not exist, the user will be asked in interactive mode
+for permission. For non-interactive mode use the <code>force</code> argument.</p>
+<p>It is not currently possible to customize the cache location. To clear the cache (completely)
+see <code><a href='clear_ceramic_cache.html'>clear_ceramic_cache()</a></code>.</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>()) {
+ <span class='fu'>ceramic_cache</span>()
+}</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#ceramic-0-5-0">0.5.0</a></li>
-        <li><a href="#ceramic-0-1-0">0.1.0</a></li>
-      </ul>
-    </div>
-  </div>
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
 
+      <li><a href="#details">Details</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
+
+  </div>
 </div>
 
       <footer>

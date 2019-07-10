@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • ceramic</title>
+<title>Get API key for Mapbox service — get_api_key • ceramic</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,10 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Get API key for Mapbox service — get_api_key" />
+
+<meta property="og:description" content="Mapbox tile providers require an API key. Other providers may not need a key and so this is ignored." />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -47,7 +50,7 @@
   </head>
 
   <body>
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -99,59 +102,61 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/hypertidy/ceramic/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>Get API key for Mapbox service</h1>
+    <small class="dont-index">Source: <a href='https://github.com/hypertidy/ceramic/blob/master/R/provider-mapbox.R'><code>R/provider-mapbox.R</code></a></small>
+    <div class="hidden name"><code>get_api_key.Rd</code></div>
     </div>
 
-    <div id="ceramic-0-5-0" class="section level1">
-<h1 class="page-header">
-<a href="#ceramic-0-5-0" class="anchor"></a>ceramic 0.5.0</h1>
-<div id="breaking-changes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#breaking-changes" class="anchor"></a>Breaking changes</h2>
-<ul>
-<li><p>Function <code>down_loader()</code> is no longer exported.</p></li>
-<li><p>Function <code><a href="../reference/ceramic_cache.html">slippy_cache()</a></code> is now deprecated, plese use <code><a href="../reference/ceramic_cache.html">ceramic_cache()</a></code>.</p></li>
-</ul>
-</div>
-<div id="new-features" class="section level2">
-<h2 class="hasAnchor">
-<a href="#new-features" class="anchor"></a>New features</h2>
-<ul>
-<li><p>New focus on tile-downloading versus tile-loading (as a raster object). The function <code><a href="../reference/get_tiles.html">get_tiles()</a></code> does nothing but download the tiles. The functions <code><a href="../reference/cc_location.html">cc_location()</a></code> and <code><a href="../reference/cc_location.html">cc_elevation()</a></code> trigger <code><a href="../reference/get_tiles.html">get_tiles()</a></code> to download if needed, and then merge tiles into the appropriate raster object.</p></li>
-<li><p>New function <code><a href="../reference/ceramic_cache.html">ceramic_cache()</a></code> to replace deprecated older function.</p></li>
-<li><p>Function <code><a href="../reference/get_api_key.html">get_api_key()</a></code> is now exported.</p></li>
-<li><p>In <code>debug</code> mode the files are only printed, not downloaded. In this case the tile object is returned invisibly.</p></li>
-<li><p><code>down_loader()</code> and higher level functions that use it will report on the download task about to occur.</p></li>
-<li><p>Function <code><a href="../reference/get_tiles.html">get_tiles()</a></code> will happily download tiles for any source at any zoom for the entire world.</p></li>
-<li><p>Renamed internal <code>get_loc()</code> function to <code><a href="../reference/get_tiles.html">get_tiles()</a></code>.</p></li>
-<li><p>Imagery getter functions now accept <code>type = "elevation-tiles-prod"</code> for AWS terrain tiles.</p></li>
-<li><p>Function <code>cc_location</code>, <code>cc_elevation</code> and friends now allow <code>loc</code> input to be sf, raster, sp types in any projection.</p></li>
-<li><p>Function <code>cc_location</code> and <code>cc_elevation</code> and friends now allow input of either <code>max_tiles</code> or <code>zoom</code>.</p></li>
-</ul>
-</div>
-</div>
-    <div id="ceramic-0-1-0" class="section level1">
-<h1 class="page-header">
-<a href="#ceramic-0-1-0" class="anchor"></a>ceramic 0.1.0</h1>
-<ul>
-<li><p>Now aligned to <code>slippymath</code> 0.3.0.</p></li>
-<li><p>Added function <code>cc_elevation</code>.</p></li>
-<li><p>Early dev, with Miles McBain at FOSS4G Oceania 2018!</p></li>
-</ul>
-</div>
-  </div>
+    <div class="ref-description">
+    
+    <p>Mapbox tile providers require an API key. Other providers may not need a key and so this is ignored.</p>
+    
+    </div>
 
+    <pre class="usage"><span class='fu'>get_api_key</span>(<span class='kw'>api</span> <span class='kw'>=</span> <span class='st'>"mapbox"</span>, <span class='no'>...</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>api</th>
+      <td><p>character string denoting which service ("mapbox" only)</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>currently ignored</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The <a href='https://CRAN.r-project.org/package=mapdeck/'>mapdeck package</a> has a more comprehensive tool for
+setting the Mapbox API key, if this is in use ceramic will find it first and use it.</p>
+<p>To set your Mapbox API key obtain a key from <a href='https://account.mapbox.com/access-tokens/'>https://account.mapbox.com/access-tokens/</a></p><pre>
+1) Run this to set for the session 'Sys.setenv(MAPBOX_API_KEY=&lt;yourkey&gt;)'
+    OR,
+    2) To set permanently store 'MAPBOX_API_KEY=&lt;yourkey&gt;' in '~/.Renviron'.
+</pre>
+    <p>There is a fairly liberal allowance for the actual name of the environment variable, any of
+'MAPBOX_API_KEY', 'MAPBOX_API_TOKEN', 'MAPBOX_KEY', 'MAPBOX_TOKEN', or 'MAPBOX' will work (and they are
+sought in that order).</p>
+<p>If no key is available, <code>NULL</code> is returned, with a warning.</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>get_api_key</span>()</div><div class='output co'>#&gt; [1] "pk.eyJ1IjoibWRzdW1uZXIiLCJhIjoiY2lleHM3dDk5MDBzbHM4bTM1bjkyY2kwayJ9.IrUihishnOa8w0JFXhXqZA"</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#ceramic-0-5-0">0.5.0</a></li>
-        <li><a href="#ceramic-0-1-0">0.1.0</a></li>
-      </ul>
-    </div>
-  </div>
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#details">Details</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
+  </div>
 </div>
 
       <footer>

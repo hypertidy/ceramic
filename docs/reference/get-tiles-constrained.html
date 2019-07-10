@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ceramic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -113,11 +113,12 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>get_tiles_zoom</span>(<span class='no'>x</span>, <span class='kw'>zoom</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>get_tiles_zoom</span>(<span class='no'>x</span>, <span class='kw'>zoom</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='no'>...</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"png"</span>)
 
-<span class='fu'>get_tiles_dim</span>(<span class='no'>x</span>, <span class='kw'>dim</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>512</span>, <span class='fl'>512</span>), <span class='no'>...</span>)
+<span class='fu'>get_tiles_dim</span>(<span class='no'>x</span>, <span class='kw'>dim</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>512</span>, <span class='fl'>512</span>), <span class='no'>...</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"png"</span>)
 
-<span class='fu'>get_tiles_buffer</span>(<span class='no'>x</span>, <span class='kw'>buffer</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>, <span class='kw'>max_tiles</span> <span class='kw'>=</span> <span class='fl'>9</span>)</pre>
+<span class='fu'>get_tiles_buffer</span>(<span class='no'>x</span>, <span class='kw'>buffer</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>, <span class='kw'>max_tiles</span> <span class='kw'>=</span> <span class='fl'>9</span>,
+  <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"png"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -133,6 +134,10 @@
     <tr>
       <th>...</th>
       <td><p>passed to <code><a href='get_tiles.html'>get_tiles()</a></code></p></td>
+    </tr>
+    <tr>
+      <th>format</th>
+      <td><p>defaults to "png", also available is "jpg"</p></td>
     </tr>
     <tr>
       <th>dim</th>
@@ -160,6 +165,20 @@
     <div class='dont-index'><p>get_tiles</p></div>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (!<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/NULL'>is.null</a></span>(<span class='fu'><a href='get_api_key.html'>get_api_key</a></span>())) {
+ <span class='no'>ex</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/raster/topics/extent'>extent</a></span>(<span class='fl'>146</span>, <span class='fl'>147</span>, -<span class='fl'>43</span>, -<span class='fl'>42</span>)
+ <span class='no'>tile_infoz</span> <span class='kw'>&lt;-</span> <span class='fu'>get_tiles_zoom</span>(<span class='no'>ex</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"mapbox.outdoors"</span>, <span class='kw'>zoom</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+
+ <span class='no'>tile_infod</span> <span class='kw'>&lt;-</span> <span class='fu'>get_tiles_dim</span>(<span class='no'>ex</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"mapbox.outdoors"</span>, <span class='kw'>dim</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>256</span>, <span class='fl'>256</span>))
+
+ <span class='no'>tile_infob</span> <span class='kw'>&lt;-</span> <span class='fu'>get_tiles_buffer</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind</a></span>(<span class='fl'>146.5</span>, -<span class='fl'>42.5</span>), <span class='kw'>buffer</span> <span class='kw'>=</span> <span class='fl'>5000</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"mapbox.outdoors"</span>)
+}</div><div class='output co'>#&gt; Preparing to download: 1 tiles at zoom = 1 from 
+#&gt; https://api.mapbox.com/v4/mapbox.outdoors/
+#&gt; Preparing to download: 1 tiles at zoom = 4 from 
+#&gt; https://api.mapbox.com/v4/mapbox.outdoors/
+#&gt; Preparing to download: 9 tiles at zoom = 13 from 
+#&gt; https://api.mapbox.com/v4/mapbox.outdoors/</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -169,7 +188,9 @@
       <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

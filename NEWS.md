@@ -4,12 +4,17 @@
 
 * Function `down_loader()` is no longer exported. 
 
+* Function `slippy_cache()` is now deprecated, plese use `ceramic_cache()`. 
+
+
 ## New features
 
 * New focus on tile-downloading versus tile-loading (as a raster object). The function 
  `get_tiles()` does nothing but download the tiles. The functions `cc_location()` and
  `cc_elevation()` trigger `get_tiles()` to download if needed, and then merge tiles into the 
  appropriate raster object. 
+
+* New function `ceramic_cache()` to replace deprecated older function. 
 
 * Function `get_api_key()` is now exported. 
 
