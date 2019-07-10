@@ -184,7 +184,7 @@ ceramic_cache <- function(force = FALSE) {
   cache <- file.path(rappdirs::user_cache_dir(), ".ceramic")
   if (!fs::dir_exists(cache)) {
     if (!force) {
-      val <- NA
+      val <- TRUE
       if (interactive()) val <- utils::askYesNo(sprintf("Create file cache for storing tiles in%s? ", cache))
       if (is.na(val) || !val) stop("No cache available, set up cache by running 'ceramic_cache()'")
     }
