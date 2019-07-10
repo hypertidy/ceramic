@@ -4,7 +4,7 @@
 
 * Function `down_loader()` is no longer exported. 
 
-* Function `slippy_cache()` is now deprecated, plese use `ceramic_cache()`. 
+* Function `slippy_cache()` is now deprecated, please use `ceramic_cache()`. 
 
 
 ## New features

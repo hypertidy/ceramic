@@ -7,7 +7,7 @@ test_that("dud file gets clobbered", {
 
 
 
-  dudfile <- file.path(slippy_cache(),
+  dudfile <- file.path(ceramic_cache(),
                        "api.mapbox.com/v4/mapbox.satellite/13/7440/5149.jpg")
   if (fs::file_exists(dudfile)) fs::file_delete(dudfile)
   ## the first 11 bytes of this message is

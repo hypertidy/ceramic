@@ -13,7 +13,7 @@ test_that("caching is sensible", {
   # ## clobber the cache
   if (identical(Sys.getenv("TRAVIS"), "true") || identical(Sys.getenv("APPVEYOR"), "True")) {
      clear_ceramic_cache(clobber = TRUE)
-     f2 <- fs::dir_ls(slippy_cache(), recurse = TRUE)
+     f2 <- fs::dir_ls(ceramic_cache(), recurse = TRUE)
      expect_length(f2, 0L)
   }
 })
