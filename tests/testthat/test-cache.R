@@ -1,16 +1,5 @@
 context("test-cache")
 
-##   https://account.mapbox.com/access-tokens/
-if (identical(Sys.getenv("APPVEYOR"), "True")) {
-  #Sys.setenv(MAPBOX_API_KEY="pk.eyJ1IjoibWRzdW1uZXIiLCJhIjoiY2p0bDI1aGY1MTRiNDQ0bWR2djh4dzgxOSJ9.zPM71aZwRWHc9U5kvDQDIA")
-  #print("attempt print key on APPVEYOR")
-  #print(ceramic:::get_api_key())
-}
-if (identical(Sys.getenv("TRAVIS"), "true")) {
-  #Sys.setenv(MAPBOX_API_KEY="pk.eyJ1IjoibWRzdW1uZXIiLCJhIjoiY2p0bDI1aGY1MTRiNDQ0bWR2djh4dzgxOSJ9.zPM71aZwRWHc9U5kvDQDIA")
-  print("attempt print key on TRAVIS")
-  print(ceramic:::get_api_key())
-}
 
 
 test_that("caching is sensible", {

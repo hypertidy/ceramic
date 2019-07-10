@@ -53,7 +53,7 @@ Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.
 or any other string accepted by Mapbox services.
 }
 \examples{
-if (!is.null(get_api_key)) {
+if (!is.null(get_api_key())) {
    tile_info <- get_tiles(raster::extent(146, 147, -43, -42), type = "mapbox.outdoors", zoom = 5)
 }
 }

@@ -45,7 +45,7 @@ guess_format <- function(x) {
 #' @name get_tiles
 #' @seealso get_tiles_zoom get_tiles_dim get_tiles_buffer
 #' @examples
-#' if (!is.null(get_api_key)) {
+#' if (!is.null(get_api_key())) {
 #'    tile_info <- get_tiles(raster::extent(146, 147, -43, -42), type = "mapbox.outdoors", zoom = 5)
 #' }
 get_tiles <- function(x, buffer, type = "mapbox.satellite", crop_to_buffer = TRUE,
@@ -127,7 +127,7 @@ get_tiles <- function(x, buffer, type = "mapbox.satellite", crop_to_buffer = TRU
 #' @export
 #' @seealso get_tiles
 #' @examples
-#' if (!is.null(get_api_key)) {
+#' if (!is.null(get_api_key())) {
 #'  ex <- raster::extent(146, 147, -43, -42)
 #'  tile_infoz <- get_tiles_zoom(ex, type = "mapbox.outdoors", zoom = 1)
 #'

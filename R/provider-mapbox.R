@@ -32,13 +32,14 @@ instruct_on_key_creation <- function(api = "mapbox") {
 #' 'MAPBOX_API_KEY', 'MAPBOX_API_TOKEN', 'MAPBOX_KEY', 'MAPBOX_TOKEN', or 'MAPBOX' will work (and they are
 #' sought in that order).
 #'
+#' If no key is available, `NULL` is returned, with a warning.
 #' @param api character string denoting which service ("mapbox" only)
 #' @param ... currently ignored
 #' @export
 #' @examples
 #' get_api_key()
 get_api_key <- function(api = "mapbox", ...) {
-  key <- ""
+  key <- NULL
   if (api == "mapbox") {
     ## Try mapdeck first (why not)
     key <- getOption("mapdeck")[['mapdeck']][[api]]
@@ -48,7 +49,8 @@ get_api_key <- function(api = "mapbox", ...) {
     }
     if (is.null(key) || nchar(key) < 1) {
       mess <- instruct_on_key_creation()
-      stop(sprintf("no mapbox key found\n\n%s", mess))
+      warning(sprintf("no mapbox key found\n\n%s", mess))
+      key <- NULL
     }
   }
   key

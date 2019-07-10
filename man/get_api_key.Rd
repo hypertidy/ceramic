@@ -30,6 +30,8 @@ OR,
 There is a fairly liberal allowance for the actual name of the environment variable, any of
 'MAPBOX_API_KEY', 'MAPBOX_API_TOKEN', 'MAPBOX_KEY', 'MAPBOX_TOKEN', or 'MAPBOX' will work (and they are
 sought in that order).
+
+If no key is available, \code{NULL} is returned, with a warning.
 }
 \examples{
 get_api_key()

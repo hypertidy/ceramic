@@ -6,7 +6,7 @@ test_that("utilities work as expected", {
 
   p <- Sys.getenv("MAPBOX_API_KEY")
   Sys.setenv(MAPBOX_API_KEY = "")
-  expect_error(get_api_key())
+  expect_equivalent(get_api_key(), NULL)
   Sys.setenv(MAPBOX_API_KEY = p)
   expect_silent(get_api_key())
 

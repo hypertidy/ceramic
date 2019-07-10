@@ -232,7 +232,7 @@ ceramic::plot_tiles(ceramic_tiles(zoom = 7), add = TRUE)
 
 ---
 
-Please note that the 'ceramic' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
+Please note that the 'ceramic' project is released with a [Contributor Code of Conduct](https://github.com/hypertidy/ceramic/blob/master/CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
 
 
