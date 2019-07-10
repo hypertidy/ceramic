@@ -5,7 +5,7 @@ context("test-cache")
 test_that("caching is sensible", {
   skip_on_cran()
   ## this hits zoom 13 and should give 16 tiles
-  x <- cc_location(cbind(0, 0), debug = TRUE, verbose = FALSE)
+  x <- cc_location(cbind(0, 0), debug = TRUE)
   expect_s3_class(f <- ceramic_tiles(zoom = 13), "tbl_df")
   expect_true(nrow(f) > 15)
 
