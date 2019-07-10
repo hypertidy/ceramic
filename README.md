@@ -30,7 +30,7 @@ roi <- raster::extent(100, 160, -50, 10)
 #> source     : memory
 #> names      : layer.1, layer.2, layer.3 
 #> min values :       0,       0,       0 
-#> max values :     255,     255,     234
+#> max values :     255,     253,     227
 
 raster::plotRGB(im)
 ```
@@ -57,8 +57,7 @@ region to match the Mercator extents used by Mapbox image servers.
 ``` r
 data("nz", package = "spData")
 library(sf)
-#> Warning: package 'sf' was built under R version 3.6.1
-#> Linking to GEOS 3.6.1, GDAL 2.2.3, PROJ 4.9.3
+#> Linking to GEOS 3.7.0, GDAL 2.4.0, PROJ 5.2.0
 im_nz2 <- cc_location(nz)
 #> Preparing to download: 12 tiles at zoom = 6 from 
 #> https://api.mapbox.com/v4/mapbox.satellite/
@@ -138,38 +137,38 @@ Use `max_tiles` or `zoom` to increase or decrease resolution.
 im1 <- cc_location(im_nz, debug = TRUE)
 #> Preparing to download: 12 tiles at zoom = 6 from 
 #> https://api.mapbox.com/v4/mapbox.satellite/
-#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/61/38.jpg"
-#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/62/38.jpg"
-#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/63/38.jpg"
-#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/61/39.jpg"
-#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/62/39.jpg"
-#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/63/39.jpg"
-#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/61/40.jpg"
-#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/62/40.jpg"
-#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/63/40.jpg"
-#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/61/41.jpg"
-#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/62/41.jpg"
-#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/63/41.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/61/38.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/62/38.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/63/38.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/61/39.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/62/39.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/63/39.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/61/40.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/62/40.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/63/40.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/61/41.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/62/41.jpg"
+#> [1] "/perm_storage/home/mdsumner/.cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/63/41.jpg"
 im2 <- cc_location(im_nz, zoom = 7)
 #> Preparing to download: 35 tiles at zoom = 7 from 
 #> https://api.mapbox.com/v4/mapbox.satellite/
 
 im1
 #> class      : RasterBrick 
-#> dimensions : 735, 548, 402780, 3  (nrow, ncol, ncell, nlayers)
+#> dimensions : 736, 548, 403328, 3  (nrow, ncol, ncell, nlayers)
 #> resolution : 2445.985, 2445.985  (x, y)
-#> extent     : 18533228, 19873627, -5843458, -4045659  (xmin, xmax, ymin, ymax)
+#> extent     : 18533228, 19873627, -5845904, -4045659  (xmin, xmax, ymin, ymax)
 #> crs        : +proj=merc +a=6378137 +b=6378137 
 #> source     : memory
 #> names      : layer.1, layer.2, layer.3 
-#> min values :       0,       3,       0 
+#> min values :       0,       4,       0 
 #> max values :     255,     255,     255
 
 im2
 #> class      : RasterBrick 
-#> dimensions : 1469, 1095, 1608555, 3  (nrow, ncol, ncell, nlayers)
+#> dimensions : 1470, 1095, 1609650, 3  (nrow, ncol, ncell, nlayers)
 #> resolution : 1222.992, 1222.992  (x, y)
-#> extent     : 18534451, 19873627, -5843458, -4046882  (xmin, xmax, ymin, ymax)
+#> extent     : 18534451, 19873627, -5844681, -4046882  (xmin, xmax, ymin, ymax)
 #> crs        : +proj=merc +a=6378137 +b=6378137 
 #> source     : memory
 #> names      : layer.1, layer.2, layer.3 
@@ -247,20 +246,20 @@ aa <- cc_location(loc = cbind(0, 0), buffer = 330000, type = "mapbox.satellite")
 #> Preparing to download: 16 tiles at zoom = 7 from 
 #> https://api.mapbox.com/v4/mapbox.satellite/
 ceramic_tiles(zoom = 7, type = "mapbox.satellite")
-#> # A tibble: 228 x 11
+#> # A tibble: 76 x 11
 #>    tile_x tile_y  zoom type  version source fullname     xmin   xmax
 #>     <int>  <int> <int> <chr> <chr>   <chr>  <fs::path>  <dbl>  <dbl>
-#>  1    108     74     7 mapb~ v4      api.m~ C:/Users/~ 1.38e7 1.41e7
-#>  2    108     75     7 mapb~ v4      api.m~ C:/Users/~ 1.38e7 1.41e7
-#>  3    108     76     7 mapb~ v4      api.m~ C:/Users/~ 1.38e7 1.41e7
-#>  4    108     77     7 mapb~ v4      api.m~ C:/Users/~ 1.38e7 1.41e7
-#>  5    109     74     7 mapb~ v4      api.m~ C:/Users/~ 1.41e7 1.44e7
-#>  6    109     75     7 mapb~ v4      api.m~ C:/Users/~ 1.41e7 1.44e7
-#>  7    109     76     7 mapb~ v4      api.m~ C:/Users/~ 1.41e7 1.44e7
-#>  8    109     77     7 mapb~ v4      api.m~ C:/Users/~ 1.41e7 1.44e7
-#>  9    110     74     7 mapb~ v4      api.m~ C:/Users/~ 1.44e7 1.47e7
-#> 10    110     74     7 mapb~ v4      api.m~ C:/Users/~ 1.44e7 1.47e7
-#> # ... with 218 more rows, and 2 more variables: ymin <dbl>, ymax <dbl>
+#>  1    113     79     7 mapb… v4      api.m… /perm_sto… 1.53e7 1.57e7
+#>  2    113     80     7 mapb… v4      api.m… /perm_sto… 1.53e7 1.57e7
+#>  3    113     81     7 mapb… v4      api.m… /perm_sto… 1.53e7 1.57e7
+#>  4    114     79     7 mapb… v4      api.m… /perm_sto… 1.57e7 1.60e7
+#>  5    114     80     7 mapb… v4      api.m… /perm_sto… 1.57e7 1.60e7
+#>  6    114     81     7 mapb… v4      api.m… /perm_sto… 1.57e7 1.60e7
+#>  7    115     79     7 mapb… v4      api.m… /perm_sto… 1.60e7 1.63e7
+#>  8    115     80     7 mapb… v4      api.m… /perm_sto… 1.60e7 1.63e7
+#>  9    115     81     7 mapb… v4      api.m… /perm_sto… 1.60e7 1.63e7
+#> 10    116     79     7 mapb… v4      api.m… /perm_sto… 1.63e7 1.66e7
+#> # … with 66 more rows, and 2 more variables: ymin <dbl>, ymax <dbl>
 ```
 
 and every row has the extent values useable directly by raster:
@@ -272,38 +271,38 @@ ceramic_tiles(zoom = 7, type = "mapbox.satellite") %>%
   purrr::map(~raster::extent(unlist(.x[c("xmin", "xmax", "ymin", "ymax")])))
 #> [[1]]
 #> class      : Extent 
-#> xmin       : 13775787 
-#> xmax       : 14088873 
-#> ymin       : -3443947 
-#> ymax       : -3130861 
+#> xmin       : 15341217 
+#> xmax       : 15654303 
+#> ymin       : -5009377 
+#> ymax       : -4696291 
 #> 
 #> [[2]]
 #> class      : Extent 
-#> xmin       : 13775787 
-#> xmax       : 14088873 
-#> ymin       : -3757033 
-#> ymax       : -3443947 
+#> xmin       : 15341217 
+#> xmax       : 15654303 
+#> ymin       : -5322463 
+#> ymax       : -5009377 
 #> 
 #> [[3]]
 #> class      : Extent 
-#> xmin       : 13775787 
-#> xmax       : 14088873 
-#> ymin       : -4070119 
-#> ymax       : -3757033 
+#> xmin       : 15341217 
+#> xmax       : 15654303 
+#> ymin       : -5635549 
+#> ymax       : -5322463 
 #> 
 #> [[4]]
 #> class      : Extent 
-#> xmin       : 13775787 
-#> xmax       : 14088873 
-#> ymin       : -4383205 
-#> ymax       : -4070119 
+#> xmin       : 15654303 
+#> xmax       : 15967389 
+#> ymin       : -5009377 
+#> ymax       : -4696291 
 #> 
 #> [[5]]
 #> class      : Extent 
-#> xmin       : 14088873 
-#> xmax       : 14401959 
-#> ymin       : -3443947 
-#> ymax       : -3130861
+#> xmin       : 15654303 
+#> xmax       : 15967389 
+#> ymin       : -5322463 
+#> ymax       : -5009377
 ```
 
 Another example
