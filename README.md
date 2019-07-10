@@ -174,10 +174,17 @@ im2
 
 ## Installation
 
+Install ceramic from CRAN with:
+
+``` r
+install.packages("ceramic")
+```
+
 You can install the development version of ceramic from Github.
 
 ``` r
-devtools::install_github("hypertidy/ceramic")
+## install.packages("remotes")
+remotes::install_github("hypertidy/ceramic")
 ```
 
 Set your mapbox API key with
