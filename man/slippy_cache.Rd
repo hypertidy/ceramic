@@ -4,7 +4,10 @@
 \alias{slippy_cache}
 \title{Ceramic file cache}
 \usage{
-slippy_cache()
+slippy_cache(force = FALSE)
+}
+\arguments{
+\item{force}{set to \code{TRUE} to create the location without asking the user}
 }
 \value{
 character value of location of cache
@@ -12,6 +15,18 @@ character value of location of cache
 \description{
 File system location where ceramic stores its cache.
 }
+\details{
+If allowed, the cache will be created at \code{file.path(rappdirs::user_cache_dir(), ".ceramic")},
+which corresponds to '~/.cache/.ceramic' for a given user.
+
+If the file cache location does not exist, the user will be asked in interactive mode
+for permission. For non-interactive mode use the \code{force} argument.
+
+It is not currently possible to customize the cache location. To clear the cache (completely)
+see \code{clear_ceramic_cache()}.
+}
 \examples{
-slippy_cache()
+if (interactive()) {
+ slippy_cache()
+}
 }

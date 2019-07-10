@@ -12,7 +12,8 @@ clear_ceramic_cache(clobber = FALSE, ...)
 \item{...}{reserved for future arguments, currently ignored}
 }
 \value{
-this function is called for its side effect, but also returns the file list invisibly whether deleted or not, or NULL if the user cancels.
+this function is called for its side effect, but also returns the file list invisibly
+whether deleted or not, or NULL if the user cancels.
 }
 \description{
 Delete all downloaded files in the \code{\link[=slippy_cache]{slippy_cache()}}.

@@ -4,7 +4,8 @@
 #' @param clobber set to `TRUE` to avoid checks and delete files
 #' @param ... reserved for future arguments, currently ignored
 #' @export
-#' @return this function is called for its side effect, but also returns the file list invisibly whether deleted or not, or NULL if the user cancels.
+#' @return this function is called for its side effect, but also returns the file list invisibly
+#' whether deleted or not, or NULL if the user cancels.
 clear_ceramic_cache <- function(clobber = FALSE, ...){
  files <- fs::dir_ls(slippy_cache(), all = FALSE, recurse = TRUE)
  if (length(files) < 1) {
@@ -31,15 +32,16 @@ clear_ceramic_cache <- function(clobber = FALSE, ...){
 #'
 #' Tiles are cached with the native name of the source.
 #'
-#' `query_string` takes the form of a template, see examples
+#' This function is not for direct use
 #' @param x tiles object
 #' @param query_string an api query template (see Details)
 #' @param clobber if `TRUE` re download any existing tiles
 #' @param ... ignored
 #' @param debug simple debugging info printed if `TRUE`
 #' @param verbose print messages
-#' @return WIP
-#' @export
+#' @return list with data frame of tiles, zoom level and file paths
+#' @noRd
+#' @keywords internal
 #' @importFrom curl curl_download
 #' @importFrom fs dir_exists dir_create file_info
 #' @importFrom glue glue
@@ -63,7 +65,7 @@ down_loader <- function(x, query_string, clobber = FALSE, ..., debug = FALSE, ve
                 if (!file.exists(outfile) || clobber || fs::file_info(outfile)$size < 101) {
                   cachedir <- fs::path_dir(outfile)
 
-                  if (!fs::dir_exists(cachedir)) dir.create(cachedir, recursive = TRUE)
+                  if (!fs::dir_exists(cachedir)) fs::dir_create(cachedir, recurse = TRUE)
                 ## FIXME: need to error on no API_KEY present
 
                   zup <- curl::curl_download(url = api_query,
@@ -89,6 +91,10 @@ down_loader <- function(x, query_string, clobber = FALSE, ..., debug = FALSE, ve
 #'
 #' @export
 #' @importFrom rlang .data
+#' @examples
+#' if (interactive() && !is.null(get_api_key())) {
+#'  tiles <- ceramic_tiles(zoom = 0)
+#' }
 ceramic_tiles <- function(zoom = NULL, type = "mapbox.satellite",
                           source = "api.mapbox.com", glob = NULL, regexp = NULL) {
 
@@ -156,13 +162,34 @@ tile_zoom <- function(x) {
 #' Ceramic file cache
 #'
 #' File system location where ceramic stores its cache.
+#'
+#' If allowed, the cache will be created at \code{file.path(rappdirs::user_cache_dir(), ".ceramic")},
+#' which corresponds to '~/.cache/.ceramic' for a given user.
+#'
+#' If the file cache location does not exist, the user will be asked in interactive mode
+#' for permission. For non-interactive mode use the `force` argument.
+#'
+#' It is not currently possible to customize the cache location. To clear the cache (completely)
+#' see `clear_ceramic_cache()`.
+#'
+#' @param force set to `TRUE` to create the location without asking the user
 #' @return character value of location of cache
 #' @export
+#' @importFrom utils askYesNo
 #' @examples
-#' slippy_cache()
-slippy_cache <- function() {
+#' if (interactive()) {
+#'  slippy_cache()
+#' }
+slippy_cache <- function(force = FALSE) {
   cache <- file.path(rappdirs::user_cache_dir(), ".ceramic")
-  if (!fs::dir_exists(cache)) fs::dir_create(cache)
+  if (!fs::dir_exists(cache)) {
+    if (!force) {
+      val <- NA
+      if (interactive()) val <- utils::askYesNo(sprintf("Create file cache for storing tiles in%s? ", cache))
+      if (is.na(val) || !val) stop("No cache available, set up cache by running 'slippy_cache()'")
+    }
+    fs::dir_create(cache)
+  }
   cache
 }
 

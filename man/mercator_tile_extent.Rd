@@ -21,3 +21,17 @@ Calculate tile extent for a given x, y tile at a zoom level.
 \details{
 Currently only spherical Mercator is supported.
 }
+\examples{
+mercator_tile_extent(2, 4, zoom = 10)
+
+global <- mercator_tile_extent(0, 0, zoom = 0)
+plot(NA, xlim = global[c("xmin", "xmax")], ylim = global[c("ymin", "ymax")])
+rect_plot <- function(x) rect(x["xmin"], x["ymin"], x["xmax"], x["ymax"])
+rect_plot(mercator_tile_extent(1, 1, zoom = 2))
+rect_plot(mercator_tile_extent(2, 1, zoom = 2))
+rect_plot(mercator_tile_extent(1, 2, zoom = 2))
+
+rect_plot(mercator_tile_extent(1, 1, zoom = 4))
+rect_plot(mercator_tile_extent(2, 1, zoom = 4))
+rect_plot(mercator_tile_extent(1, 2, zoom = 4))
+}

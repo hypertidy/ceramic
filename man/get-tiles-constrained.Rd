@@ -41,6 +41,16 @@ Each function expects an extent in longitude latitude or a spatial object with e
 
 \code{get_tiles_buffer()} requires a single location (longitude, latitude) and a buffer in metres
 }
+\examples{
+if (!is.null(get_api_key)) {
+ ex <- raster::extent(146, 147, -43, -42)
+ tile_infoz <- get_tiles_zoom(ex, type = "mapbox.outdoors", zoom = 1)
+
+ tile_infod <- get_tiles_dim(ex, type = "mapbox.outdoors", dim = c(256, 256))
+
+ tile_infob <- get_tiles_buffer(cbind(146.5, -42.5), buffer = 5000, type = "mapbox.outdoors")
+}
+}
 \seealso{
 get_tiles
 }

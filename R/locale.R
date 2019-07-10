@@ -36,20 +36,19 @@
 #' @name cc_location
 #' @aliases cc_elevation
 #' @examples
-#' dem <- cc_kingston(buffer = 1e5, type = "elevation-tiles-prod")
-#' raster::plot(dem, col = grey(seq(0, 1, length = 94)))
+#' if (!is.null(get_api_key())) {
 #'
-#' ## requres Mapbox key set in env var 'MAPBOX_API_KEY'
-#' \dontrun{
-#' im <- cc_macquarie()
-#' library(raster)
-#' plotRGB(im)
+#'  img <- cc_location(cbind(147, -42), buffer = 1e5)
 #'
-#' ## with a custom style
-#' u <- "https://api.mapbox.com/styles/v1/mdsumner/%s/tiles/512/{zoom}/{x}/{y}"
-#' u <- sprintf(u, "cjs6yn9hu0coo1fqhdqgw3o18")
-#' im <- cc_location(cbind(147, -42), base_url = u)
-#' }
+#'  ## this source does not need the Mapbox API, but we won't run the example unless it's set
+#'  dem <- cc_kingston(buffer = 1e4, type = "elevation-tiles-prod")
+#'  raster::plot(dem, col = grey(seq(0, 1, length = 94)))
+#'
+#'  ## Mapbox imagery
+#'  im <- cc_macquarie()
+#'  library(raster)
+#'  plotRGB(im)
+#'  }
 cc_location <- function(loc = NULL, buffer = 5000,
                         type = "mapbox.satellite", ..., zoom = NULL, max_tiles = NULL,  debug = FALSE) {
   if (!is.null(zoom) && !is.null(max_tiles)) stop("'zoom' and 'max_tiles' cannot be both set, one must be NULL")

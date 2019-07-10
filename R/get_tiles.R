@@ -44,6 +44,10 @@ guess_format <- function(x) {
 #' @export
 #' @name get_tiles
 #' @seealso get_tiles_zoom get_tiles_dim get_tiles_buffer
+#' @examples
+#' if (!is.null(get_api_key)) {
+#'    tile_info <- get_tiles(raster::extent(146, 147, -43, -42), type = "mapbox.outdoors", zoom = 5)
+#' }
 get_tiles <- function(x, buffer, type = "mapbox.satellite", crop_to_buffer = TRUE,
                       format = NULL, ..., zoom = NULL, debug = FALSE, max_tiles = NULL, base_url = NULL,
                       verbose = TRUE) {
@@ -122,6 +126,15 @@ get_tiles <- function(x, buffer, type = "mapbox.satellite", crop_to_buffer = TRU
 #' @aliases get_tiles_zoom get_tiles_dim get_tiles_buffer
 #' @export
 #' @seealso get_tiles
+#' @examples
+#' if (!is.null(get_api_key)) {
+#'  ex <- raster::extent(146, 147, -43, -42)
+#'  tile_infoz <- get_tiles_zoom(ex, type = "mapbox.outdoors", zoom = 1)
+#'
+#'  tile_infod <- get_tiles_dim(ex, type = "mapbox.outdoors", dim = c(256, 256))
+#'
+#'  tile_infob <- get_tiles_buffer(cbind(146.5, -42.5), buffer = 5000, type = "mapbox.outdoors")
+#' }
 get_tiles_zoom <- function(x, zoom = 0, ..., format = "png") {
   if ("max_tiles" %in% names(list(...))) {
     stop("max_tiles cannot be set by 'get_tiles_zoom()', use 'get_tiles_dim()'")

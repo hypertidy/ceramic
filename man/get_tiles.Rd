@@ -52,6 +52,11 @@ Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.
 'mapbox.outdoors', 'mapbox.terrain-rgb', 'mapbox.streets', 'mapbox.light', 'mapbox.dark'
 or any other string accepted by Mapbox services.
 }
+\examples{
+if (!is.null(get_api_key)) {
+   tile_info <- get_tiles(raster::extent(146, 147, -43, -42), type = "mapbox.outdoors", zoom = 5)
+}
+}
 \seealso{
 get_tiles_zoom get_tiles_dim get_tiles_buffer
 }

@@ -22,3 +22,8 @@ ceramic_tiles(zoom = NULL, type = "mapbox.satellite",
 Find existing files in the cache. Various options can be controlled, this is WIP
 and due to change pending generalization across providers.
 }
+\examples{
+if (interactive() && !is.null(get_api_key())) {
+ tiles <- ceramic_tiles(zoom = 0)
+}
+}

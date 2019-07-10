@@ -1,6 +1,6 @@
 Package: ceramic
 Title: Get imagery tiles
-Version: 0.1.0.9001
+Version: 0.5.0
 Authors@R: c(
     person("Michael", "Sumner", email = "mdsumner@gmail.com", role = c("aut", "cre"), 
     comment = c(ORCID = "0000-0002-2471-7511")), 
@@ -10,7 +10,7 @@ Authors@R: c(
     )
 Description: Download imagery tiles to a standard cache and optionally convert into raster objects. 
  Providers for 'AWS' terrain and 'Mapbox' are available. 
-Depends: R (>= 3.4.0)
+Depends: R (>= 3.5.0)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

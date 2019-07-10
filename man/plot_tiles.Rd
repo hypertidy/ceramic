@@ -26,7 +26,16 @@ tiles_to_polygon(x)
 \item{include_zoom}{include zoom level with text label if drawn?}
 }
 \description{
-Create a new plot of tile rectangles, or add to an existing plot. The extent
-('xmin', 'xmax', 'ymin', 'ymax') is used directly to draw the tiles so must be in the
+Create a new plot of tile rectangles, or add to an existing plot.
+}
+\details{
+The extent ('xmin', 'xmax', 'ymin', 'ymax') is used directly to draw the tiles so must be in the
 native Mercator coordinate system used by most tile servers.
+}
+\examples{
+if (!is.null(get_api_key())) {
+  get_tiles_zoom(zoom = 1)
+  tiles <- ceramic_tiles(zoom = 1)
+  plot_tiles(tiles)
+}
 }

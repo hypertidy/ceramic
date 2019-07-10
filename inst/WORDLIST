@@ -3,23 +3,21 @@ AppVeyor
 Azimuthal
 ceramic’
 dev
-dir
 FOSS
-fs
 georeferences
 getter
 Github
-https
+joerd
 jpg
 lifecycle
 loc
 mapbox
 Mapbox
-mdsumner
+MAPBOX
+mapdeck
 metres
 png
 RasterBrick
-rect
 rgb
 slippymath
 sp
@@ -29,10 +27,3 @@ xmax
 xmin
 ymax
 ymin
-
-
-# from the key strings
-cjs
-fqhdqgw
-hu
-yn

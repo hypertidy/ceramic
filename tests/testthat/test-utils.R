@@ -2,7 +2,7 @@ context("test-utils")
 
 test_that("utilities work as expected", {
    expect_true(grepl("^https", token_url()))
-  expect_output(instruct_on_key_creation())
+  expect_silent(instruct_on_key_creation())
 
   p <- Sys.getenv("MAPBOX_API_KEY")
   Sys.setenv(MAPBOX_API_KEY = "")

@@ -14,6 +14,7 @@ if (identical(Sys.getenv("TRAVIS"), "true")) {
 
 
 test_that("caching is sensible", {
+  skip_on_cran()
   ## this hits zoom 13 and should give 16 tiles
   expect_output(x <- cc_location(cbind(0, 0), debug = TRUE, verbose = FALSE))
   expect_s3_class(f <- ceramic_tiles(zoom = 13), "tbl_df")

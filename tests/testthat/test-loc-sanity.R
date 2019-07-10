@@ -4,6 +4,9 @@ rpt <- cbind(147, -42)
 ex <- raster::extent(rep(rpt, each = 2L) + c(-2, 2, -3, 3))
 
 test_that("raw loc works", {
+  skip_on_cran()
+
+
   cc_location(rpt, verbose = FALSE)
   cc_location(rpt, buffer = 1e5, verbose = FALSE)
   expect_output(cc_location(rpt, buffer = c(10, 0), verbose = TRUE))
@@ -20,6 +23,9 @@ test_that("raw loc works", {
 })
 
 test_that("Spatial loc works", {
+  skip_on_cran()
+
+
   ## projected spdf, lines, points, mpoints
   expect_silent(cc_location(ozdata$ll$sp, verbose = FALSE))
   expect_output(cc_location(ozdata$proj$sp))
@@ -33,17 +39,12 @@ test_that("Spatial loc works", {
   cc_location(sp, verbose = FALSE)
 })
 
-test_that("sf loc works", {
-  ## projected sf, sfc, POINT, MULTIPOINT
 
-  ## degeneracy
-  ## single point, no-width polygon, vert/horizontal line
-
-  ## no CRS
-
-})
 
 test_that("Raster loc works", {
+  skip_on_cran()
+
+
   ## projected raster, longlat raster
   cc_location(ozdata$ll$raster, verbose = FALSE)
   cc_location(ozdata$proj$raster, verbose = FALSE)

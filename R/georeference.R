@@ -22,6 +22,19 @@ spherical_mercator <- function(provider) {
 #'
 #' @importFrom stats setNames
 #' @export
+#' @examples
+#' mercator_tile_extent(2, 4, zoom = 10)
+#'
+#' global <- mercator_tile_extent(0, 0, zoom = 0)
+#' plot(NA, xlim = global[c("xmin", "xmax")], ylim = global[c("ymin", "ymax")])
+#' rect_plot <- function(x) rect(x["xmin"], x["ymin"], x["xmax"], x["ymax"])
+#' rect_plot(mercator_tile_extent(1, 1, zoom = 2))
+#' rect_plot(mercator_tile_extent(2, 1, zoom = 2))
+#' rect_plot(mercator_tile_extent(1, 2, zoom = 2))
+#'
+#' rect_plot(mercator_tile_extent(1, 1, zoom = 4))
+#' rect_plot(mercator_tile_extent(2, 1, zoom = 4))
+#' rect_plot(mercator_tile_extent(1, 2, zoom = 4))
 mercator_tile_extent <- function(tile_x, tile_y, zoom, tile_size = 256) {
   if (any(!c(length(tile_x), length(tile_y), length(zoom), length(tile_size)) == 1)) {
     stop("tile_x, tile_y, zoom, tile_size must all be of length 1")
@@ -48,8 +61,9 @@ add_extent <- function(x) {
 
 #' Plot slippy map tiles
 #'
-#' Create a new plot of tile rectangles, or add to an existing plot. The extent
-#' ('xmin', 'xmax', 'ymin', 'ymax') is used directly to draw the tiles so must be in the
+#' Create a new plot of tile rectangles, or add to an existing plot.
+#'
+#' The extent ('xmin', 'xmax', 'ymin', 'ymax') is used directly to draw the tiles so must be in the
 #' native Mercator coordinate system used by most tile servers.
 #' @param x tiles as create by `ceramic_tiles()`
 #' @param ... arguments passed to `graphics::rect()`
@@ -58,9 +72,16 @@ add_extent <- function(x) {
 #' @param cex relative size of text label if drawn (see `text()`)
 #' @param add_coast include a basic coastline on the plot?
 #' @param include_zoom include zoom level with text label if drawn?
+#' @export
 #' @importFrom sp plot
 #' @importFrom graphics rect text
 #' @aliases tiles_to_polygon
+#' @examples
+#' if (!is.null(get_api_key())) {
+#'   get_tiles_zoom(zoom = 1)
+#'   tiles <- ceramic_tiles(zoom = 1)
+#'   plot_tiles(tiles)
+#' }
 plot_tiles <- function(x, ..., add = FALSE, label = TRUE, cex = 0.6, add_coast = TRUE, include_zoom = TRUE) {
   if (!all(c("xmin", "xmax", "ymin", "ymax") %in% names(x))) stop("need xmin, xmax, ymin, ymax columns")
   if (include_zoom && !"zoom" %in% names(x) ) stop("need zoom columns for 'include_zoom = TRUE'")

@@ -24,6 +24,9 @@ test_that("built in locations works", {
 
 
 test_that("max_tiles and zoom work", {
+  skip_on_cran()
+
+
   expect_error(cc_location(cbind(0, 0), max_tiles = 24, zoom = 5), "'zoom' and 'max_tiles' cannot be both set, one must be NULL")
   im <- expect_silent(cc_location(cbind(0, 53), max_tiles = 16, verbose = FALSE))
   expect_that(dim(im), equals(c(524, 524, 3)))

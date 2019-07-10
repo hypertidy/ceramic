@@ -1,6 +1,9 @@
 context("test-tiles")
 
 test_that("creating virtual tiles works", {
+
+  skip_on_cran()
+
   z0 <- virtual_tiles() %>% expect_s3_class("tile_grid")
   expect_true(nrow(z0$tiles) == 1L)
   z5 <- virtual_tiles(zoom = 5) %>% expect_s3_class("tile_grid")

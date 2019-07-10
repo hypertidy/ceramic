@@ -1,4 +1,17 @@
-# ceramic 0.1.0.9001
+# ceramic 0.5.0
+
+## Breaking changes
+
+* Function `down_loader()` is no longer exported. 
+
+## New features
+
+* New focus on tile-downloading versus tile-loading (as a raster object). The function 
+ `get_tiles()` does nothing but download the tiles. The functions `cc_location()` and
+ `cc_elevation()` trigger `get_tiles()` to download if needed, and then merge tiles into the 
+ appropriate raster object. 
+
+* Function `get_api_key()` is now exported. 
 
 * In `debug` mode the files are only printed, not downloaded. In this case the tile object is returned invisibly. 
 
