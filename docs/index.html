@@ -81,28 +81,20 @@
 <p>The goal of ceramic is to obtain web map tiles. Use a spatial object to define the region of interest.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ceramic)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">roi &lt;-<span class="st"> </span>raster<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/extent">extent</a></span>(<span class="dv">100</span>, <span class="dv">160</span>, <span class="dv">-50</span>, <span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">(im &lt;-<span class="st"> </span><span class="kw"><a href="reference/cc_location.html">cc_location</a></span>(roi))</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">im &lt;-<span class="st"> </span><span class="kw"><a href="reference/cc_location.html">cc_location</a></span>(roi)</a>
 <a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; Preparing to download: 16 tiles at zoom = 4 from </span></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; https://api.mapbox.com/v4/mapbox.satellite/</span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; class      : RasterBrick </span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; dimensions : 774, 684, 529416, 3  (nrow, ncol, ncell, nlayers)</span></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; resolution : 9783.94, 9783.94  (x, y)</span></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; extent     : 11124339, 17816554, -6056259, 1516511  (xmin, xmax, ymin, ymax)</span></a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt; crs        : +proj=merc +a=6378137 +b=6378137 </span></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; source     : memory</span></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt; names      : layer.1, layer.2, layer.3 </span></a>
-<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt; min values :       0,       0,       0 </span></a>
-<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; max values :     255,     253,     227</span></a>
-<a class="sourceLine" id="cb1-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb1-16" data-line-number="16">raster<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/plotRGB">plotRGB</a></span>(im)</a></code></pre></div>
+<a class="sourceLine" id="cb1-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">raster<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/plotRGB">plotRGB</a></span>(im)</a></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-1-1.png" width="100%"></p>
 <p>We can use raster, sp, or sf objects to define an extent. This provides a very easy way to obtain imagery or elevation data for any almost any region using our own data.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">ne &lt;-<span class="st"> </span>rnaturalearth<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rnaturalearth/topics/ne_countries">ne_countries</a></span>(<span class="dt">returnclass =</span> <span class="st">"sf"</span>)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">im_nz &lt;-<span class="st"> </span><span class="kw"><a href="reference/cc_location.html">cc_location</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/subset">subset</a></span>(ne, name <span class="op">==</span><span class="st"> "New Zealand"</span>))</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; Preparing to download: 12 tiles at zoom = 6 from </span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; https://api.mapbox.com/v4/mapbox.satellite/</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5">raster<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/plotRGB">plotRGB</a></span>(im_nz)</a></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="100%"></p>
+<a class="sourceLine" id="cb2-2" data-line-number="2">im_nz &lt;-<span class="st"> </span><span class="kw"><a href="reference/cc_location.html">cc_location</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/subset">subset</a></span>(ne, name <span class="op">==</span><span class="st"> "New Zealand"</span>), </a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">                     <span class="dt">type =</span> <span class="st">"mapbox.light"</span>)</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; Preparing to download: 12 tiles at zoom = 6 from </span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; https://api.mapbox.com/v4/mapbox.light/</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">raster<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/plotRGB">plotRGB</a></span>(im_nz)</a></code></pre></div>
+<p><img src="reference/figures/README-extent2-1.png" width="100%"></p>
 <p>Even if the data uses a map projection it will be converted into a region to match the Mercator extents used by Mapbox image servers.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"nz"</span>, <span class="dt">package =</span> <span class="st">"spData"</span>)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sf)</a>
@@ -115,6 +107,7 @@
 <a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; Warning in plot.sf(st_transform(nz, raster::projection(im_nz2)), add =</span></a>
 <a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; TRUE, : ignoring all but the first attribute</span></a></code></pre></div>
 <p><img src="reference/figures/README-nz-spData-1.png" width="100%"></p>
+<p>There are basic heuristics to decide if data is projected or just in “longitude,latitude” in the usual raster package way.</p>
 <p>Raster elevation data is also available.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">north &lt;-<span class="st"> </span>nz[nz<span class="op">$</span>Island <span class="op">==</span><span class="st"> "North"</span>, ]</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">dem_nz &lt;-<span class="st"> </span><span class="kw"><a href="reference/cc_location.html">cc_elevation</a></span>(north)</a>
@@ -126,7 +119,7 @@
 <a class="sourceLine" id="cb4-8" data-line-number="8">dem_nz[<span class="op">!</span>dem_nz <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
 <a class="sourceLine" id="cb4-9" data-line-number="9">raster<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/plot">plot</a></span>(dem_nz, <span class="dt">col =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/grDevices/topics/gray">grey</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq</a></span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length =</span> <span class="dv">51</span>)), <span class="dt">breaks =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/quantile">quantile</a></span>(raster<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/getValues">values</a></span>(dem_nz), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq</a></span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length =</span> <span class="dv">52</span>), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), <span class="dt">legend =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb4-10" data-line-number="10"><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/plot">plot</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_transform">st_transform</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_cast">st_cast</a></span>(north, <span class="st">"MULTILINESTRING"</span>)[<span class="st">"Name"</span>], raster<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/projection">projection</a></span>(dem_nz)), <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">lwd =</span> <span class="dv">5</span>)</a></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-3-1.png" width="100%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="100%"></p>
 <div id="i-thought-you-said-tiles" class="section level2">
 <h2 class="hasAnchor">
 <a href="#i-thought-you-said-tiles" class="anchor"></a>I thought you said <em>tiles</em>?</h2>

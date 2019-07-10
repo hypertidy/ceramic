@@ -24,7 +24,7 @@ The goal of ceramic is to obtain web map tiles. Use a spatial object to define t
 ```{r}
 library(ceramic)
 roi <- raster::extent(100, 160, -50, 10)
-(im <- cc_location(roi))
+im <- cc_location(roi)
 
 raster::plotRGB(im)
 ```
@@ -32,9 +32,10 @@ raster::plotRGB(im)
 
 We can use raster, sp, or sf objects to define an extent. This provides a very easy way to obtain imagery or elevation data for any almost any region using our own data. 
 
-```{r}
+```{r extent2, fig.width=8, fig.height=10}
 ne <- rnaturalearth::ne_countries(returnclass = "sf")
-im_nz <- cc_location(subset(ne, name == "New Zealand"))
+im_nz <- cc_location(subset(ne, name == "New Zealand"), 
+                     type = "mapbox.light")
 raster::plotRGB(im_nz)
 ```
 
@@ -47,6 +48,8 @@ im_nz2 <- cc_location(nz)
 raster::plotRGB(im_nz2)
 plot(st_transform(nz, raster::projection(im_nz2)), add = TRUE, col = rainbow(nrow(nz), alpha = 0.5))
 ```
+
+There are basic heuristics to decide if data is projected or just in "longitude,latitude" in the usual raster package way. 
 
 Raster elevation data is also available. 
 
@@ -108,7 +111,7 @@ par(op)
 
 Use `max_tiles` or `zoom` to increase or decrease resolution. 
 
-```{r}
+```{r, max-tiles}
 im1 <- cc_location(im_nz, debug = TRUE)
 im2 <- cc_location(im_nz, zoom = 7)
 

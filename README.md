@@ -19,18 +19,9 @@ define the region of interest.
 ``` r
 library(ceramic)
 roi <- raster::extent(100, 160, -50, 10)
-(im <- cc_location(roi))
+im <- cc_location(roi)
 #> Preparing to download: 16 tiles at zoom = 4 from 
 #> https://api.mapbox.com/v4/mapbox.satellite/
-#> class      : RasterBrick 
-#> dimensions : 774, 684, 529416, 3  (nrow, ncol, ncell, nlayers)
-#> resolution : 9783.94, 9783.94  (x, y)
-#> extent     : 11124339, 17816554, -6056259, 1516511  (xmin, xmax, ymin, ymax)
-#> crs        : +proj=merc +a=6378137 +b=6378137 
-#> source     : memory
-#> names      : layer.1, layer.2, layer.3 
-#> min values :       0,       0,       0 
-#> max values :     255,     253,     227
 
 raster::plotRGB(im)
 ```
@@ -43,13 +34,14 @@ region using our own data.
 
 ``` r
 ne <- rnaturalearth::ne_countries(returnclass = "sf")
-im_nz <- cc_location(subset(ne, name == "New Zealand"))
+im_nz <- cc_location(subset(ne, name == "New Zealand"), 
+                     type = "mapbox.light")
 #> Preparing to download: 12 tiles at zoom = 6 from 
-#> https://api.mapbox.com/v4/mapbox.satellite/
+#> https://api.mapbox.com/v4/mapbox.light/
 raster::plotRGB(im_nz)
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+<img src="man/figures/README-extent2-1.png" width="100%" />
 
 Even if the data uses a map projection it will be converted into a
 region to match the Mercator extents used by Mapbox image servers.
@@ -69,6 +61,9 @@ plot(st_transform(nz, raster::projection(im_nz2)), add = TRUE, col = rainbow(nro
 
 <img src="man/figures/README-nz-spData-1.png" width="100%" />
 
+There are basic heuristics to decide if data is projected or just in
+“longitude,latitude” in the usual raster package way.
+
 Raster elevation data is also available.
 
 ``` r
@@ -84,7 +79,7 @@ raster::plot(dem_nz, col = grey(seq(0, 1, length = 51)), breaks = quantile(raste
 plot(st_transform(st_cast(north, "MULTILINESTRING")["Name"], raster::projection(dem_nz)), add = TRUE, lwd = 5)
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
 
 ## I thought you said *tiles*?
 
