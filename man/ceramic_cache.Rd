@@ -13,7 +13,7 @@ slippy_cache(...)
 \item{force}{set to \code{TRUE} to create the location without asking the user}
 }
 \value{
-character value of location of cache
+character vector, the file path location of the cache
 }
 \description{
 File system location where ceramic stores its cache.

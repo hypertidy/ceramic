@@ -42,6 +42,8 @@ guess_format <- function(x) {
 #' @param base_url tile provider URL expert use only
 #' @param verbose report messages or suppress them
 #' @export
+#' @return a list with files downloaded in character vector, a data frame of the tile indices,
+#' the zoom level used and the extent in [raster::extent] form
 #' @name get_tiles
 #' @seealso get_tiles_zoom get_tiles_dim get_tiles_buffer
 #' @examples
@@ -124,6 +126,8 @@ get_tiles <- function(x, buffer, type = "mapbox.satellite", crop_to_buffer = TRU
 #' @param format defaults to "png", also available is "jpg"
 #' @name get-tiles-constrained
 #' @aliases get_tiles_zoom get_tiles_dim get_tiles_buffer
+#' @return a list with files downloaded in character vector, a data frame of the tile indices,
+#' the zoom level used and the extent in [raster::extent] form
 #' @export
 #' @seealso get_tiles
 #' @examples

@@ -29,6 +29,10 @@ get_tiles_buffer(x, buffer = NULL, ..., max_tiles = 9,
 
 \item{max_tiles}{maximum number of tiles - if \code{NULL} is set by zoom constraints}
 }
+\value{
+a list with files downloaded in character vector, a data frame of the tile indices,
+the zoom level used and the extent in \link[raster:extent]{raster::extent} form
+}
 \description{
 Get tiles by zoom, by overall dimension, or by buffer on a single point.
 }

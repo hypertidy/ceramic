@@ -11,6 +11,9 @@ get_api_key(api = "mapbox", ...)
 
 \item{...}{currently ignored}
 }
+\value{
+key value (character vector of length 1, or \code{NULL})
+}
 \description{
 Mapbox tile providers require an API key. Other providers may not need a key and so this is ignored.
 }

@@ -67,7 +67,7 @@ buffer is ignored." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ceramic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
       </span>
     </div>
 
@@ -174,6 +174,11 @@ around the raw longitude and latitude in metres. If <code>loc</code> has an exte
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>a list with files downloaded in character vector, a data frame of the tile indices,
+the zoom level used and the extent in <a href='https://www.rdocumentation.org/packages/raster/topics/extent'>raster::extent</a> form</p>
+    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><code>get_tiles()</code> may be run with no arguments, and will download (and report on) the default
@@ -202,6 +207,8 @@ or any other string accepted by Mapbox services.</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#value">Value</a></li>
+
       <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>

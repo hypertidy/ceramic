@@ -57,7 +57,8 @@ cc_elevation(loc = NULL, buffer = 5000, ..., zoom = NULL,
 \item{debug}{optionally print out files that will be used}
 }
 \value{
-RasterBrick, with RGB
+a \code{\link[raster:brick]{raster::brick()}} object, either 'RasterBrick' with three layers (Red, Green, Blue) or with
+a single layer in the case of \code{\link[=cc_elevation]{cc_elevation()}}
 }
 \description{
 Obtain imagery or elevation data by location query. The first argument

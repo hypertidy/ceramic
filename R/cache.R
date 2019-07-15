@@ -79,8 +79,8 @@ down_loader <- function(x, query_string, clobber = FALSE, ..., debug = FALSE, ve
 
 #' Tile files
 #'
-#' Find existing files in the cache. Various options can be controlled, this is WIP
-#' and due to change pending generalization across providers.
+#' Find existing files in the cache. Various options can be controlled, this is
+#' liable to change pending generalization across providers.
 #'
 #' @param zoom zoom level
 #'
@@ -88,7 +88,8 @@ down_loader <- function(x, query_string, clobber = FALSE, ..., debug = FALSE, ve
 #' @param source imagery source
 #' @param glob see `fs::dir_ls`
 #' @param regexp see `fs::dir_ls`
-#'
+#' @return data frame of tile file paths with tile index, zoom, type, version, source and spatial
+#' extent
 #' @export
 #' @importFrom rlang .data
 #' @examples
@@ -173,7 +174,7 @@ tile_zoom <- function(x) {
 #' see `clear_ceramic_cache()`.
 #'
 #' @param force set to `TRUE` to create the location without asking the user
-#' @return character value of location of cache
+#' @return character vector, the file path location of the cache
 #' @export
 #' @importFrom utils askYesNo
 #' @examples

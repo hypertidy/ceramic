@@ -30,7 +30,8 @@
 #' @param max_tiles maximum number of tiles to be read into memory - if `NULL` is set by zoom constraints
 #' @param debug optionally print out files that will be used
 #'
-#' @return RasterBrick, with RGB
+#' @return a [raster::brick()] object, either 'RasterBrick' with three layers (Red, Green, Blue) or with
+#' a single layer in the case of [cc_elevation()]
 #' @export
 #' @importFrom raster projection<- crop extent
 #' @name cc_location

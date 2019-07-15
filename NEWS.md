@@ -1,3 +1,9 @@
+# ceramic 0.6.0
+
+* Removed unused data set. 
+
+* Added Value elements for several documentation pages. 
+
 # ceramic 0.5.0
 
 ## Breaking changes

@@ -22,6 +22,7 @@ spherical_mercator <- function(provider) {
 #'
 #' @importFrom stats setNames
 #' @export
+#' @return a numeric vector of the extent, in 'xmin', 'xmax', 'ymin', 'ymax' form
 #' @examples
 #' mercator_tile_extent(2, 4, zoom = 10)
 #'
@@ -73,6 +74,8 @@ add_extent <- function(x) {
 #' @param add_coast include a basic coastline on the plot?
 #' @param include_zoom include zoom level with text label if drawn?
 #' @export
+#' @return [plot_tiles()] is called for its side-effect, a plot - but returns `NULL` invisibly,
+#' [tiles_to_polygon] returns a simple features polygon data frame
 #' @importFrom sp plot
 #' @importFrom graphics rect text
 #' @aliases tiles_to_polygon
@@ -97,6 +100,7 @@ plot_tiles <- function(x, ..., add = FALSE, label = TRUE, cex = 0.6, add_coast =
          (x$ymin + x$ymax) / 2, label = tile_lab, cex = cex)
   }
   if (add_coast) sp::plot(merc_world, border = "darkgrey", add = TRUE)
+  invisible(NULL)
 }
 
 #' @name plot_tiles

@@ -1,6 +1,6 @@
-Second submission,  ceramic for online image server data. 
+Third submission,  ceramic  0.6.0 for online image server data. 
 
-Fixed empty URL problem in README.md. 
+Added Value field to several documentation pages, and removed unused oz_laea data set. 
 
 Thank you. 
 

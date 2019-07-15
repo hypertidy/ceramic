@@ -18,9 +18,13 @@ ceramic_tiles(zoom = NULL, type = "mapbox.satellite",
 
 \item{regexp}{see \code{fs::dir_ls}}
 }
+\value{
+data frame of tile file paths with tile index, zoom, type, version, source and spatial
+extent
+}
 \description{
-Find existing files in the cache. Various options can be controlled, this is WIP
-and due to change pending generalization across providers.
+Find existing files in the cache. Various options can be controlled, this is
+liable to change pending generalization across providers.
 }
 \examples{
 if (interactive() && !is.null(get_api_key())) {
