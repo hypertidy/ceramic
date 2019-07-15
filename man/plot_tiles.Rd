@@ -26,8 +26,8 @@ tiles_to_polygon(x)
 \item{include_zoom}{include zoom level with text label if drawn?}
 }
 \value{
-\code{\link[=plot_tiles]{plot_tiles()}} is called for its side-effect, a plot - but returns \code{NULL} invisibly,
-\link{tiles_to_polygon} returns a simple features polygon data frame
+\code{\link[=plot_tiles]{plot_tiles()}} is called for its side-effect, a plot, and returns \code{NULL} invisibly.
+\link{tiles_to_polygon} returns a simple features polygon data frame.
 }
 \description{
 Create a new plot of tile rectangles, or add to an existing plot.

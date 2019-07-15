@@ -16,7 +16,7 @@ mercator_tile_extent(tile_x, tile_y, zoom, tile_size = 256)
 \item{tile_size}{tile dimensions (assumed square, i.e. 256x256)}
 }
 \value{
-a numeric vector of the extent, in 'xmin', 'xmax', 'ymin', 'ymax' form
+A numeric vector of the spatial extent, in 'xmin', 'xmax', 'ymin', 'ymax' form.
 }
 \description{
 Calculate tile extent for a given x, y tile at a zoom level.

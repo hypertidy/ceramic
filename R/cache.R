@@ -4,8 +4,8 @@
 #' @param clobber set to `TRUE` to avoid checks and delete files
 #' @param ... reserved for future arguments, currently ignored
 #' @export
-#' @return this function is called for its side effect, but also returns the file list invisibly
-#' whether deleted or not, or NULL if the user cancels.
+#' @return This function is called for its side effect, but also returns the file paths as a
+#' character vector whether deleted or not, or NULL if the user cancels.
 clear_ceramic_cache <- function(clobber = FALSE, ...){
  files <- fs::dir_ls(ceramic_cache(), all = FALSE, recurse = TRUE)
  if (length(files) < 1) {
@@ -39,7 +39,7 @@ clear_ceramic_cache <- function(clobber = FALSE, ...){
 #' @param ... ignored
 #' @param debug simple debugging info printed if `TRUE`
 #' @param verbose print messages
-#' @return list with data frame of tiles, zoom level and file paths
+#' @return A list with data frame of tiles, zoom level and file paths.
 #' @noRd
 #' @keywords internal
 #' @importFrom curl curl_download
@@ -88,8 +88,8 @@ down_loader <- function(x, query_string, clobber = FALSE, ..., debug = FALSE, ve
 #' @param source imagery source
 #' @param glob see `fs::dir_ls`
 #' @param regexp see `fs::dir_ls`
-#' @return data frame of tile file paths with tile index, zoom, type, version, source and spatial
-#' extent
+#' @return A data frame of tile file paths with tile index, zoom, type, version,
+#' source and spatial extent.
 #' @export
 #' @importFrom rlang .data
 #' @examples
@@ -174,7 +174,7 @@ tile_zoom <- function(x) {
 #' see `clear_ceramic_cache()`.
 #'
 #' @param force set to `TRUE` to create the location without asking the user
-#' @return character vector, the file path location of the cache
+#' @return A character vector, the file path location of the cache.
 #' @export
 #' @importFrom utils askYesNo
 #' @examples

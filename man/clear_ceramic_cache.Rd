@@ -12,8 +12,8 @@ clear_ceramic_cache(clobber = FALSE, ...)
 \item{...}{reserved for future arguments, currently ignored}
 }
 \value{
-this function is called for its side effect, but also returns the file list invisibly
-whether deleted or not, or NULL if the user cancels.
+This function is called for its side effect, but also returns the file paths as a
+character vector whether deleted or not, or NULL if the user cancels.
 }
 \description{
 Delete all downloaded files in the \code{\link[=ceramic_cache]{ceramic_cache()}}.

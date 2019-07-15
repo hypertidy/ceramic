@@ -35,7 +35,7 @@ instruct_on_key_creation <- function(api = "mapbox") {
 #' If no key is available, `NULL` is returned, with a warning.
 #' @param api character string denoting which service ("mapbox" only)
 #' @param ... currently ignored
-#' @return key value (character vector of length 1, or `NULL`)
+#' @return The stored API key value, see Details.
 #' @export
 #' @examples
 #' get_api_key()

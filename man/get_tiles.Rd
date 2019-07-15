@@ -32,8 +32,8 @@ get_tiles(x, buffer, type = "mapbox.satellite", crop_to_buffer = TRUE,
 \item{verbose}{report messages or suppress them}
 }
 \value{
-a list with files downloaded in character vector, a data frame of the tile indices,
-the zoom level used and the extent in \link[raster:extent]{raster::extent} form
+A list with files downloaded in character vector, a data frame of the tile indices,
+the zoom level used and the extent in \link[raster:extent]{raster::extent} form.
 }
 \description{
 Obtain imagery or elevation tiles by location query. The first argument
