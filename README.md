@@ -34,6 +34,8 @@ region using our own data.
 
 ``` r
 ne <- rnaturalearth::ne_countries(returnclass = "sf")
+#> Warning in fun(libname, pkgname): rgeos: versions of GEOS runtime 3.7.1-CAPI-1.11.1
+#> and GEOS at installation 3.7.0-CAPI-1.11.0differ
 im_nz <- cc_location(subset(ne, name == "New Zealand"), 
                      type = "mapbox.light")
 #> Preparing to download: 12 tiles at zoom = 6 from 
@@ -49,7 +51,10 @@ region to match the Mercator extents used by Mapbox image servers.
 ``` r
 data("nz", package = "spData")
 library(sf)
-#> Linking to GEOS 3.7.0, GDAL 2.4.0, PROJ 5.2.0
+#> Linking to GEOS 3.7.1, GDAL 2.4.0, PROJ 5.2.0
+#> WARNING: different compile-time and runtime versions for GEOS found:
+#> Linked against: 3.7.1-CAPI-1.11.1 27a5e771 compiled against: 3.7.0-CAPI-1.11.0
+#> It is probably a good idea to reinstall sf, and maybe rgeos and rgdal too
 im_nz2 <- cc_location(nz)
 #> Preparing to download: 12 tiles at zoom = 6 from 
 #> https://api.mapbox.com/v4/mapbox.satellite/
@@ -233,6 +238,44 @@ text(middle(tiles$xmin, tiles$xmax), middle(tiles$ymin, tiles$ymax), lab = sprin
 
 <img src="man/figures/README-example-1.png" width="100%" />
 
+## Get imagery and DEM for use in 3D visualization
+
+This code downloads a specfic region as elevation and imagery at
+specific zoom levels to build [a 3D
+scene](https://hypertidy.github.io/anglr-demos/ceramic-demo01.html).
+
+``` r
+library(ceramic); library(quadmesh)
+library(raster); library(rgl);
+library(reproj); library(htmlwidgets)
+clear3d()
+
+## longlat extent
+ex0 <- c(147.15, 147.45, -42.9, -42.6)
+ex <- extent(ex0)
+
+## local LAEA projection, based on the centre of the extent
+prj <- sprintf("+proj=laea +lon_0=%f +lat_0=% +datum=WGS84", mean(ex0[1:2]), mean(ex0[3:4]))
+## Mapbox elevation
+dem <- cc_elevation(ex, zoom = 8)
+## Mapbox satellite imagery
+im <- cc_location(ex, zoom = 13)
+
+## quadmesh with texture for rgl, in local projection
+qm <- reproj::reproj(quadmesh(dem, texture = im), prj)
+
+## plot with rgl, set the aspect ratio and backround
+shade3d(qm, lit = FALSE);
+aspect3d(1, 1, .1)
+bg3d(grey(0.8))
+```
+
+The zoom levels were chosen by first reading an automatic level for the
+extents, and then tweaking the zoom - higher resolution for the imagery,
+lower resolution for the elevation. This provides a compelling
+visualization in 3D as the imagery is *textured* onto the elevation
+data, using rgl’s `mesh3d` type and `shade3d()` function.
+
 ## Local caching of tiles
 
 A key feature of ceramic is *caching*, all data is downloaded in a
@@ -249,20 +292,20 @@ aa <- cc_location(loc = cbind(0, 0), buffer = 330000, type = "mapbox.satellite")
 #> Preparing to download: 16 tiles at zoom = 7 from 
 #> https://api.mapbox.com/v4/mapbox.satellite/
 ceramic_tiles(zoom = 7, type = "mapbox.satellite")
-#> # A tibble: 76 x 11
-#>    tile_x tile_y  zoom type  version source fullname     xmin   xmax
-#>     <int>  <int> <int> <chr> <chr>   <chr>  <fs::path>  <dbl>  <dbl>
-#>  1    113     79     7 mapb… v4      api.m… /perm_sto… 1.53e7 1.57e7
-#>  2    113     80     7 mapb… v4      api.m… /perm_sto… 1.53e7 1.57e7
-#>  3    113     81     7 mapb… v4      api.m… /perm_sto… 1.53e7 1.57e7
-#>  4    114     79     7 mapb… v4      api.m… /perm_sto… 1.57e7 1.60e7
-#>  5    114     80     7 mapb… v4      api.m… /perm_sto… 1.57e7 1.60e7
-#>  6    114     81     7 mapb… v4      api.m… /perm_sto… 1.57e7 1.60e7
-#>  7    115     79     7 mapb… v4      api.m… /perm_sto… 1.60e7 1.63e7
-#>  8    115     80     7 mapb… v4      api.m… /perm_sto… 1.60e7 1.63e7
-#>  9    115     81     7 mapb… v4      api.m… /perm_sto… 1.60e7 1.63e7
-#> 10    116     79     7 mapb… v4      api.m… /perm_sto… 1.63e7 1.66e7
-#> # … with 66 more rows, and 2 more variables: ymin <dbl>, ymax <dbl>
+#> # A tibble: 2,008 x 11
+#>    tile_x tile_y  zoom type  version source fullname      xmin    xmax
+#>     <int>  <int> <int> <chr> <chr>   <chr>  <fs::path>   <dbl>   <dbl>
+#>  1     10     30     7 mapb… v4      api.m… /perm_sto… -1.69e7 -1.66e7
+#>  2     10     31     7 mapb… v4      api.m… /perm_sto… -1.69e7 -1.66e7
+#>  3     10     32     7 mapb… v4      api.m… /perm_sto… -1.69e7 -1.66e7
+#>  4    100     28     7 mapb… v4      api.m… /perm_sto…  1.13e7  1.16e7
+#>  5    100     29     7 mapb… v4      api.m… /perm_sto…  1.13e7  1.16e7
+#>  6    100     30     7 mapb… v4      api.m… /perm_sto…  1.13e7  1.16e7
+#>  7    100     34     7 mapb… v4      api.m… /perm_sto…  1.13e7  1.16e7
+#>  8    100     35     7 mapb… v4      api.m… /perm_sto…  1.13e7  1.16e7
+#>  9    100     36     7 mapb… v4      api.m… /perm_sto…  1.13e7  1.16e7
+#> 10    100     37     7 mapb… v4      api.m… /perm_sto…  1.13e7  1.16e7
+#> # … with 1,998 more rows, and 2 more variables: ymin <dbl>, ymax <dbl>
 ```
 
 and every row has the extent values useable directly by raster:
@@ -274,38 +317,38 @@ ceramic_tiles(zoom = 7, type = "mapbox.satellite") %>%
   purrr::map(~raster::extent(unlist(.x[c("xmin", "xmax", "ymin", "ymax")])))
 #> [[1]]
 #> class      : Extent 
-#> xmin       : 15341217 
-#> xmax       : 15654303 
-#> ymin       : -5009377 
-#> ymax       : -4696291 
+#> xmin       : -16906648 
+#> xmax       : -16593562 
+#> ymin       : 10331840 
+#> ymax       : 10644926 
 #> 
 #> [[2]]
 #> class      : Extent 
-#> xmin       : 15341217 
-#> xmax       : 15654303 
-#> ymin       : -5322463 
-#> ymax       : -5009377 
+#> xmin       : -16906648 
+#> xmax       : -16593562 
+#> ymin       : 10018754 
+#> ymax       : 10331840 
 #> 
 #> [[3]]
 #> class      : Extent 
-#> xmin       : 15341217 
-#> xmax       : 15654303 
-#> ymin       : -5635549 
-#> ymax       : -5322463 
+#> xmin       : -16906648 
+#> xmax       : -16593562 
+#> ymin       : 9705668 
+#> ymax       : 10018754 
 #> 
 #> [[4]]
 #> class      : Extent 
-#> xmin       : 15654303 
-#> xmax       : 15967389 
-#> ymin       : -5009377 
-#> ymax       : -4696291 
+#> xmin       : 11271098 
+#> xmax       : 11584185 
+#> ymin       : 10958012 
+#> ymax       : 11271098 
 #> 
 #> [[5]]
 #> class      : Extent 
-#> xmin       : 15654303 
-#> xmax       : 15967389 
-#> ymin       : -5322463 
-#> ymax       : -5009377
+#> xmin       : 11271098 
+#> xmax       : 11584185 
+#> ymin       : 10644926 
+#> ymax       : 10958012
 ```
 
 Another example
