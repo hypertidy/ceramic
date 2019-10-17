@@ -50,7 +50,7 @@ clear_ceramic_cache <- function(clobber = FALSE, ...){
 down_loader <- function(x, query_string, clobber = FALSE, ..., debug = FALSE, verbose = TRUE) {
   if (verbose) {
     provider <- strsplit(query_string, '\\{')[[1]][1]
-    print(glue::glue("Preparing to download: {nrow(x$tiles)} tiles at zoom = {x$zoom} from \n {provider}"))
+    message(glue::glue("Preparing to download: {nrow(x$tiles)} tiles at zoom = {x$zoom} from \n {provider}"))
   }
   purrr::pmap(x$tiles,
               function(x, y, zoom){
