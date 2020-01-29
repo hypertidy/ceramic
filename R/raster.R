@@ -11,7 +11,8 @@ make_raster <- function(loc_data) {
   }
 
   out <- fast_merge(br)
-  projection(out) <- "+proj=merc +a=6378137 +b=6378137"
+
+  raster::crs(out) <- sp::CRS("+proj=merc +a=6378137 +b=6378137", doCheckCRSArgs = FALSE)
   if (!is.null(user_extent)) out <- raster::crop(out, user_extent , snap = "out")
   out
 }

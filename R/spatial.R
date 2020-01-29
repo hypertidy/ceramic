@@ -16,7 +16,7 @@ spatial_bbox <- function(loc, buffer = NULL) {
     ## turn loc into a longlat point
     ## and a buffer
     if (inherits(loc, "Extent")) {
-      spx <- spex::spex(loc, crs = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0")
+      spx <- spex::spex(loc, crs = sp::CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0", doCheckCRSArgs = FALSE))
 
       if (!raster::couldBeLonLat(spx)) {
         stop("raw extent 'loc' does not seem to be longitude/latitude (use object with CRS)")
@@ -77,7 +77,7 @@ spex_to_pt <- function(x) {
   if (is.na(srcproj)) {
     if (raster::couldBeLonLat(x, warnings = FALSE)) {
       warning("loc CRS is not set, assuming longlat")
-      raster::projection(x) <- "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0 "
+      raster::crs(x) <- sp::CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0",doCheckCRSArgs = FALSE)
     }
   }
 

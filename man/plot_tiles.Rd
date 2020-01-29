@@ -5,8 +5,15 @@
 \alias{tiles_to_polygon}
 \title{Plot slippy map tiles}
 \usage{
-plot_tiles(x, ..., add = FALSE, label = TRUE, cex = 0.6,
-  add_coast = TRUE, include_zoom = TRUE)
+plot_tiles(
+  x,
+  ...,
+  add = FALSE,
+  label = TRUE,
+  cex = 0.6,
+  add_coast = TRUE,
+  include_zoom = TRUE
+)
 
 tiles_to_polygon(x)
 }

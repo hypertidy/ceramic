@@ -11,35 +11,84 @@
 \alias{cc_kingston}
 \title{Obtain tiled imagery by location query}
 \usage{
-cc_location(loc = NULL, buffer = 5000, type = "mapbox.satellite",
-  ..., zoom = NULL, max_tiles = NULL, debug = FALSE)
+cc_location(
+  loc = NULL,
+  buffer = 5000,
+  type = "mapbox.satellite",
+  ...,
+  zoom = NULL,
+  max_tiles = NULL,
+  debug = FALSE
+)
 
-cc_macquarie(loc = c(158.93835, -54.49871), buffer = 5000,
-  type = "mapbox.outdoors", ..., zoom = NULL, max_tiles = NULL,
-  debug = FALSE)
+cc_macquarie(
+  loc = c(158.93835, -54.49871),
+  buffer = 5000,
+  type = "mapbox.outdoors",
+  ...,
+  zoom = NULL,
+  max_tiles = NULL,
+  debug = FALSE
+)
 
-cc_davis(loc = c(77 + 58/60 + 3/3600, -(68 + 34/60 + 36/3600)),
-  buffer = 5000, type = "mapbox.outdoors", ..., zoom = NULL,
-  max_tiles = NULL, debug = FALSE)
+cc_davis(
+  loc = c(77 + 58/60 + 3/3600, -(68 + 34/60 + 36/3600)),
+  buffer = 5000,
+  type = "mapbox.outdoors",
+  ...,
+  zoom = NULL,
+  max_tiles = NULL,
+  debug = FALSE
+)
 
-cc_mawson(loc = c(62 + 52/60 + 27/3600, -(67 + 36/60 + 12/3600)),
-  buffer = 5000, type = "mapbox.outdoors", ..., zoom = NULL,
-  max_tiles = NULL, debug = FALSE)
+cc_mawson(
+  loc = c(62 + 52/60 + 27/3600, -(67 + 36/60 + 12/3600)),
+  buffer = 5000,
+  type = "mapbox.outdoors",
+  ...,
+  zoom = NULL,
+  max_tiles = NULL,
+  debug = FALSE
+)
 
-cc_casey(loc = cbind(110 + 31/60 + 36/3600, -(66 + 16/60 + 57/3600)),
-  buffer = 5000, type = "mapbox.outdoors", ..., zoom = NULL,
-  max_tiles = NULL, debug = FALSE)
+cc_casey(
+  loc = cbind(110 + 31/60 + 36/3600, -(66 + 16/60 + 57/3600)),
+  buffer = 5000,
+  type = "mapbox.outdoors",
+  ...,
+  zoom = NULL,
+  max_tiles = NULL,
+  debug = FALSE
+)
 
-cc_heard(loc = c(73 + 30/60 + 30/3600, -(53 + 0 + 0/3600)),
-  buffer = 5000, type = "mapbox.outdoors", ..., zoom = NULL,
-  max_tiles = NULL, debug = FALSE)
+cc_heard(
+  loc = c(73 + 30/60 + 30/3600, -(53 + 0 + 0/3600)),
+  buffer = 5000,
+  type = "mapbox.outdoors",
+  ...,
+  zoom = NULL,
+  max_tiles = NULL,
+  debug = FALSE
+)
 
-cc_kingston(loc = c(147.70837, -42.98682), buffer = 5000,
-  type = "mapbox.outdoors", ..., zoom = NULL, max_tiles = NULL,
-  debug = FALSE)
+cc_kingston(
+  loc = c(147.70837, -42.98682),
+  buffer = 5000,
+  type = "mapbox.outdoors",
+  ...,
+  zoom = NULL,
+  max_tiles = NULL,
+  debug = FALSE
+)
 
-cc_elevation(loc = NULL, buffer = 5000, ..., zoom = NULL,
-  max_tiles = NULL, debug = FALSE)
+cc_elevation(
+  loc = NULL,
+  buffer = 5000,
+  ...,
+  zoom = NULL,
+  max_tiles = NULL,
+  debug = FALSE
+)
 }
 \arguments{
 \item{loc}{a longitude, latitude pair of coordinates, or a spatial object}

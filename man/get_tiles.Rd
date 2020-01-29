@@ -4,9 +4,19 @@
 \alias{get_tiles}
 \title{Download Mapbox imagery tiles}
 \usage{
-get_tiles(x, buffer, type = "mapbox.satellite", crop_to_buffer = TRUE,
-  format = NULL, ..., zoom = NULL, debug = FALSE, max_tiles = NULL,
-  base_url = NULL, verbose = TRUE)
+get_tiles(
+  x,
+  buffer,
+  type = "mapbox.satellite",
+  crop_to_buffer = TRUE,
+  format = NULL,
+  ...,
+  zoom = NULL,
+  debug = FALSE,
+  max_tiles = NULL,
+  base_url = NULL,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{x}{a longitude, latitude pair of coordinates, or a spatial object}

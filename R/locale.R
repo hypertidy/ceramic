@@ -114,6 +114,7 @@ cc_kingston <- function(loc = c(147.70837,
 cc_elevation <- function(loc = NULL, buffer = 5000, ...,zoom = NULL, max_tiles = NULL, debug = FALSE) {
   dat <- cc_location(loc, buffer = buffer,  type = "mapbox.terrain-rgb", zoom = zoom, max_tiles = max_tiles, debug = debug, ...)
   height <-  -10000 + ((dat[[1]] * 256 * 256 + dat[[2]] * 256 + dat[[3]]) * 0.1)
-  projection(height) <- "+proj=merc +a=6378137 +b=6378137"
+
+  raster::crs(height) <- sp::CRS("+proj=merc +a=6378137 +b=6378137", doCheckCRSArgs = FALSE)
   height
 }

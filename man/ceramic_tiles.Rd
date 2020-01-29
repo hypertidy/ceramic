@@ -4,8 +4,13 @@
 \alias{ceramic_tiles}
 \title{Tile files}
 \usage{
-ceramic_tiles(zoom = NULL, type = "mapbox.satellite",
-  source = "api.mapbox.com", glob = NULL, regexp = NULL)
+ceramic_tiles(
+  zoom = NULL,
+  type = "mapbox.satellite",
+  source = "api.mapbox.com",
+  glob = NULL,
+  regexp = NULL
+)
 }
 \arguments{
 \item{zoom}{zoom level}

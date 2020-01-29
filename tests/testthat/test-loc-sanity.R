@@ -32,10 +32,10 @@ test_that("Spatial loc works", {
 
   ## degeneracy
   ## single point, no-width polygon, vert/horizontal line
-  cc_location(sp::SpatialPoints(rpt, proj4string = sp::CRS("+proj=longlat +datum=WGS84")), verbose = FALSE)
+  cc_location(sp::SpatialPoints(rpt, proj4string = sp::CRS("+proj=longlat +datum=WGS84", doCheckCRSArgs = FALSE)), verbose = FALSE)
   ## no CRS
   sp <- ozdata$ll$sp
-  sp@proj4string <- sp::CRS(NA_character_)
+  sp@proj4string <- sp::CRS(NA_character_, doCheckCRSArgs = FALSE)
   cc_location(sp, verbose = FALSE)
 })
 

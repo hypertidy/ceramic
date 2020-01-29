@@ -11,8 +11,7 @@ get_tiles_zoom(x, zoom = 0, ..., format = "png")
 
 get_tiles_dim(x, dim = c(512, 512), ..., format = "png")
 
-get_tiles_buffer(x, buffer = NULL, ..., max_tiles = 9,
-  format = "png")
+get_tiles_buffer(x, buffer = NULL, ..., max_tiles = 9, format = "png")
 }
 \arguments{
 \item{x}{a spatial object with an extent}
