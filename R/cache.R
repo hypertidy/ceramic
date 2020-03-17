@@ -153,8 +153,7 @@ tile_x <- function(x) {
   as.integer(basename(dirname(x)))
 }
 tile_y <- function(x) {
-  #xbase <- basename(x)
-  stop("not implemented")
+  gsub('([0-9]+).*','\\1', basename(x))
 }
 tile_zoom <- function(x) {
   as.integer(basename(dirname(dirname(x))))
