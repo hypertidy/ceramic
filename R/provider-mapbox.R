@@ -48,7 +48,7 @@ get_api_key <- function(api = "mapbox", ...) {
     if(is.null(key)) {
        key <- unlist(lapply(key_candidates, function(label) Sys.getenv(label)))[1L]
     }
-    if (is.null(key) || nchar(key) < 1) {
+    if (is.na(key) || is.null(key) || nchar(key) < 1) {
       mess <- instruct_on_key_creation()
       warning(sprintf("no mapbox key found\n\n%s", mess))
       key <- NULL
