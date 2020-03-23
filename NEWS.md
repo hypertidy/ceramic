@@ -1,3 +1,7 @@
+# dev
+
+* Workaround for apparent loss of setMethod("couldBeLonLat", signature(x = "Exetnt")) in later raster versions. 
+
 # ceramic 0.6.0
 
 * Removed unused data set. 
