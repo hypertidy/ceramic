@@ -46,7 +46,7 @@ get_api_key <- function(api = "mapbox", ...) {
     key <- getOption("mapdeck")[['mapdeck']][[api]]
     key_candidates <- c("MAPBOX_API_KEY", "MAPBOX_API_TOKEN", "MAPBOX_KEY", "MAPBOX_TOKEN", "MAPBOX")
     if(is.null(key)) {
-       key <- unlist(lapply(key_candidates, function(key) Sys.getenv(key)))[1L]
+       key <- unlist(lapply(key_candidates, function(label) Sys.getenv(label)))[1L]
     }
     if (is.null(key) || nchar(key) < 1) {
       mess <- instruct_on_key_creation()
