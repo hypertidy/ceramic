@@ -37,7 +37,7 @@ guess_format <- function(x) {
 #' @param format tile format to use, defaults to "jpg" for Mapbox satellite imagery and "png" otherwise
 #' @param ... arguments passed to internal function, specifically `base_url` (see Details)
 #' @param zoom desired zoom for tiles, use with caution - if `NULL` is chosen automatically
-#' @param debug optionally print out files that will be used
+#' @param debug optionally avoid actual download, but print out what would be downloaded in non-debug mode
 #' @param max_tiles maximum number of tiles - if `NULL` is set by zoom constraints
 #' @param base_url tile provider URL expert use only
 #' @param verbose report messages or suppress them
