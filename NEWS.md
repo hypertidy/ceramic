@@ -1,5 +1,7 @@
 # dev
 
+* Tweaked behaviour of `debug` argument, thanks to prompt by Grant Williamson. 
+
 * Fix bug in cc_elevation that prevent use of Amazone tiles. 
 
 * Workaround for apparent loss of setMethod("couldBeLonLat", signature(x = "Exetnt")) in later raster versions. 

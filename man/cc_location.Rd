@@ -84,6 +84,7 @@ cc_kingston(
 cc_elevation(
   loc = NULL,
   buffer = 5000,
+  type = NULL,
   ...,
   zoom = NULL,
   max_tiles = NULL,

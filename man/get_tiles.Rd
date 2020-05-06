@@ -33,7 +33,7 @@ get_tiles(
 
 \item{zoom}{desired zoom for tiles, use with caution - if \code{NULL} is chosen automatically}
 
-\item{debug}{optionally print out files that will be used}
+\item{debug}{optionally avoid actual download, but print out what would be downloaded in non-debug mode}
 
 \item{max_tiles}{maximum number of tiles - if \code{NULL} is set by zoom constraints}
 

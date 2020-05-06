@@ -92,7 +92,8 @@ get_tiles <- function(x, buffer, type = "mapbox.satellite", crop_to_buffer = TRU
 
   files <- unlist(down_loader(tile_grid, query_string, debug = debug, verbose = verbose))
   bad <- file.info(files)$size < 35
-  if (all(bad)) {
+
+  if (!debug && all(bad)) {
     mess <-paste(files, collapse = "\n")
     stop(sprintf("no sensible tiles found, check cache?\n%s", mess))
   }
