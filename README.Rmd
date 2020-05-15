@@ -37,14 +37,14 @@ We can use raster, sp, or sf objects to define an extent. This provides a very e
 
 ```{r extent2, fig.width=8, fig.height=10}
 data("wrld_simpl", package = "maptools")
-im_nz <- cc_location(subset(wrld_simpl, NAME == "New Zealand"), 
+im <- cc_location(subset(wrld_simpl, NAME == "Bolivia"), 
                      type = "mapbox.light")
-raster::plotRGB(im_nz)
+raster::plotRGB(im)
 ```
 
 Even if the data uses a map projection it will be converted into a region to match the Mercator extents used by Mapbox image servers. 
 
-```{r warn}
+```{r warn, include = FALSE}
 options(warn = -1)
 ```
 
@@ -120,8 +120,8 @@ par(op)
 Use `max_tiles` or `zoom` to increase or decrease resolution. 
 
 ```{r, max-tiles}
-im1 <- cc_location(im_nz, debug = TRUE)
-im2 <- cc_location(im_nz, zoom = 7)
+im1 <- cc_location(im, debug = TRUE)
+im2 <- cc_location(im, zoom = 7)
 
 im1
 

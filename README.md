@@ -34,21 +34,17 @@ region using our own data.
 
 ``` r
 data("wrld_simpl", package = "maptools")
-im_nz <- cc_location(subset(wrld_simpl, NAME == "New Zealand"), 
+im <- cc_location(subset(wrld_simpl, NAME == "Bolivia"), 
                      type = "mapbox.light")
-#> Preparing to download: 16 tiles at zoom = 3 from 
+#> Preparing to download: 12 tiles at zoom = 6 from 
 #> https://api.mapbox.com/v4/mapbox.light/
-raster::plotRGB(im_nz)
+raster::plotRGB(im)
 ```
 
 <img src="man/figures/README-extent2-1.png" width="100%" />
 
 Even if the data uses a map projection it will be converted into a
 region to match the Mercator extents used by Mapbox image servers.
-
-``` r
-options(warn = -1)
-```
 
 There are basic heuristics to decide if data is projected or just in
 “longitude,latitude” in the usual raster package way.
@@ -121,27 +117,23 @@ nz_z12 <- cc_location(pt, zoom = 12, type = "elevation-tiles-prod")
 Use `max_tiles` or `zoom` to increase or decrease resolution.
 
 ``` r
-im1 <- cc_location(im_nz, debug = TRUE)
-#> Preparing to download: 16 tiles at zoom = 3 from 
+im1 <- cc_location(im, debug = TRUE)
+#> Preparing to download: 12 tiles at zoom = 6 from 
 #> https://api.mapbox.com/v4/mapbox.satellite/
-#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/3/0/4.jpg"
-#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/3/1/4.jpg"
-#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/3/2/4.jpg"
-#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/3/3/4.jpg"
-#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/3/4/4.jpg"
-#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/3/5/4.jpg"
-#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/3/6/4.jpg"
-#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/3/7/4.jpg"
-#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/3/0/5.jpg"
-#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/3/1/5.jpg"
-#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/3/2/5.jpg"
-#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/3/3/5.jpg"
-#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/3/4/5.jpg"
-#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/3/5/5.jpg"
-#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/3/6/5.jpg"
-#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/3/7/5.jpg"
-im2 <- cc_location(im_nz, zoom = 7)
-#> Preparing to download: 1536 tiles at zoom = 7 from 
+#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/19/33.jpg"
+#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/20/33.jpg"
+#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/21/33.jpg"
+#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/19/34.jpg"
+#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/20/34.jpg"
+#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/21/34.jpg"
+#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/19/35.jpg"
+#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/20/35.jpg"
+#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/21/35.jpg"
+#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/19/36.jpg"
+#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/20/36.jpg"
+#> [1] "C:\\Users\\michae_sum\\AppData\\Local\\Cache/.ceramic/api.mapbox.com/v4/mapbox.satellite/6/21/36.jpg"
+im2 <- cc_location(im, zoom = 7)
+#> Preparing to download: 30 tiles at zoom = 7 from 
 #> https://api.mapbox.com/v4/mapbox.satellite/
 
 im1
@@ -149,14 +141,14 @@ im1
 
 im2
 #> class      : RasterBrick 
-#> dimensions : 2881, 32577, 93854337, 3  (nrow, ncol, ncell, nlayers)
+#> dimensions : 1255, 1104, 1385520, 3  (nrow, ncol, ncell, nlayers)
 #> resolution : 1222.992, 1222.992  (x, y)
-#> extent     : -19900533, 19940892, -6752141, -3228700  (xmin, xmax, ymin, ymax)
+#> extent     : -7751326, -6401142, -2606197, -1071341  (xmin, xmax, ymin, ymax)
 #> crs        : +proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +R=6378137 +units=m +no_defs 
-#> source     : C:/Users/michae_sum/AppData/Local/Temp/Rtmp6lWq1n/raster/r_tmp_2020-05-16_012925_9364_97374.grd 
+#> source     : memory
 #> names      : layer.1, layer.2, layer.3 
 #> min values :       0,       0,       0 
-#> max values :     255,     255,     255
+#> max values :     255,     255,     253
 ```
 
 ## Installation
@@ -273,7 +265,7 @@ aa <- cc_location(loc = cbind(0, 0), buffer = 330000, type = "mapbox.satellite")
 #> Preparing to download: 16 tiles at zoom = 7 from 
 #> https://api.mapbox.com/v4/mapbox.satellite/
 ceramic_tiles(zoom = 7, type = "mapbox.satellite")
-#> # A tibble: 1,651 x 11
+#> # A tibble: 1,681 x 11
 #>    tile_x tile_y  zoom type  version source fullname      xmin    xmax    ymin
 #>     <int>  <int> <int> <chr> <chr>   <chr>  <fs::path>   <dbl>   <dbl>   <dbl>
 #>  1      0     74     7 mapb~ v4      api.m~ C:/Users/~ -2.00e7 -1.97e7 -3.44e6
@@ -286,7 +278,7 @@ ceramic_tiles(zoom = 7, type = "mapbox.satellite")
 #>  8      0     81     7 mapb~ v4      api.m~ C:/Users/~ -2.00e7 -1.97e7 -5.64e6
 #>  9      0     82     7 mapb~ v4      api.m~ C:/Users/~ -2.00e7 -1.97e7 -5.95e6
 #> 10      0     83     7 mapb~ v4      api.m~ C:/Users/~ -2.00e7 -1.97e7 -6.26e6
-#> # ... with 1,641 more rows, and 1 more variable: ymax <dbl>
+#> # ... with 1,671 more rows, and 1 more variable: ymax <dbl>
 ```
 
 and every row has the extent values useable directly by raster:
