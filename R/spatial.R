@@ -77,12 +77,12 @@ spex_to_pt <- function(x) {
   if (is.na(srcproj)) {
     if (raster::couldBeLonLat(x, warnings = FALSE)) {
       warning("loc CRS is not set, assuming longlat")
-      raster::crs(x) <- sp::CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0",doCheckCRSArgs = FALSE)
+      raster::crs(x) <- sp::CRS("+proj=longlat +datum=WGS84",doCheckCRSArgs = FALSE)
     }
   }
 
   if (!raster::isLonLat(x)) {
-    pt <- reproj::reproj(pt, "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0 ", source = raster::projection(x))[, 1:2, drop = FALSE]
+    pt <- reproj::reproj(pt, "+proj=longlat +datum=WGS84", source = raster::projection(x))[, 1:2, drop = FALSE]
   }
   pt
 }

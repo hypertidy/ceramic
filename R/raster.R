@@ -11,7 +11,6 @@ make_raster <- function(loc_data) {
   }
 
   out <- fast_merge(br)
-
   raster::crs(out) <- sp::CRS("+proj=merc +a=6378137 +b=6378137", doCheckCRSArgs = FALSE)
   if (!is.null(user_extent)) out <- raster::crop(out, user_extent , snap = "out")
   out
@@ -60,8 +59,12 @@ find_format <- function(x) {
 
 
 fast_merge <- function(x) {
+
   ## about 3 times faster than reduce(, merge)
-  out <- raster::raster(purrr::reduce(purrr::map(x, raster::extent), raster::union), crs = raster::projection(x[[1]]))
+
+ crs <- raster::projection(x[[1]])
+
+  out <- raster::raster(purrr::reduce(purrr::map(x, raster::extent), raster::union), crs = crs)
   raster::res(out) <- raster::res(x[[1]])
   cells <- unlist(purrr::map(x, ~raster::cellsFromExtent(out, .x)))
   vals <- do.call(rbind, purrr::map(x, ~raster::values(raster_readAll(.x))))

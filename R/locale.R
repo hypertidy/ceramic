@@ -58,7 +58,7 @@ cc_location <- function(loc = NULL, buffer = 5000,
   if (debug) {
     return(invisible(NULL))
   }
-  make_raster(locdata)
+  suppressWarnings(make_raster(locdata))
 }
 #' @name cc_location
 #' @export
