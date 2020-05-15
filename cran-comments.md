@@ -1,12 +1,10 @@
-Third submission,  ceramic  0.6.0 for online image server data. 
-
-Added Value field to several documentation pages, and removed unused oz_laea data set. 
+# ceramic  0.7.0
 
 Thank you. 
 
 ## Test environments
 
-* Local Ubuntu 18.04, R 3.6.0
+* Local windows R 4.0.0
 * win-builder (devel and release)
 
 ## R CMD check results

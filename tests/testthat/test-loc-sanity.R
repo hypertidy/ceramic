@@ -12,7 +12,7 @@ test_that("raw loc works", {
   ## too many values, assumes first 2
   expect_warning(cc_location(c(rpt, 10), verbose = FALSE))
   ## flat vector ok
-  expect_silent(cc_location(c(rpt), verbose = FALSE))
+  expect_s4_class(cc_location(c(rpt), verbose = FALSE), "BasicRaster")
   expect_error(cc_location(raster::extent(-1e6, 1000, 0, 300000), verbose = FALSE))
 
   expect_warning(cc_location(cbind(0, 0), buffer = 1e8, verbose = FALSE),
@@ -25,7 +25,7 @@ test_that("Spatial loc works", {
 
 
   ## projected spdf, lines, points, mpoints
-  expect_silent(cc_location(ozdata$ll$sp, verbose = FALSE))
+  expect_s4_class(cc_location(ozdata$ll$sp, verbose = FALSE), "BasicRaster")
   expect_message(cc_location(ozdata$proj$sp))
 
   ## degeneracy

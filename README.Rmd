@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
+options(warn = -1)
 ```
 # ceramic
 
@@ -35,16 +36,21 @@ raster::plotRGB(im)
 We can use raster, sp, or sf objects to define an extent. This provides a very easy way to obtain imagery or elevation data for any almost any region using our own data. 
 
 ```{r extent2, fig.width=8, fig.height=10}
-ne <- rnaturalearth::ne_countries(returnclass = "sf")
-im_nz <- cc_location(subset(ne, name == "New Zealand"), 
+data("wrld_simpl", package = "maptools")
+im_nz <- cc_location(subset(wrld_simpl, NAME == "New Zealand"), 
                      type = "mapbox.light")
 raster::plotRGB(im_nz)
 ```
 
 Even if the data uses a map projection it will be converted into a region to match the Mercator extents used by Mapbox image servers. 
 
-```{r nz-spData}
+```{r warn}
+options(warn = -1)
+```
+
+```{r nz-spData, include = FALSE}
 data("nz", package = "spData")
+
 library(sf)
 im_nz2 <- cc_location(nz)
 raster::plotRGB(im_nz2)
@@ -57,7 +63,7 @@ Raster elevation data is also available.
 
 ```{r}
 north <- nz[nz$Island == "North", ]
-dem_nz <- cc_elevation(north)
+dem_nz <- cc_location(north, type = "elevation-tiles-prod" )
 
 
 ## plot elevation data for NZ north
@@ -180,7 +186,7 @@ text(middle(tiles$xmin, tiles$xmax), middle(tiles$ymin, tiles$ymax), lab = sprin
 ## Get imagery and DEM for use in 3D visualization
 
 
-This code downloads a specfic region as elevation and imagery at specific zoom levels to build [a 3D scene](https://hypertidy.github.io/anglr-demos/ceramic-demo01.html). 
+This code downloads a specific region as elevation and imagery at specific zoom levels to build [a 3D scene](https://hypertidy.github.io/anglr-demos/ceramic-demo01.html). 
 
 
 ```{R,eval=FALSE}

@@ -28,15 +28,16 @@ test_that("max_tiles and zoom work", {
 
 
   expect_error(cc_location(cbind(0, 0), max_tiles = 24, zoom = 5), "'zoom' and 'max_tiles' cannot be both set, one must be NULL")
-  im <- expect_silent(cc_location(cbind(0, 53), max_tiles = 16, verbose = FALSE))
+  im <- expect_s4_class(cc_location(cbind(0, 53), max_tiles = 16, verbose = FALSE), "BasicRaster")
   expect_that(dim(im), equals(c(524, 524, 3)))
   im <- expect_message(cc_location(cbind(0, 53), zoom = 13), "Preparing")
   expect_that(dim(im), equals(c(524, 524, 3)))
 
   expect_error(cc_elevation(cbind(0, 53), max_tiles = 24, zoom = 5), "'zoom' and 'max_tiles' cannot be both set, one must be NULL")
-  im <- expect_silent(cc_elevation(cbind(0, 53), max_tiles = 16, verbose = FALSE))
+  im <- expect_s4_class(cc_elevation(cbind(0, 53), max_tiles = 16, verbose = FALSE),
+                        "BasicRaster")
   expect_that(dim(im), equals(c(1048, 1048, 1)))
-  im <- expect_silent(cc_elevation(cbind(0, 53), zoom = 13, verbose = FALSE))
+  im <- expect_s4_class(cc_elevation(cbind(0, 53), zoom = 13, verbose = FALSE), "BasicRaster")
   expect_that(dim(im), equals(c(1048, 1048, 1)))
 
 

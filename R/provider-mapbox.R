@@ -5,7 +5,7 @@ token_url <- function(api = "mapbox") {
 instruct_on_key_creation <- function(api = "mapbox") {
   if (api == "mapbox") {
     out <- paste(sprintf("To set your Mapbox API key obtain a key from %s\n", token_url()),
-    sprintf("1) Run this to set for the session 'Sys.setenv(MAPBOX_API_KEY=<yourkey>)'\n\nOR,\n\n2) To set peramanently store 'MAPBOX_API_KEY=<yourkey>' in ~/.Renviron\n\nSee 'help(ceramic::get_api_key)'"), sep = "\n")
+    sprintf("1) Run this to set for the session 'Sys.setenv(MAPBOX_API_KEY=<yourkey>)'\n\nOR,\n\n2) To set permanently store 'MAPBOX_API_KEY=<yourkey>' in ~/.Renviron\n\nSee 'help(ceramic::get_api_key)'"), sep = "\n")
   } else {
     message(sprintf("don't know if key is needed for %s", api))
   }

@@ -1,6 +1,6 @@
 Package: ceramic
 Title: Download Online Imagery Tiles
-Version: 0.6.0.9004
+Version: 0.7.0
 Authors@R: c(
     person("Michael", "Sumner", email = "mdsumner@gmail.com", role = c("aut", "cre"), 
     comment = c(ORCID = "0000-0002-2471-7511")), 
@@ -30,13 +30,14 @@ Imports:
     rappdirs,
     rlang,
     sp,
-    spex (>= 0.6.0.9002),
+    spex (>= 0.6.0.9005),
     slippymath (>= 0.3.0),
     stats,
     tibble,
     raster,
-    reproj (>= 0.4.1.9002),
-    utils
+    reproj (>= 0.4.2),
+    utils,
+    crsmeta
 Suggests: 
     covr,
     rgdal,
@@ -45,5 +46,4 @@ Suggests:
 URL: https://github.com/hypertidy/ceramic
 BugReports: https://github.com/hypertidy/ceramic/issues
 Language: en-US
-Remotes: hypertidy/reproj, mdsumner/spex
-
+Remotes: mdsumner/spex

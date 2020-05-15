@@ -59,6 +59,7 @@ cc_location <- function(loc = NULL, buffer = 5000,
     return(invisible(NULL))
   }
   suppressWarnings(make_raster(locdata))
+
 }
 #' @name cc_location
 #' @export
@@ -122,8 +123,10 @@ cc_elevation <- function(loc = NULL, buffer = 5000, type = NULL, ...,zoom = NULL
   }
   dat <- cc_location(loc, buffer = buffer,  type = type, zoom = zoom, max_tiles = max_tiles, debug = debug, ...)
   if (rgbunpack) {
+    projection(dat) <- NA  ## prevent yelling about lost datums that we aren't specifying
     dat <-  -10000 + ((dat[[1]] * 256 * 256 + dat[[2]] * 256 + dat[[3]]) * 0.1)
-    raster::crs(dat) <- sp::CRS("+proj=merc +a=6378137 +b=6378137", doCheckCRSArgs = FALSE)
+
+    raster::crs(dat) <- sp::CRS(.merc(), doCheckCRSArgs = FALSE)
   }
   dat
 }
