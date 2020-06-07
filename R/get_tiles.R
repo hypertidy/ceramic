@@ -95,6 +95,7 @@ get_tiles <- function(x, buffer, type = "satellite-v9", crop_to_buffer = TRUE,
   } else {  ## handle custom
     query_string <- mk_query_string_custom(baseurl = base_url)
   }
+
   files <- unlist(down_loader(tile_grid, query_string, debug = debug, verbose = verbose))
   bad <- file.info(files)$size < 35
 

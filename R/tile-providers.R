@@ -32,9 +32,18 @@ mapbox_string <- function(baseurl = "https://api.mapbox.com/styles/v1", type, fo
       type <- "satellite-v9"
     }
   }
-  paste0(sprintf("%s/%s/%s/tiles/{zoom}/{x}/{y}%s", baseurl, user, type, tok),
-         "?access_token=",
-         get_api_key("mapbox"))
+  ##"http://a.tiles.mapbox.com/v4/mapbox.mapbox-streets-v7/14/4823/6160.mvt?access_token={token}"
+  if (type %in% c("mapbox.mapbox-terrain-v2", "mapbox.mapbox-streets-v7", "mapbox.mapbox-traffic-v1")) {
+    ## more special-casing for vector tiles
+    format <- "mvt"
+    baseurl <- "http://a.tiles.mapbox.com/v4"
+    out <- file.path(baseurl, type, "{zoom}/{x}/{y}.mvt")
+  } else {
+
+  out <- sprintf("%s/%s/%s/tiles/{zoom}/{x}/{y}%s", baseurl, user, type, tok)
+  }
+  paste0(out, "?access_token=",
+  get_api_key("mapbox"))
 }
 
 mk_query_string_custom <- function(baseurl) {
