@@ -96,7 +96,7 @@ down_loader <- function(x, query_string, clobber = FALSE, ..., debug = FALSE, ve
 #' if (interactive() && !is.null(get_api_key())) {
 #'  tiles <- ceramic_tiles(zoom = 0)
 #' }
-ceramic_tiles <- function(zoom = NULL, type = "mapbox.satellite",
+ceramic_tiles <- function(zoom = NULL, type = "satellite-v9",
                           source = "api.mapbox.com", glob = NULL, regexp = NULL) {
 
   ## FIXME: assert that zoom, type, source, all are length 1

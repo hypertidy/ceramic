@@ -14,7 +14,7 @@
 cc_location(
   loc = NULL,
   buffer = 5000,
-  type = "mapbox.satellite",
+  type = "satellite-v9",
   ...,
   zoom = NULL,
   max_tiles = NULL,

@@ -7,7 +7,7 @@
 get_tiles(
   x,
   buffer,
-  type = "mapbox.satellite",
+  type = "satellite-v9",
   crop_to_buffer = TRUE,
   format = NULL,
   ...,
@@ -62,9 +62,16 @@ Use \code{debug = TRUE} to avoid download and simply report on what would be don
 
 \code{cc_elevation} does extra work to unpack the DEM tiles from the RGB format.
 
-Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
-'mapbox.outdoors', 'mapbox.terrain-rgb', 'mapbox.streets', 'mapbox.light', 'mapbox.dark'
-or any other string accepted by Mapbox services.
+Available types (which should be called 'style' for Mapbox) are
+'elevation-tiles-prod' for AWS elevation tiles, and
+'streets-v11', 'outdoors-v11', 'light-v10', 'dark-v10', 'satellite-v9', 'satellite-streets-v11' using
+baseurl 'https://api.mapbox.com/styles/v1/{user}/{style}/tiles/{zoom}/{x}/{y} 'user' is "mapbox".
+There's special case code for 'type = "mapbox.terrain-rgb".
+
+baseurl may be a custom 'user' and 'style' (type =), and we hope to clean this up.
+
+These older types no longer work in ceramic > 0.6.0: 'mapbox.satellite',
+'mapbox.outdoors', 'mapbox.terrain-rgb', 'mapbox.streets', 'mapbox.light', 'mapbox.dark'.
 }
 \examples{
 if (!is.null(get_api_key())) {

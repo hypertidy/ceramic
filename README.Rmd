@@ -38,7 +38,7 @@ We can use raster, sp, or sf objects to define an extent. This provides a very e
 ```{r extent2, fig.width=8, fig.height=10}
 data("wrld_simpl", package = "maptools")
 im <- cc_location(subset(wrld_simpl, NAME == "Bolivia"), 
-                     type = "mapbox.light")
+                     type = "light-v10")
 raster::plotRGB(im)
 ```
 
@@ -167,13 +167,13 @@ The code here
 library(ceramic)
 ## a point in longlat, and a buffer with in metres
 pt <- cbind(136, -34)
-im <- cc_location(pt, buffer = c(1e6, 5e5), type = "mapbox.satellite")
+im <- cc_location(pt, buffer = c(1e6, 5e5), type = "satellite-v9")
 library(raster)
 plotRGB(im)
 
 ## get the matching tiles (zoom is magic here, it's all wrapped - needs thought)
-
-tiles <- ceramic_tiles(zoom = 6, type = "mapbox.satellite")
+get_tiles
+tiles <- ceramic_tiles(zoom = 6, type = "satellite-v9")
 library(sf)
 plot(st_geometry(ceramic:::tiles_to_polygon(tiles)), add = TRUE)
 middle <- function(x, y) {
@@ -225,14 +225,14 @@ A key feature of ceramic is *caching*, all data is downloaded in a systematic wa
 There is a helper function to find existing tiles. 
 
 ```{r files}
-aa <- cc_location(loc = cbind(0, 0), buffer = 330000, type = "mapbox.satellite")
-ceramic_tiles(zoom = 7, type = "mapbox.satellite")
+aa <- cc_location(loc = cbind(0, 0), buffer = 330000, type = "satellite-v9")
+ceramic_tiles(zoom = 7, type = "satellite-v9")
 ```
 
 and every row has the extent values useable directly by raster: 
 
 ```{r extent}
-ceramic_tiles(zoom = 7, type = "mapbox.satellite") %>% 
+ceramic_tiles(zoom = 7, type = "satellite-v9") %>% 
   dplyr::slice(1:5) %>% 
    purrr::transpose()  %>% 
   purrr::map(~raster::extent(unlist(.x[c("xmin", "xmax", "ymin", "ymax")])))

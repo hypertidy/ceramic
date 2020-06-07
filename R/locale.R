@@ -51,7 +51,7 @@
 #'  plotRGB(im)
 #'  }
 cc_location <- function(loc = NULL, buffer = 5000,
-                        type = "mapbox.satellite", ..., zoom = NULL, max_tiles = NULL,  debug = FALSE) {
+                        type = "satellite-v9", ..., zoom = NULL, max_tiles = NULL,  debug = FALSE) {
   if (!is.null(zoom) && !is.null(max_tiles)) stop("'zoom' and 'max_tiles' cannot be both set, one must be NULL")
   if (is.null(zoom) && is.null(max_tiles)) max_tiles <- 16L
   locdata <- get_tiles(x = loc, buffer = buffer, type = type, ..., zoom = zoom, max_tiles = max_tiles, debug = debug)

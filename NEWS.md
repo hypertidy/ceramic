@@ -1,5 +1,11 @@
 # ceramic 0.7.0
 
+* Major update to the mapbox provider . Changed the base url and default types, basics
+working but needs a sweep and check. Thanks to @coolbutuseless
+
+* Terrain tiles from Mapbox will no longer be download in 512x512 (@2x), so that 
+identical calls to 'cc_location' or 'cc_elevation' give the same grid. Thanks to @coolbutuseless
+
 * Standardized use of longlat and spherical mercator spec. 
 
 * Tweaked behaviour of `debug` argument, thanks to prompt by Grant Williamson. 

@@ -1,7 +1,7 @@
 provider_from_type <- function(type) {
   if (grepl("mapbox", type)) return("mapbox")
   if (grepl("elevation-tiles-prod", type)) return("aws")
-  NULL
+  "mapbox"  ## assume mapbox FIXME
 }
 
 guess_format <- function(x) {
@@ -25,9 +25,16 @@ guess_format <- function(x) {
 #'
 #' `cc_elevation` does extra work to unpack the DEM tiles from the RGB format.
 #'
-#' Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
-#' 'mapbox.outdoors', 'mapbox.terrain-rgb', 'mapbox.streets', 'mapbox.light', 'mapbox.dark'
-#'  or any other string accepted by Mapbox services.
+#' Available types (which should be called 'style' for Mapbox) are
+#' 'elevation-tiles-prod' for AWS elevation tiles, and
+#' 'streets-v11', 'outdoors-v11', 'light-v10', 'dark-v10', 'satellite-v9', 'satellite-streets-v11' using
+#' baseurl 'https://api.mapbox.com/styles/v1/{user}/{style}/tiles/{zoom}/{x}/{y} 'user' is "mapbox".
+#' There's special case code for 'type = "mapbox.terrain-rgb".
+#'
+#' baseurl may be a custom 'user' and 'style' (type =), and we hope to clean this up.
+#'
+#' These older types no longer work in ceramic > 0.6.0: 'mapbox.satellite',
+#' 'mapbox.outdoors', 'mapbox.terrain-rgb', 'mapbox.streets', 'mapbox.light', 'mapbox.dark'.
 #'
 #'
 #' @param x a longitude, latitude pair of coordinates, or a spatial object
@@ -50,7 +57,7 @@ guess_format <- function(x) {
 #' if (!is.null(get_api_key())) {
 #'    tile_info <- get_tiles(raster::extent(146, 147, -43, -42), type = "mapbox.outdoors", zoom = 5)
 #' }
-get_tiles <- function(x, buffer, type = "mapbox.satellite", crop_to_buffer = TRUE,
+get_tiles <- function(x, buffer, type = "satellite-v9", crop_to_buffer = TRUE,
                       format = NULL, ..., zoom = NULL, debug = FALSE, max_tiles = NULL, base_url = NULL,
                       verbose = TRUE) {
   if (missing(x) && missing(buffer)) {
@@ -88,8 +95,6 @@ get_tiles <- function(x, buffer, type = "mapbox.satellite", crop_to_buffer = TRU
   } else {  ## handle custom
     query_string <- mk_query_string_custom(baseurl = base_url)
   }
-
-print(query_string)
   files <- unlist(down_loader(tile_grid, query_string, debug = debug, verbose = verbose))
   bad <- file.info(files)$size < 35
 
