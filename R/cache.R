@@ -62,7 +62,7 @@ down_loader <- function(x, query_string, clobber = FALSE, ..., debug = FALSE, ve
                   print(outfile)
                   return(outfile)
                 }
-                if (!file.exists(outfile) || clobber || fs::file_info(outfile)$size < 101) {
+                if (!file.exists(outfile) || clobber || fs::file_info(outfile)$size < 35) {
                   cachedir <- fs::path_dir(outfile)
 
                   if (!fs::dir_exists(cachedir)) fs::dir_create(cachedir, recurse = TRUE)
