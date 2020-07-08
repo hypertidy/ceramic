@@ -11,7 +11,6 @@ make_raster <- function(loc_data) {
   }
 
   out <- fast_merge(br)
-
   raster::crs(out) <- sp::CRS(.merc(), doCheckCRSArgs = FALSE)
   if (!is.null(user_extent)) out <- raster::crop(out, user_extent , snap = "out")
   out
@@ -39,7 +38,8 @@ raster_brick <- function(x) {
   mode(out) <- "integer"
   ## in case it's greyscale ...
   if (length(dim(out)) == 2L) out <- array(out, c(dim(out), 1L))
-  raster::setExtent(raster::brick(out), raster::extent(0, nrow(out), 0, ncol(out)))
+ # raster::setExtent(raster::brick(out), raster::extent(0, nrow(out), 0, ncol(out)))
+ raster::brick(out)
 }
 
 raster_readAll <- function(x) {
@@ -58,15 +58,16 @@ find_format <- function(x) {
 }
 
 
-
+#' @importFrom raster cellsFromExtent
 fast_merge <- function(x) {
 
   ## about 3 times faster than reduce(, merge
  crs <- raster::projection(x[[1]])
 
-  out <- raster::raster(purrr::reduce(purrr::map(x, raster::extent), raster::union), crs = crs)
+  out <- raster::raster(purrr::reduce(lapply(x, raster::extent), raster::union), crs = crs)
   raster::res(out) <- raster::res(x[[1]])
-  cells <- unlist(purrr::map(x, ~raster::cellsFromExtent(out, .x)))
-  vals <- do.call(rbind, purrr::map(x, ~raster::values(raster_readAll(.x))))
+#  cells <- unlist(purrr::map(x, ~raster::cellsFromExtent(out, .x)))
+  cells <- unlist(lapply(x, function(.x) cellsFromExtent(out, .x)), use.names = FALSE)
+  vals <- do.call(rbind, lapply(x, function(.x) raster::values(raster_readAll(.x))))
   raster::setValues(raster::brick(out, out, out), vals[order(cells), ])
 }
