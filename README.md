@@ -229,7 +229,7 @@ ex0 <- c(147.15, 147.45, -42.9, -42.6)
 ex <- extent(ex0)
 
 ## local LAEA projection, based on the centre of the extent
-prj <- sprintf("+proj=laea +lon_0=%f +lat_0=% +datum=WGS84", mean(ex0[1:2]), mean(ex0[3:4]))
+prj <- sprintf("+proj=laea +lon_0=%f +lat_0=%f +datum=WGS84", mean(ex0[1:2]), mean(ex0[3:4]))
 ## Mapbox elevation
 dem <- cc_elevation(ex, zoom = 8)
 ## Mapbox satellite imagery
