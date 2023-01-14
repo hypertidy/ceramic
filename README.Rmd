@@ -6,9 +6,9 @@ editor_options:
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-  [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)[![Travis-CI Build Status](https://travis-ci.org/hypertidy/ceramic.svg?branch=master)](https://travis-ci.org/hypertidy/ceramic) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/slut5jxc9lta8pml/branch/master?svg=true)](https://ci.appveyor.com/project/mdsumner/ceramic)  [![Coverage status](https://codecov.io/gh/hypertidy/ceramic/branch/master/graph/badge.svg)](https://codecov.io/github/hypertidy/ceramic?branch=master) [![CRAN status](https://www.r-pkg.org/badges/version/ceramic)](https://cran.r-project.org/package=ceramic)[![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/ceramic)](https://cran.r-project.org/package=ceramic)
-
-  
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/hypertidy/ceramic/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/hypertidy/ceramic/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
@@ -38,7 +38,7 @@ We can use raster, sp, or sf objects to define an extent. This provides a very e
 ```{r extent2, fig.width=8, fig.height=10}
 data("wrld_simpl", package = "maptools")
 im <- cc_location(subset(wrld_simpl, NAME == "Bolivia"), 
-                     type = "mapbox.light")
+                     type = "mapbox.satellite")
 raster::plotRGB(im)
 ```
 
@@ -274,6 +274,10 @@ ceramic::plot_tiles(ceramic_tiles(zoom = 7), add = TRUE)
 
 
 See the [Issue tab](https://github.com/hypertidy/ceramic/issues/) and please make suggestions and give feedback!
+
+There's an ongoing process to uncouple from the "spatial packages", currently we have an unclassy mix of sp, terra, raster, and even sf
+in the readme. We'll fix it. 
+
 
 ---
 

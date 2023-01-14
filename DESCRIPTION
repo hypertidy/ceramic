@@ -9,13 +9,12 @@ Authors@R: c(
     person("Ben", "Raymond", role = c("ctb"), comment = "regex wizardry")
     )
 Description: Download imagery tiles to a standard cache and load the data into raster objects. 
- Facilities for 'AWS' terrain <https://aws.amazon.com/public-datasets/terrain/> terrain and 'Mapbox' 
+ Facilities for 'AWS' terrain <https://registry.opendata.aws/terrain-tiles/> terrain and 'Mapbox' 
  <https://www.mapbox.com/> servers are provided. 
 Depends: R (>= 3.5.0)
 License: GPL-3
 Encoding: UTF-8
-LazyData: true
-RoxygenNote: 7.1.0
+RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
 Imports: 
     curl,
@@ -30,20 +29,19 @@ Imports:
     rappdirs,
     rlang,
     sp,
-    spex (>= 0.6.0.9005),
+    spex (>= 0.7.1),
     slippymath (>= 0.3.0),
     stats,
     tibble,
     raster,
     reproj (>= 0.4.2),
     utils,
-    crsmeta
+    crsmeta,
+    terra
 Suggests: 
     covr,
-    rgdal,
     spelling,
     testthat
 URL: https://github.com/hypertidy/ceramic
 BugReports: https://github.com/hypertidy/ceramic/issues
 Language: en-US
-Remotes: mdsumner/spex

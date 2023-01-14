@@ -1,5 +1,13 @@
 # ceramic 0.7.0
 
+* Fixed `cc_kingston` location. 
+
+* Removed all references to non-supported mapbox styles, we now have 'mapbox.satellite' and and 'mapbox.terrain-rgb'. Others can be used with a custom styles URL from your own mapbox account. 
+
+* Removed unused LazyData in DESCRIPTION. 
+
+* Removed dependency rgdal. 
+
 * Standardized use of longlat and spherical mercator spec. 
 
 * Tweaked behaviour of `debug` argument, thanks to prompt by Grant Williamson. 
