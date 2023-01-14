@@ -8,7 +8,7 @@ guess_format <- function(x) {
   c("png", "jpg")[grepl("satellite", x) + 1L]
 }
 
-#' Download Mapbox imagery tiles
+#' Download imagery tiles
 #'
 #' Obtain imagery or elevation tiles by location query. The first argument
 #' `loc` may be a spatial object (sp, raster, sf) or a 2-column matrix with a single
@@ -26,8 +26,7 @@ guess_format <- function(x) {
 #' `cc_elevation` does extra work to unpack the DEM tiles from the RGB format.
 #'
 #' Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
-#' 'mapbox.outdoors', 'mapbox.terrain-rgb', 'mapbox.streets', 'mapbox.light', 'mapbox.dark'
-#'  or any other string accepted by Mapbox services.
+#' 'mapbox.terrain-rgb'.
 #'
 #'
 #' @param x a longitude, latitude pair of coordinates, or a spatial object
@@ -48,7 +47,7 @@ guess_format <- function(x) {
 #' @seealso get_tiles_zoom get_tiles_dim get_tiles_buffer
 #' @examples
 #' if (!is.null(get_api_key())) {
-#'    tile_info <- get_tiles(raster::extent(146, 147, -43, -42), type = "mapbox.outdoors", zoom = 5)
+#'    tile_info <- get_tiles(raster::extent(146, 147, -43, -42), type = "mapbox.satellite", zoom = 5)
 #' }
 get_tiles <- function(x, buffer, type = "mapbox.satellite", crop_to_buffer = TRUE,
                       format = NULL, ..., zoom = NULL, debug = FALSE, max_tiles = NULL, base_url = NULL,
@@ -74,7 +73,9 @@ get_tiles <- function(x, buffer, type = "mapbox.satellite", crop_to_buffer = TRU
 
   my_bbox <- bbox_pair$tile_bbox
   bb_points <- bbox_pair$user_points
-
+ if (is.null(zoom) && is.null(max_tiles)) {
+      max_tiles <- 32
+    }
 
   tile_grid <- slippymath::bbox_to_tile_grid(my_bbox, max_tiles = max_tiles, zoom = zoom)
   zoom <- tile_grid$zoom
@@ -134,11 +135,11 @@ print(query_string)
 #' @examples
 #' if (!is.null(get_api_key())) {
 #'  ex <- raster::extent(146, 147, -43, -42)
-#'  tile_infoz <- get_tiles_zoom(ex, type = "mapbox.outdoors", zoom = 1)
+#'  tile_infoz <- get_tiles_zoom(ex,  zoom = 1)
 #'
-#'  tile_infod <- get_tiles_dim(ex, type = "mapbox.outdoors", dim = c(256, 256))
+#'  tile_infod <- get_tiles_dim(ex,  dim = c(256, 256))
 #'
-#'  tile_infob <- get_tiles_buffer(cbind(146.5, -42.5), buffer = 5000, type = "mapbox.outdoors")
+#'  tile_infob <- get_tiles_buffer(cbind(146.5, -42.5), buffer = 5000)
 #' }
 get_tiles_zoom <- function(x, zoom = 0, ..., format = "png") {
   if ("max_tiles" %in% names(list(...))) {
