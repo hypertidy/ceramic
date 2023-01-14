@@ -11,7 +11,7 @@
 #' `cc_elevation` does extra work to unpack the DEM tiles from the RGB format.
 #'
 #' Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
-#' 'mapbox.outdoors', 'mapbox.terrain-rgb' or any string accepted by Mapbox services.
+#' mapbox.terrain-rgb'.
 #'
 #' Note that arguments `max_tiles` and `zoom` are mutually exclusive. One or both must be `NULL`. If
 #' both are NULL then `max_tiles = 16L`.
@@ -64,7 +64,7 @@ cc_location <- function(loc = NULL, buffer = 5000,
 #' @name cc_location
 #' @export
 cc_macquarie <- function(loc = c(158.93835,-54.49871), buffer = 5000,
-                         type = "mapbox.outdoors", ..., zoom = NULL, max_tiles = NULL, debug = FALSE) {
+                         type = "mapbox.satellite", ..., zoom = NULL, max_tiles = NULL, debug = FALSE) {
  cc_location(loc, buffer, type = type, ..., zoom = zoom, max_tiles = max_tiles, debug = debug)
 }
 
@@ -72,7 +72,7 @@ cc_macquarie <- function(loc = c(158.93835,-54.49871), buffer = 5000,
 #' @export
 cc_davis <- function(loc = c(77 + 58/60 + 3/3600,
                               -(68 + 34/60 + 36/3600)),
-                     buffer = 5000, type = "mapbox.outdoors", ..., zoom = NULL, max_tiles = NULL, debug = FALSE) {
+                     buffer = 5000, type = "mapbox.satellite", ..., zoom = NULL, max_tiles = NULL, debug = FALSE) {
 #  68 34 36 S 77 58 03 E
   cc_location(loc, buffer, type = type, ..., zoom = zoom, max_tiles = max_tiles, debug = debug)
 
@@ -80,7 +80,7 @@ cc_davis <- function(loc = c(77 + 58/60 + 3/3600,
 #' @name cc_location
 #' @export
 cc_mawson <- function(loc = c(62 + 52/60 + 27/3600,
-                                  -(67 + 36/60 + 12/3600)), buffer = 5000, type = "mapbox.outdoors", ..., zoom = NULL, max_tiles = NULL, debug = FALSE) {
+                                  -(67 + 36/60 + 12/3600)), buffer = 5000, type = "mapbox.satellite", ..., zoom = NULL, max_tiles = NULL, debug = FALSE) {
   # 67 36 12 S 62 52 27 E
 
   cc_location(loc, buffer, type = type, ..., zoom = zoom, max_tiles = max_tiles, debug = debug)
@@ -90,7 +90,7 @@ cc_mawson <- function(loc = c(62 + 52/60 + 27/3600,
 #' @name cc_location
 #' @export
 cc_casey <- function(  loc = cbind(110 + 31/60 + 36/3600,
-                                    -(66 + 16/60 + 57/3600)), buffer = 5000, type = "mapbox.outdoors", ...,zoom = NULL, max_tiles = NULL,debug = FALSE) {
+                                    -(66 + 16/60 + 57/3600)), buffer = 5000, type = "mapbox.satellite", ...,zoom = NULL, max_tiles = NULL,debug = FALSE) {
   #66 16 57 S 110 31 36 E
 
   cc_location(loc, buffer, type = type, ..., zoom = zoom, max_tiles = max_tiles, debug = debug)
@@ -99,7 +99,7 @@ cc_casey <- function(  loc = cbind(110 + 31/60 + 36/3600,
 #' @name cc_location
 #' @export
 cc_heard <- function(loc = c(73 + 30/60 + 30/3600,
-                                 -(53 + 0 + 0/3600)), buffer = 5000, type = "mapbox.outdoors",...,zoom = NULL, max_tiles = NULL, debug = FALSE) {
+                                 -(53 + 0 + 0/3600)), buffer = 5000, type = "mapbox.satellite",...,zoom = NULL, max_tiles = NULL, debug = FALSE) {
 #  53 S 73 30 E.
 
   cc_location(loc, buffer, type = type, ..., zoom = zoom, max_tiles = max_tiles, debug = debug)
@@ -107,8 +107,8 @@ cc_heard <- function(loc = c(73 + 30/60 + 30/3600,
 }
 #' @name cc_location
 #' @export
-cc_kingston <- function(loc = c(147.70837,
-                                    -42.98682), buffer = 5000, type = "mapbox.outdoors", ...,zoom = NULL, max_tiles = NULL, debug = FALSE) {
+cc_kingston <- function(loc = c(147.2901,
+                                    -42.98682), buffer = 5000, type = "mapbox.satellite", ...,zoom = NULL, max_tiles = NULL, debug = FALSE) {
   cc_location(loc, buffer, type = type, ..., zoom = zoom, max_tiles = max_tiles, debug = debug)
 
 }

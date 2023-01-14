@@ -24,7 +24,7 @@ cc_location(
 cc_macquarie(
   loc = c(158.93835, -54.49871),
   buffer = 5000,
-  type = "mapbox.outdoors",
+  type = "mapbox.satellite",
   ...,
   zoom = NULL,
   max_tiles = NULL,
@@ -34,7 +34,7 @@ cc_macquarie(
 cc_davis(
   loc = c(77 + 58/60 + 3/3600, -(68 + 34/60 + 36/3600)),
   buffer = 5000,
-  type = "mapbox.outdoors",
+  type = "mapbox.satellite",
   ...,
   zoom = NULL,
   max_tiles = NULL,
@@ -44,7 +44,7 @@ cc_davis(
 cc_mawson(
   loc = c(62 + 52/60 + 27/3600, -(67 + 36/60 + 12/3600)),
   buffer = 5000,
-  type = "mapbox.outdoors",
+  type = "mapbox.satellite",
   ...,
   zoom = NULL,
   max_tiles = NULL,
@@ -54,7 +54,7 @@ cc_mawson(
 cc_casey(
   loc = cbind(110 + 31/60 + 36/3600, -(66 + 16/60 + 57/3600)),
   buffer = 5000,
-  type = "mapbox.outdoors",
+  type = "mapbox.satellite",
   ...,
   zoom = NULL,
   max_tiles = NULL,
@@ -64,7 +64,7 @@ cc_casey(
 cc_heard(
   loc = c(73 + 30/60 + 30/3600, -(53 + 0 + 0/3600)),
   buffer = 5000,
-  type = "mapbox.outdoors",
+  type = "mapbox.satellite",
   ...,
   zoom = NULL,
   max_tiles = NULL,
@@ -72,9 +72,9 @@ cc_heard(
 )
 
 cc_kingston(
-  loc = c(147.70837, -42.98682),
+  loc = c(147.2901, -42.98682),
   buffer = 5000,
-  type = "mapbox.outdoors",
+  type = "mapbox.satellite",
   ...,
   zoom = NULL,
   max_tiles = NULL,
@@ -121,7 +121,7 @@ around the raw longitude and latitude in metres. If \code{loc} has an extent, th
 \code{cc_elevation} does extra work to unpack the DEM tiles from the RGB format.
 
 Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
-'mapbox.outdoors', 'mapbox.terrain-rgb' or any string accepted by Mapbox services.
+mapbox.terrain-rgb'.
 
 Note that arguments \code{max_tiles} and \code{zoom} are mutually exclusive. One or both must be \code{NULL}. If
 both are NULL then \code{max_tiles = 16L}.
