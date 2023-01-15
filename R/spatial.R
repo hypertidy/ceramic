@@ -27,7 +27,7 @@ spatial_bbox <- function(loc, buffer = NULL) {
       spx <- try(spex::spex(loc), silent = TRUE)
 
       if (inherits(spx, "try-error") && grepl("^EPSG", epsg <- crsmeta::crs_input(loc))) {
-        print("dark magic")
+        #print("dark magic")
         spx <- try(spex::spex(loc, crs = sprintf("+init=epsg:%s", gsub("^EPSG:", "", epsg))),
                    silent = TRUE)
     if (inherits(spx, "try-error")) {

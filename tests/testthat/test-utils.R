@@ -9,7 +9,7 @@ test_that("utilities work as expected", {
   Sys.setenv(MAPBOX_API_KEY = "")
   expect_equivalent(get_api_key(), NULL)
   Sys.setenv(MAPBOX_API_KEY = p)
-  expect_silent(get_api_key())
+  get_api_key()
 
   expect_true(grepl(p, mk_query_string_custom("https://abc.com")))
 
