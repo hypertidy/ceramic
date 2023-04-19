@@ -181,7 +181,8 @@ tile_zoom <- function(x) {
 #'  ceramic_cache()
 #' }
 ceramic_cache <- function(force = FALSE) {
-  cache <- file.path(rappdirs::user_cache_dir(), ".ceramic")
+  ## normalize else gdal creates ./~/<cache>
+  cache <- file.path( normalizePath(rappdirs::user_cache_dir()), ".ceramic")
   if (!fs::dir_exists(cache)) {
     if (!force) {
       val <- TRUE
@@ -190,16 +191,16 @@ ceramic_cache <- function(force = FALSE) {
     }
     fs::dir_create(cache)
   }
+  gdalwmspath <- file.path(cache, "ceramic.gdalwmscache")
+  curr <- vapour::vapour_get_config("GDAL_DEFAULT_WMS_CACHE_PATH")
+  if (!nzchar(curr)) {
+    fs::dir_create(gdalwmspath)
+    vapour::vapour_set_config("GDAL_DEFAULT_WMS_CACHE_PATH", gdalwmspath)
+  }
   cache
 }
 
-#' @name ceramic_cache
-#' @keywords internal
-#' @export
-slippy_cache <- function(...) {
-  .Deprecated("ceramic_cache")
-  ceramic_cache(...)
-}
+
 url_to_cache <- function(x) {
   base_filepath <- file.path(ceramic_cache(), gsub("^//", "", gsub("^https\\:", "", gsub("^https\\:", "", x))))
   ## chuck off any ? junk

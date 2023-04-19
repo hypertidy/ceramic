@@ -29,17 +29,19 @@ library(ceramic)
 roi <- raster::extent(100, 160, -50, 10)
 im <- cc_location(roi)
 
-raster::plotRGB(im)
+terra::plotRGB(im)
 ```
 
 
 We can use raster, sp, or sf objects to define an extent. This provides a very easy way to obtain imagery or elevation data for any almost any region using our own data. 
 
 ```{r extent2, fig.width=8, fig.height=10}
-data("wrld_simpl", package = "maptools")
-im <- cc_location(subset(wrld_simpl, NAME == "Bolivia"), 
-                     type = "mapbox.satellite")
-raster::plotRGB(im)
+sql <- "SELECT shapeGroup FROM geoBoundariesCGAZ_ADM0 WHERE shapeGroup IN ('BOL')"
+dsn <- "/vsizip//vsicurl/https://github.com/wmgeolab/geoBoundaries/raw/main/releaseData/CGAZ/geoBoundariesCGAZ_ADM0.zip"
+bol <- sf::read_sf(dsn, query = sql)
+
+im <- cc_location(bol)
+terra::plotRGB(im)
 ```
 
 Even if the data uses a map projection it will be converted into a region to match the Mercator extents used by Mapbox image servers. 
@@ -53,8 +55,8 @@ data("nz", package = "spData")
 
 library(sf)
 im_nz2 <- cc_location(nz)
-raster::plotRGB(im_nz2)
-plot(st_transform(nz, raster::projection(im_nz2)), add = TRUE, col = rainbow(nrow(nz), alpha = 0.5))
+terra::plotRGB(im_nz2)
+plot(st_transform(nz, terra::crs(im_nz2)), add = TRUE, col = rainbow(nrow(nz), alpha = 0.5))
 ```
 
 There are basic heuristics to decide if data is projected or just in "longitude,latitude" in the usual raster package way. 
@@ -63,19 +65,21 @@ Raster elevation data is also available.
 
 ```{r}
 north <- nz[nz$Island == "North", ]
-dem_nz <- cc_location(north, type = "elevation-tiles-prod" )
+dem_nz <- cc_elevation(north, type = "elevation-tiles-prod" )
 
 
 ## plot elevation data for NZ north
 dem_nz[!dem_nz > 0] <- NA
-raster::plot(dem_nz, col = grey(seq(0, 1, length = 51)), breaks = quantile(raster::values(dem_nz), seq(0, 1, length = 52), na.rm = TRUE), legend = FALSE)
-plot(st_transform(st_cast(north, "MULTILINESTRING")["Name"], raster::projection(dem_nz)), add = TRUE, lwd = 5)
+terra::plot(dem_nz, col = grey(seq(0, 1, length = 51)), breaks = quantile(unique(terra::values(dem_nz)), seq(0, 1, length = 52), na.rm = TRUE), legend = FALSE)
+plot(st_transform(st_cast(north, "MULTILINESTRING")["Name"], terra::crs(dem_nz)), add = TRUE, lwd = 5)
 
 ```
 
 ## I thought you said *tiles*?
 
-Indeed, the `cc_location()` and `cc_elevation()` functions run `get_tiles()` behind the scenes. 
+Indeed, the `cc_location()` and `cc_elevation()` functions no longer use tiles. WAT
+
+But, they used to run `get_tiles()` behind the scenes.
 
 This function and its counterparts `get_tiles_zoom()`, `get_tiles_dim()` and `get_tiles_buffer()` will *only download
 files*. 
@@ -95,7 +99,7 @@ The default map provider is [Mapbox](https://www.mapbox.com/), but ceramic is wr
 
 ```{r}
 pt <- cbind(175.6082, -37.994)
-nz_z12 <- cc_location(pt, zoom = 12, type = "elevation-tiles-prod")
+nz_z12 <- cc_location(pt, buffer  = 100000,  type = "elevation-tiles-prod")
 ```
 
 ```{r, eval=FALSE, include = FALSE}
@@ -103,32 +107,8 @@ north_carolina <- sf::read_sf(system.file("gpkg/nc.gpkg", package = "sf", mustWo
 nc_image <- cc_location(north_carolina)
 
 rowan_dem <- cc_elevation(dplyr::filter(north_carolina, NAME == "Rowan"))
-nc_contour <- raster::rasterToContour(raster::focal(cc_elevation(north_carolina), matrix(1, 3, 3)), levels = pretty(values(rowan_dem)))
+rowan_dem
 ```
-
-```{r, eval=FALSE, include = FALSE}
-op <- par(mfrow = c(2, 1))
-raster::plotRGB(nc_image)
-plot(nc_contour, add = TRUE, col = "white")
-plot(raster::extent(rowan_dem), add = TRUE, col = "firebrick", lwd = 3)
-plot(rowan_dem, col = grey(seq(0, 1, length = 26)), add = TRUE, legend = FALSE)
-plot(rowan_dem, col = grey(seq(0, 1, length = 26)), add = TRUE, legend = FALSE)
-box(col= "white")
-par(op)
-```
-
-Use `max_tiles` or `zoom` to increase or decrease resolution. 
-
-```{r, max-tiles}
-im1 <- cc_location(im, debug = TRUE)
-im2 <- cc_location(im, zoom = 7)
-
-im1
-
-im2
-```
-
-
 
 
 ## Installation
@@ -151,132 +131,6 @@ Set your mapbox API key with
 ```R
 Sys.setenv(MAPBOX_API_KEY = "<yourkey>")
 ```
-
-## Example
-
-This complete example gets tiled imagery that we can use as real data. 
-
-The code here
-
-* generates a bounding box in longitude-latitude
-* uses [slippymath](https://CRAN.r-project.org/package=slippymath) to find sensible tiles for the region
-* downloads them to a local cache
-* georeferences them and merges the tiles into a sensible raster object
-
-```{r example}
-library(ceramic)
-## a point in longlat, and a buffer with in metres
-pt <- cbind(136, -34)
-im <- cc_location(pt, buffer = c(1e6, 5e5), type = "mapbox.satellite")
-library(raster)
-plotRGB(im)
-
-## get the matching tiles (zoom is magic here, it's all wrapped - needs thought)
-
-tiles <- ceramic_tiles(zoom = 6, type = "mapbox.satellite")
-library(sf)
-plot(st_geometry(ceramic:::tiles_to_polygon(tiles)), add = TRUE)
-middle <- function(x, y) {
-  x + (y - x)/2
-}
-text(middle(tiles$xmin, tiles$xmax), middle(tiles$ymin, tiles$ymax), lab = sprintf("[%i,%i]", tiles$tile_x, tiles$tile_y), 
-     col = "firebrick")
-```
-
-## Get imagery and DEM for use in 3D visualization
-
-
-This code downloads a specific region as elevation and imagery at specific zoom levels to build [a 3D scene](https://hypertidy.github.io/anglr-demos/ceramic-demo01.html). 
-
-
-```{R,eval=FALSE}
-library(ceramic); library(quadmesh)
-library(raster); library(rgl);
-library(reproj); library(htmlwidgets)
-clear3d()
-
-## longlat extent
-ex0 <- c(147.15, 147.45, -42.9, -42.6)
-ex <- extent(ex0)
-
-## local LAEA projection, based on the centre of the extent
-prj <- sprintf("+proj=laea +lon_0=%f +lat_0=%f +datum=WGS84", mean(ex0[1:2]), mean(ex0[3:4]))
-## Mapbox elevation
-dem <- cc_elevation(ex, zoom = 8)
-## Mapbox satellite imagery
-im <- cc_location(ex, zoom = 13)
-
-## quadmesh with texture for rgl, in local projection
-qm <- reproj::reproj(quadmesh(dem, texture = im), prj)
-
-## plot with rgl, set the aspect ratio and backround
-shade3d(qm, lit = FALSE);
-aspect3d(1, 1, .1)
-bg3d(grey(0.8))
-```
-
-The zoom levels were chosen by first reading an automatic level for the extents, and then tweaking the zoom - higher resolution for the imagery, lower resolution for the elevation. This provides a compelling visualization in 3D as the imagery is *textured* onto the elevation data, using rgl's `mesh3d` type and `shade3d()` function. 
-
-
-## Local caching of tiles
-
-A key feature of ceramic is *caching*, all data is downloaded in a systematic way that is suitable for later re-use. Many tools for imagery services treat the imagery as transient, but here we take control over the raw data itself. All file names match exactly the address URL of the original source data. 
-
-There is a helper function to find existing tiles. 
-
-```{r files}
-aa <- cc_location(loc = cbind(0, 0), buffer = 330000, type = "mapbox.satellite")
-ceramic_tiles(zoom = 7, type = "mapbox.satellite")
-```
-
-and every row has the extent values useable directly by raster: 
-
-```{r extent}
-ceramic_tiles(zoom = 7, type = "mapbox.satellite") %>% 
-  dplyr::slice(1:5) %>% 
-   purrr::transpose()  %>% 
-  purrr::map(~raster::extent(unlist(.x[c("xmin", "xmax", "ymin", "ymax")])))
-```
-
-
-Another example
-
-```{r tasmania}
-my_bbox <-
-  st_bbox(c(xmin = 144,
-            xmax = 147.99,
-            ymin = -44.12,
-            ymax = -40),
-          crs = st_crs("+proj=longlat +ellps=WGS84"))
-im <- cc_location(cbind(145.5, -42.2), buffer = 5e5)
-plotRGB(im)
-plot(st_transform(ozmaps::abs_lga$geometry, projection(im)), add = TRUE, lwd = 2, border = "white")
-```
-
-An internal function sets up a plot of tiles at particular zoom levels. 
-
-```R
-ceramic::plot_tiles(ceramic_tiles(zoom = c(7, 9)))
-```
-
-![tile plot](man/figures/README-tile-plot.png)
-
-And we can add the tiles to an existing plot. 
-
-```R
-plotRGB(im)
-ceramic::plot_tiles(ceramic_tiles(zoom = 7), add = TRUE)
-```
-
-![tile add plot](man/figures/README-tile-add-plot.png)
-
-# Future improvements
-
-
-See the [Issue tab](https://github.com/hypertidy/ceramic/issues/) and please make suggestions and give feedback!
-
-There's an ongoing process to uncouple from the "spatial packages", currently we have an unclassy mix of sp, terra, raster, and even sf
-in the readme. We'll fix it. 
 
 
 ---

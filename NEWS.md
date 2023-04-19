@@ -1,6 +1,10 @@
 
 # ceramic 0.7.0
 
+* Removed raster handling support. 
+
+* Removed virtual tiles (see hypertidy/grout). 
+
 * Begin move to use GDAL for the read, separate tile downloading from raster input. 
 
 * Fixed `cc_kingston` location. 

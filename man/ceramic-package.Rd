@@ -6,12 +6,16 @@
 \alias{ceramic}
 \title{Obtain imagery tiles}
 \description{
-The ceramic package provides tools to download and load imagery and raster tiles from online servers.
+The ceramic package provides tools to download  raster tiles from online servers.
 }
 \details{
 Any process that can trigger downloads will first check the \code{\link[=ceramic_cache]{ceramic_cache()}} in case the tile already exists.
 
-The main functions are for downloading tiles and loading them as raster objects, and each accepts a spatial
+It can also load raster data from online servers to obtain imagery, but we let GDAL manage that.
+
+If you want to deal with the tiles downloaded directly, see \code{\link[=ceramic_tiles]{ceramic_tiles()}}.
+
+The main functions are for downloading tiles and each accepts a spatial
 object for the first argument, alternatively a raster extent, or location:
 
 \tabular{ll}{
@@ -21,7 +25,7 @@ object for the first argument, alternatively a raster extent, or location:
 \code{\link{get_tiles_zoom}}\tab Download tiles base on extent and zoom level \cr
 }
 
-Two helper functions will trigger the download of tiles and also collate the result into a raster object:
+Two helper functions will load imagery into a raster object:
 
 \tabular{ll}{
 \code{\link{cc_location}}\tab Download tiles and build a raster object of imagery\cr

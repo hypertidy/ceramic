@@ -2,12 +2,9 @@
 % Please edit documentation in R/cache.R
 \name{ceramic_cache}
 \alias{ceramic_cache}
-\alias{slippy_cache}
 \title{Ceramic file cache}
 \usage{
 ceramic_cache(force = FALSE)
-
-slippy_cache(...)
 }
 \arguments{
 \item{force}{set to \code{TRUE} to create the location without asking the user}
@@ -33,4 +30,3 @@ if (interactive()) {
  ceramic_cache()
 }
 }
-\keyword{internal}

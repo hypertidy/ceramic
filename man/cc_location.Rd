@@ -18,7 +18,8 @@ cc_location(
   ...,
   zoom = NULL,
   max_tiles = NULL,
-  debug = FALSE
+  debug = FALSE,
+  dimension = NULL
 )
 
 cc_macquarie(
@@ -28,7 +29,8 @@ cc_macquarie(
   ...,
   zoom = NULL,
   max_tiles = NULL,
-  debug = FALSE
+  debug = FALSE,
+  dimension = NULL
 )
 
 cc_davis(
@@ -38,7 +40,8 @@ cc_davis(
   ...,
   zoom = NULL,
   max_tiles = NULL,
-  debug = FALSE
+  debug = FALSE,
+  dimension = NULL
 )
 
 cc_mawson(
@@ -48,7 +51,8 @@ cc_mawson(
   ...,
   zoom = NULL,
   max_tiles = NULL,
-  debug = FALSE
+  debug = FALSE,
+  dimension = NULL
 )
 
 cc_casey(
@@ -58,7 +62,8 @@ cc_casey(
   ...,
   zoom = NULL,
   max_tiles = NULL,
-  debug = FALSE
+  debug = FALSE,
+  dimension = NULL
 )
 
 cc_heard(
@@ -68,7 +73,8 @@ cc_heard(
   ...,
   zoom = NULL,
   max_tiles = NULL,
-  debug = FALSE
+  debug = FALSE,
+  dimension = NULL
 )
 
 cc_kingston(
@@ -78,7 +84,8 @@ cc_kingston(
   ...,
   zoom = NULL,
   max_tiles = NULL,
-  debug = FALSE
+  debug = FALSE,
+  dimension = NULL
 )
 
 cc_elevation(
@@ -88,7 +95,8 @@ cc_elevation(
   ...,
   zoom = NULL,
   max_tiles = NULL,
-  debug = FALSE
+  debug = FALSE,
+  dimension = NULL
 )
 }
 \arguments{
@@ -100,11 +108,13 @@ cc_elevation(
 
 \item{...}{arguments passed to internal function, specifically \code{base_url} (see Details)}
 
-\item{zoom}{desired zoom for tiles, use with caution - if \code{NULL} is chosen automatically}
+\item{zoom}{deprecated (use \code{dimension})}
 
-\item{max_tiles}{maximum number of tiles to be read into memory - if \code{NULL} is set by zoom constraints}
+\item{max_tiles}{deprecated}
 
-\item{debug}{optionally print out files that will be used}
+\item{debug}{deprecated}
+
+\item{dimension}{one or two numbers, used to determine the number of pixels width, height - set one to zero to let GDAL figure it out, or leave as NULL to get something suitable}
 }
 \value{
 A \code{\link[raster:brick]{raster::brick()}} object, either 'RasterBrick' with three layers (Red, Green, Blue) or with

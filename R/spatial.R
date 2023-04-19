@@ -63,7 +63,7 @@ spatial_bbox <- function(loc, buffer = NULL) {
 
   ## convert loc to mercator meters
   loc <- slippymath::lonlat_to_merc(loc)
-
+  
   xp <- buffer[1] ## buffer is meant to be from a central point, so a radius
   yp <- buffer[2]
 
@@ -94,6 +94,11 @@ spex_to_pt <- function(x) {
     srcproj <- "EPSG:4267"
     is_ll <- TRUE
   }
+  if (srcproj == "WGS 84") {
+    srcproj <- "+proj=longlat"
+    is_ll <- TRUE
+  }
+  
   if (is.na(srcproj)) {
     if (raster::couldBeLonLat(x, warnings = FALSE)) {
       warning("loc CRS is not set, assuming longlat")
@@ -110,17 +115,23 @@ spex_to_pt <- function(x) {
 }
 #' @importFrom stats approx
 project_spex <- function(x, crs) {
+ 
   ex <- c(raster::xmin(x), raster::xmax(x), raster::ymin(x), raster::ymax(x))
   idx <- c(1, 1, 2, 2, 1,
            3, 4, 4, 3, 3)
   xy <- matrix(ex[idx], ncol = 2L)
   afun <- function(aa) stats::approx(seq_along(aa), aa, n = 180L)$y
-  srcproj <- raster::projection(x)
- is_ll <-   raster::couldBeLonLat(x, warnings = FALSE)
+  srcproj <- raster::projection(x) 
+  is_ll <-   raster::couldBeLonLat(x, warnings = FALSE)
     if (srcproj == "NAD27") {
     srcproj <- "EPSG:4267"
     is_ll <- TRUE
-  }
+    }
+ if (srcproj == "WGS 84") {
+   srcproj <- "+proj=longlat"
+   is_ll <- TRUE
+ }
+
   if (is.na(srcproj)) {
     if (is_ll) {
       warning("loc CRS is not set, assuming longlat")
