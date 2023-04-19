@@ -1,8 +1,17 @@
+#' @importFrom terra rast
 make_raster <- function(loc_data) {
   files <- loc_data$files
   tile_grid <- loc_data$tiles
   user_extent <- loc_data$extent
-
+  files <- normalizePath(files)
+  if (find_format(files[1]) == "tif") {
+    out <- terra::merge(terra::sprc(lapply(files, terra::rast)))
+    #terra::crs(out) <- "EPSG:3857"
+    out <- raster::raster(out)
+    raster::projection(out) <- "+proj=merc +a=6378137 +b=6378137"
+    ## short circuit, the old way is not working
+    return(out)
+  }
   br <- lapply(files, raster_brick)
 
   for (i in seq_along(br)) {
@@ -19,12 +28,9 @@ make_raster <- function(loc_data) {
 raster_brick <- function(x) {
   out <- NULL
   if (find_format(x) == "tif") {
-    ## jump out now
-    if (!requireNamespace("rgdal", quietly = TRUE)) {
-      stop(sprintf("rgdal is required (by raster) for reading GeoTIFF files: %s", x))
-    }
-    out <-  raster::brick(x)
-    return(raster::setExtent(out, raster::extent(0, nrow(out), 0, ncol(out))))
+    #out <-  raster::brick(terra::rast(x))
+    #return(raster::setExtent(out, raster::extent(0, nrow(out), 0, ncol(out))))
+    return(terra::rast(out))
   }
   if (find_format(x)== "jpg") {
     out <- jpeg::readJPEG(x)

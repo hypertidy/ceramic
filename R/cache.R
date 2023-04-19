@@ -59,7 +59,7 @@ down_loader <- function(x, query_string, clobber = FALSE, ..., debug = FALSE, ve
                 outfile <- url_to_cache(api_query)
 
                 if (debug) {
-                  print(outfile)
+                  #print(outfile)
                   return(outfile)
                 }
                 if (!file.exists(outfile) || clobber || fs::file_info(outfile)$size < 35) {

@@ -27,7 +27,7 @@ spatial_bbox <- function(loc, buffer = NULL) {
       spx <- try(spex::spex(loc), silent = TRUE)
 
       if (inherits(spx, "try-error") && grepl("^EPSG", epsg <- crsmeta::crs_input(loc))) {
-        print("dark magic")
+        #print("dark magic")
         spx <- try(spex::spex(loc, crs = sprintf("+init=epsg:%s", gsub("^EPSG:", "", epsg))),
                    silent = TRUE)
     if (inherits(spx, "try-error")) {
@@ -38,7 +38,9 @@ spatial_bbox <- function(loc, buffer = NULL) {
     }
 
     loc <- spex_to_pt(spx)
+
     buffer <- spex_to_buff(spx)/2
+
   }
   if (is.null(buffer)) buffer <- c(0, 0)
   ## handle case where loc had either no width or no height
@@ -74,6 +76,7 @@ spatial_bbox <- function(loc, buffer = NULL) {
     bb_points <- slippymath::merc_truncate(bb_points)
   }
 
+
   ## convert bb_points back to lonlat
   bb_points_lonlat <- slippymath::merc_to_lonlat(bb_points)
 
@@ -81,12 +84,17 @@ spatial_bbox <- function(loc, buffer = NULL) {
                xmax = bb_points_lonlat[2,1], ymax = bb_points_lonlat[2,2])
   user_points <- bb_points
 
-  list(tile_bbox = tile_bbox, user_points = user_points)
+  list(tile_bbox = tile_bbox, user_points = user_points, extent = as.vector(bb_points))
 }
 spex_to_pt <- function(x) {
   pt <- cbind(mean(c(raster::xmax(x), raster::xmin(x))),
               mean(c(raster::ymax(x), raster::ymin(x))))
   srcproj <- raster::projection(x)
+  is_ll <- raster::isLonLat(x)
+  if (srcproj == "NAD27") {
+    srcproj <- "EPSG:4267"
+    is_ll <- TRUE
+  }
   if (is.na(srcproj)) {
     if (raster::couldBeLonLat(x, warnings = FALSE)) {
       warning("loc CRS is not set, assuming longlat")
@@ -94,8 +102,10 @@ spex_to_pt <- function(x) {
     }
   }
 
-  if (!raster::isLonLat(x)) {
+  if (!is_ll) {
+    suppressWarnings(
     pt <- reproj::reproj(pt, .ll(), source = raster::projection(x))[, 1:2, drop = FALSE]
+    )
   }
   pt
 }
@@ -107,8 +117,13 @@ project_spex <- function(x, crs) {
   xy <- matrix(ex[idx], ncol = 2L)
   afun <- function(aa) stats::approx(seq_along(aa), aa, n = 180L)$y
   srcproj <- raster::projection(x)
+ is_ll <-   raster::couldBeLonLat(x, warnings = FALSE)
+    if (srcproj == "NAD27") {
+    srcproj <- "EPSG:4267"
+    is_ll <- TRUE
+  }
   if (is.na(srcproj)) {
-    if (raster::couldBeLonLat(x, warnings = FALSE)) {
+    if (is_ll) {
       warning("loc CRS is not set, assuming longlat")
       srcproj <- .ll()
     } else {
@@ -116,7 +131,8 @@ project_spex <- function(x, crs) {
     }
   }
 
-  raster::extent(reproj::reproj(cbind(afun(xy[,1L]), afun(xy[,2L])), target = crs, source = srcproj)[, 1:2])
+suppressWarnings( rpj <- reproj::reproj(cbind(afun(xy[,1L]), afun(xy[,2L])), target = crs, source = srcproj)[, 1:2])
+  raster::extent(rpj)
 }
 spex_to_buff <- function(x) {
   ex <- project_spex(x, .merc())

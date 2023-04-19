@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_tiles.R
 \name{get_tiles}
 \alias{get_tiles}
-\title{Download Mapbox imagery tiles}
+\title{Download imagery tiles}
 \usage{
 get_tiles(
   x,
@@ -63,12 +63,11 @@ Use \code{debug = TRUE} to avoid download and simply report on what would be don
 \code{cc_elevation} does extra work to unpack the DEM tiles from the RGB format.
 
 Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
-'mapbox.outdoors', 'mapbox.terrain-rgb', 'mapbox.streets', 'mapbox.light', 'mapbox.dark'
-or any other string accepted by Mapbox services.
+'mapbox.terrain-rgb'.
 }
 \examples{
 if (!is.null(get_api_key())) {
-   tile_info <- get_tiles(raster::extent(146, 147, -43, -42), type = "mapbox.outdoors", zoom = 5)
+   tile_info <- get_tiles(raster::extent(146, 147, -43, -42), type = "mapbox.satellite", zoom = 5)
 }
 }
 \seealso{
