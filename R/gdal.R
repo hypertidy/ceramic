@@ -99,10 +99,11 @@ gdal_mapbox <- function (extent = c(-180, 180, -90, 90), ..., dimension = NULL,
   if (info$bands < 3) {
       bands <- 1L
   }
+  suppressWarnings(
   vals <- vapour::gdal_raster_image(rso, target_ext = x$extent, 
                                            target_dim = x$dimension, target_crs = x$projection, 
                                            resample = resample, ..., bands = bands)
-
+)
   x$type <- "terra"
   xraster <- terra::rast(terra::ext(attr(vals, "extent")), 
                          ncol = attr(vals, "dimension")[1L], 
@@ -134,10 +135,12 @@ gdal_aws <- function (extent = c(-180, 180, -90, 90), ..., dimension = NULL,
     message("no projection specified, calling warper without a target projection: results not guaranteed")
     x$projection <- ""
   }
+  suppressWarnings(
+    
   vals <- vapour::gdal_raster_data(rso, target_ext = x$extent, 
                                     target_dim = x$dimension, target_crs = x$projection, 
                                     resample = resample, ..., bands = 1L)
-  
+)
   
   xraster <- terra::rast(terra::ext(attr(vals, "extent")), 
                          ncol = attr(vals, "dimension")[1L], 
@@ -167,10 +170,12 @@ gdal_terrainrgb <- function (extent = c(-180, 180, -90, 90), ..., dimension = NU
     message("no projection specified, calling warper without a target projection: results not guaranteed")
     x$projection <- ""
   }
+  suppressWarnings(
+    
   vals <- vapour::gdal_raster_data(rso, target_ext = x$extent, 
                                    target_dim = x$dimension, target_crs = x$projection, 
                                    resample = resample, ..., bands = 1:3)
-  
+  )
   d  <-  -10000 + ((vals[[1]] * 256 * 256 + vals[[2]] * 256 + vals[[3]]) * 0.1)
   
   xraster <- terra::rast(terra::ext(attr(vals, "extent")), 
