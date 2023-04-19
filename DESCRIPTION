@@ -37,7 +37,8 @@ Imports:
     reproj (>= 0.4.2),
     utils,
     crsmeta,
-    terra
+    terra,
+    vapour
 Suggests: 
     covr,
     spelling,

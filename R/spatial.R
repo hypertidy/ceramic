@@ -83,7 +83,7 @@ spatial_bbox <- function(loc, buffer = NULL) {
                xmax = bb_points_lonlat[2,1], ymax = bb_points_lonlat[2,2])
   user_points <- bb_points
 
-  list(tile_bbox = tile_bbox, user_points = user_points)
+  list(tile_bbox = tile_bbox, user_points = user_points, extent = as.vector(bb_points))
 }
 spex_to_pt <- function(x) {
   pt <- cbind(mean(c(raster::xmax(x), raster::xmin(x))),

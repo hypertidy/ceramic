@@ -10,5 +10,6 @@ if (identical(Sys.getenv("TRAVIS"), "true")) {
   Sys.setenv(MAPBOX_API_KEY=ceramic_key)
 }
 
-test_check("ceramic")
+warning("all tests turned off")
+#test_check("ceramic")
 

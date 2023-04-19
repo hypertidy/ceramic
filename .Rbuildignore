@@ -1,12 +1,9 @@
-^codecov\.yml$
-^appveyor\.yml$
-^\.travis\.yml$
 ^data-raw$
 ^CODE_OF_CONDUCT\.md$
 ^README\.Rmd$
 ^ceramic\.Rproj$
 ^\.Rproj\.user$
-^docs$
+^gdalwmscache$
 ^\.Rhistory$
 ^cran-comments\.md$
 ^CRAN-RELEASE$
