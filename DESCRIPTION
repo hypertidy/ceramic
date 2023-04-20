@@ -22,9 +22,7 @@ Imports:
     fs (>= 1.3.0),
     glue,
     graphics,
-    jpeg,
     magrittr,
-    png,
     purrr,
     rappdirs,
     rlang,
@@ -34,7 +32,6 @@ Imports:
     stats,
     tibble,
     raster,
-    reproj (>= 0.4.2),
     utils,
     crsmeta,
     vapour

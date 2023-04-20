@@ -7,12 +7,12 @@ test_that("raw loc works", {
   skip_on_cran()
 
 
-  expect_message(cc_location(rpt, buffer = c(10, 0), verbose = TRUE))
+  expect_silent(cc_location(rpt, buffer = c(10, 0), verbose = TRUE))
 
   ## too many values, assumes first 2
   expect_warning(cc_location(c(rpt, 10), verbose = FALSE))
   ## flat vector ok
-  expect_s4_class(cc_location(c(rpt), verbose = FALSE), "BasicRaster")
+  expect_s4_class(cc_location(c(rpt), verbose = FALSE), "SpatRaster")
   expect_error(cc_location(raster::extent(-1e6, 1000, 0, 300000), verbose = FALSE))
 
   expect_warning(cc_location(cbind(0, 0), buffer = 1e8, verbose = FALSE),
@@ -25,8 +25,8 @@ test_that("Spatial loc works", {
 
 
   ## projected spdf, lines, points, mpoints
-  expect_s4_class(cc_location(ozdata$ll$sp, verbose = FALSE), "BasicRaster")
-  expect_message(cc_location(ozdata$proj$sp))
+  expect_s4_class(cc_location(ozdata$ll$sp, verbose = FALSE), "SpatRaster")
+  expect_silent(cc_location(ozdata$proj$sp))
 
   ## degeneracy
   ## single point, no-width polygon, vert/horizontal line
@@ -35,7 +35,7 @@ test_that("Spatial loc works", {
   sp <- ozdata$ll$sp
   sp@proj4string <- sp::CRS(NA_character_, doCheckCRSArgs = FALSE)
   ## warnings from spex
-  expect_warning(cc_location(sp, verbose = FALSE))
+  expect_error(cc_location(sp, verbose = FALSE))
 })
 
 

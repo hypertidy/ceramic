@@ -3,7 +3,6 @@ context("test-get")
 test_that("getting tiles works", {
  skip_on_cran()
 
- expect_warning(dir <- slippy_cache())
  expect_silent(ceramic_cache())
 
  #f <- get_files(cbind(-100, 50), buffer = 5000, debug = FALSE)$files

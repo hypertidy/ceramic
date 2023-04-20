@@ -5,7 +5,9 @@ is_spatial <- function(x) {
       inherits(x, "sf") ||
       inherits(x, "sfc") ||
       inherits(x, "BasicRaster") ||
-      inherits(x, "Extent")) {
+      inherits(x, "Extent") ||
+      inherits(x, "SpatRaster") ||
+      inherits(x, "SpatVector")) {
     return(TRUE)
   }
   FALSE
@@ -13,35 +15,34 @@ is_spatial <- function(x) {
 
 spatial_bbox <- function(loc, buffer = NULL) {
   if (is_spatial(loc)) {
-    ## turn loc into a longlat point
-    ## and a buffer
-    if (inherits(loc, "Extent")) {
-      if (!raster::couldBeLonLat(raster::raster(loc))) {
-        stop("raw extent 'loc' does not seem to be longitude/latitude (use object with CRS)")
-      }
-
-      spx <- spex::spex(loc, crs = sp::CRS(.ll(), doCheckCRSArgs = FALSE))
-
-    } else {
-
-      spx <- try(spex::spex(loc), silent = TRUE)
-
-      if (inherits(spx, "try-error") && grepl("^EPSG", epsg <- crsmeta::crs_input(loc))) {
-        #print("dark magic")
-        spx <- try(spex::spex(loc, crs = sprintf("+init=epsg:%s", gsub("^EPSG:", "", epsg))),
-                   silent = TRUE)
-    if (inherits(spx, "try-error")) {
-        mess <- "cannot obtain a sensible extent+crs from input, please report an issue with a reprex:\n https://github.com/hypertidy/ceramic/issues"
-        stop(mess)
-      }
-      }
-    }
-
-    loc <- spex_to_pt(spx)
-
-    buffer <- spex_to_buff(spx)/2
-
+    #   ## turn loc into a longlat point
+    #   ## and a buffer
+    #   if (inherits(loc, "Extent")) {
+    #     if (!raster::couldBeLonLat(raster::raster(loc))) {
+    #       stop("raw extent 'loc' does not seem to be longitude/latitude (use object with CRS)")
+    #     }
+    # 
+    #     spx <- spex::spex(loc, crs = sp::CRS(.ll(), doCheckCRSArgs = FALSE))
+    # 
+    #   } else {
+    # 
+    #     spx <- try(spex::spex(loc), silent = TRUE)
+    # 
+    #     if (inherits(spx, "try-error") && grepl("^EPSG", epsg <- crsmeta::crs_input(loc))) {
+    #       #print("dark magic")
+    #       spx <- try(spex::spex(loc, crs = sprintf("+init=epsg:%s", gsub("^EPSG:", "", epsg))),
+    #                  silent = TRUE)
+    #   if (inherits(spx, "try-error")) {
+    #       mess <- "cannot obtain a sensible extent+crs from input, please report an issue with a reprex:\n https://github.com/hypertidy/ceramic/issues"
+    #       stop(mess)
+    #     }
+    #     }
+    #   }
+    buffer <- spex_to_buff(loc)/2
+    loc <- spex_to_pt(loc)
+    
   }
+  
   if (is.null(buffer)) buffer <- c(0, 0)
   ## handle case where loc had either no width or no height
   if (any(!buffer > 0)) {
@@ -59,103 +60,157 @@ spatial_bbox <- function(loc, buffer = NULL) {
   if (is.null(dim(loc))) {
     loc <- matrix(loc[1:2], ncol = 2L)
   }
-
-
+  
   ## convert loc to mercator meters
   loc <- slippymath::lonlat_to_merc(loc)
   
   xp <- buffer[1] ## buffer is meant to be from a central point, so a radius
   yp <- buffer[2]
-
+  
   ## xmin, ymin
   ## xmax, ymax
   bb_points <- matrix(c(loc[1,1] - xp, loc[1,2] - yp, loc[1,1] + xp, loc[1,2] + yp), 2, 2, byrow = TRUE)
-
   if (!slippymath::within_merc_extent(bb_points)){
     warning("The combination of buffer and location extends beyond the tile grid extent. The buffer will be truncated.")
     bb_points <- slippymath::merc_truncate(bb_points)
   }
-
+  
   ## convert bb_points back to lonlat
   bb_points_lonlat <- slippymath::merc_to_lonlat(bb_points)
-
+  
   tile_bbox <- c(xmin = bb_points_lonlat[1,1], ymin = bb_points_lonlat[1,2],
-               xmax = bb_points_lonlat[2,1], ymax = bb_points_lonlat[2,2])
+                 xmax = bb_points_lonlat[2,1], ymax = bb_points_lonlat[2,2])
   user_points <- bb_points
-
+  
   list(tile_bbox = tile_bbox, user_points = user_points, extent = as.vector(bb_points))
 }
 spex_to_pt <- function(x) {
-  pt <- cbind(mean(c(raster::xmax(x), raster::xmin(x))),
-              mean(c(raster::ymax(x), raster::ymin(x))))
-
-  srcproj <- raster::projection(x)
+  ex <- .ext_ext(x)
+  crs <- .crs_crs(x)
+  pt <- cbind(mean(ex[1:2]), mean(ex[3:4]))
+  is_ll <- terra::is.lonlat(crs)
   
-  if (is.na(srcproj) || is.null(srcproj) || !nzchar(srcproj)) {
-    if (!nzchar(crsmeta::crs_wkt(x))) {
-     srcproj <-crsmeta::crs_wkt(x) 
-    } else {
-      srcproj <- NA_character_
-    }
-  }
-  is_ll <- raster::isLonLat(x)
-  ## fmd, why ...
-  if (srcproj == "NAD27") {
-    srcproj <- "EPSG:4267"
-    is_ll <- TRUE
-  }
-  if (srcproj == "WGS 84") {
-    srcproj <- "+proj=longlat"
-    is_ll <- TRUE
-  }
-  
-  if (is.na(srcproj)) {
-    if (raster::couldBeLonLat(x, warnings = FALSE)) {
-      warning("loc CRS is not set, assuming longlat")
-      raster::crs(x) <- sp::CRS(.ll(),doCheckCRSArgs = FALSE)
-    }
-  }
-
   if (!is_ll) {
     suppressWarnings(
-    pt <- reproj::reproj(pt, .ll(), source = srcproj[, 1:2, drop = FALSE]
-    ))
+      pt <- terra::project(pt, to = .ll(), from  = crs)
+    )
+    
   }
-  pt
+  return(pt)
+  
+  # pt <- cbind(mean(c(raster::xmax(x), raster::xmin(x))),
+  #             mean(c(raster::ymax(x), raster::ymin(x))))
+  # 
+  # srcproj <- raster::projection(x)
+  # 
+  # if (is.na(srcproj) || is.null(srcproj) || !nzchar(srcproj)) {
+  #   if (!nzchar(crsmeta::crs_wkt(x))) {
+  #    srcproj <-crsmeta::crs_wkt(x) 
+  #   } else {
+  #     srcproj <- NA_character_
+  #   }
+  # }
+  # is_ll <- raster::isLonLat(x)
+  # ## fmd, why ...
+  # if (srcproj == "NAD27") {
+  #   srcproj <- "EPSG:4267"
+  #   is_ll <- TRUE
+  # }
+  # if (srcproj == "WGS 84") {
+  #   srcproj <- "+proj=longlat"
+  #   is_ll <- TRUE
+  # }
+  # 
+  # if (is.na(srcproj)) {
+  #   if (raster::couldBeLonLat(x, warnings = FALSE)) {
+  #     warning("loc CRS is not set, assuming longlat")
+  #     raster::crs(x) <- sp::CRS(.ll(),doCheckCRSArgs = FALSE)
+  #   }
+  # }
+  # 
+  # if (!is_ll) {
+  #   suppressWarnings(
+  #   pt <- reproj::reproj(pt, .ll(), source = srcproj[, 1:2, drop = FALSE]
+  #   ))
+  # }
+  # pt
+}
+
+
+
+.crs_crs <- function(x) {
+  crs <- crsmeta::crs_wkt(x)
+  if (is.na(crs)) {
+    proj <- crsmeta::crs_proj(x)
+    if (!is.na(proj)) {
+      crs <- proj 
+    }
+  }
+  
+  if (is.na(crs) && (inherits(x, "SpatRaster") || inherits(x, "SpatVector"))) {
+    crs <- try(x@ptr$get_crs("wkt"), silent = TRUE)
+    if (inherits(crs, "try-error")) {
+      crs <- NA_character_
+    }
+    
+    if (is.na(crs)) {
+      if (x@ptr$isLonLat()) {
+        crs <- "+proj=longlat +datum=WGS84"
+      }
+    }
+  }
+  if (is.na(crs)) {
+    if (inherits(x, "Extent")) {
+      ex <- c(x@xmin, x@xmax, x@ymin, x@ymax)
+      if (ex[1] >= -180 && ex[2] <= 360 && ex[3] >= -90 && ex[4] <=90) {
+        crs <- "+proj=longlat +datum=WGS84"
+      }
+    } 
+    if (inherits(x, "SpatExtent")) {
+      ex <- c(terra::xmin(x), terra::xmax(x), terra::ymin(x), terra::ymax(x))
+      if (ex[1] >= -180 && ex[2] <= 360 && ex[3] >= -90 && ex[4] <=90) {
+        crs <- "+proj=longlat +datum=WGS84"
+      }
+    } 
+    
+    if (is.na(crs)) stop("no valid crs found on input object")
+  }
+  if (crs == "NAD27") {
+    crs <- "EPSG:4267"
+    
+  }
+  if (crs == "WGS 84") {
+    srcproj <- "+proj=longlat +datum=WGS84"
+    
+  }
+  
+  crs
+}
+
+.ext_ext <- function(x) {
+  if (inherits(x, "sfc")) {
+    return(unname(attr(x, "bbox")[c(1, 3, 2, 4)]))
+  }
+  ex <- terra::ext(x)
+  c(terra::xmin(ex), terra::xmax(ex), terra::ymin(ex), terra::ymax(ex))
 }
 #' @importFrom stats approx
-project_spex <- function(x, crs) {
- 
-  ex <- c(raster::xmin(x), raster::xmax(x), raster::ymin(x), raster::ymax(x))
+project_ex <- function(x, crs) {
+  
+  ex <- .ext_ext(x)
   idx <- c(1, 1, 2, 2, 1,
            3, 4, 4, 3, 3)
   xy <- matrix(ex[idx], ncol = 2L)
   afun <- function(aa) stats::approx(seq_along(aa), aa, n = 180L)$y
-  srcproj <- raster::projection(x) 
-  is_ll <-   raster::couldBeLonLat(x, warnings = FALSE)
-    if (srcproj == "NAD27") {
-    srcproj <- "EPSG:4267"
-    is_ll <- TRUE
-    }
- if (srcproj == "WGS 84") {
-   srcproj <- "+proj=longlat"
-   is_ll <- TRUE
- }
-
-  if (is.na(srcproj)) {
-    if (is_ll) {
-      warning("loc CRS is not set, assuming longlat")
-      srcproj <- .ll()
-    } else {
-      stop("loc CRS is not set, and does not seem to be longitude/latitude data")
-    }
-  }
-
-suppressWarnings( rpj <- reproj::reproj(cbind(afun(xy[,1L]), afun(xy[,2L])), target = crs, source = srcproj)[, 1:2])
-  raster::extent(rpj)
+  
+  srcproj <- .crs_crs(x)
+  
+  xy <- cbind(afun(xy[,1L]), afun(xy[,2L]))
+  rpj <- terra::project(xy, to = crs, from = srcproj)
+  
+  as.vector(apply(rpj, 2, range))
 }
 spex_to_buff <- function(x) {
-  ex <- project_spex(x, .merc())
-  c(raster::xmax(ex) - raster::xmin(ex),
-    raster::ymax(ex) - raster::ymin(ex))
+  ex <- project_ex(x, .merc())
+  diff(ex)[c(1, 3)]
 }

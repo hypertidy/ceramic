@@ -1,3 +1,4 @@
+#' @importFrom grDevices dev.size
 loc_extent <- function(x, buffer, dimension = NULL) {
   if (missing(x) && missing(buffer)) {
     ## get the whole world at zoom provided, as a neat default
@@ -6,6 +7,7 @@ loc_extent <- function(x, buffer, dimension = NULL) {
     
   }
   bbox_pair <- spatial_bbox(x, buffer)
+ 
   ext <- as.vector(bbox_pair$extent)
 
   ## widest 
@@ -36,14 +38,14 @@ format_out <- function (x)
       x$projection <- "OGC:CRS84"
     x$type <- "terra"
   }
-  if (inherits(x, "BasicRaster")) {
-    if (!requireNamespace("raster")) 
-      stop("raster package required but not available, please install it")
-    x <- raster_out(x)
-    if (is.na(x$projection) && x$lonlat) 
-      x$projection <- "OGC:CRS84"
-    x$type <- "raster"
-  }
+  # if (inherits(x, "BasicRaster")) {
+  #   if (!requireNamespace("raster")) 
+  #     stop("raster package required but not available, please install it")
+  #   x <- raster_out(x)
+  #   if (is.na(x$projection) && x$lonlat) 
+  #     x$projection <- "OGC:CRS84"
+  #   x$type <- "raster"
+  # }
   if (inherits(x, "numeric")) {
     if (is.null(projection)) 
       projection <- "OGC:CRS84"

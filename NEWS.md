@@ -1,7 +1,10 @@
 
 # ceramic 0.7.0
 
-* Functions `cc_location()` and friends now return terra SpatRaster. 
+* Made functions casey(), mawson(), and davis() defunct, because mapbox doesn't work down there now?  (might update with virtualearth) 
+
+* Functions `cc_location()` and friends now return terra SpatRaster. These functions now ignore arguments 'max_tiles' and 'zoom', but gain
+ a new argument 'dimension'. If this is not set something resembling the graphics device is used. 
 
 * Removed raster handling support. 
 

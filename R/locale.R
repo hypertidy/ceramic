@@ -57,7 +57,8 @@ cc_location <- function(loc = NULL, buffer = 5000,
   if (!is.null(zoom) || !is.null(max_tiles)) message("'zoom' and 'max_tiles' are ignored")
   #if (is.null(zoom) && is.null(max_tiles)) max_tiles <- 16L
   #locdata <- get_tiles(x = loc, buffer = buffer, type = type, ..., zoom = zoom, max_tiles = max_tiles, debug = debug)
- 
+
+  
   locdata <- loc_extent(loc, buffer, dimension)
 
   #if (debug) {
@@ -78,15 +79,14 @@ cc_macquarie <- function(loc = c(158.93835,-54.49871), buffer = 5000,
 cc_davis <- function(loc = c(77 + 58/60 + 3/3600,
                               -(68 + 34/60 + 36/3600)),
                      buffer = 5000, type = "mapbox.satellite", ..., zoom = NULL, max_tiles = NULL, debug = FALSE, dimension = NULL) {
-#  68 34 36 S 77 58 03 E
-  cc_location(loc, buffer, type = type, ..., zoom = zoom, max_tiles = max_tiles, debug = debug, dimension = dimension)
+.Defunct(msg = "removed, no longer works with mapbox")
 }
 #' @name cc_location
 #' @export
 cc_mawson <- function(loc = c(62 + 52/60 + 27/3600,
                                   -(67 + 36/60 + 12/3600)), buffer = 5000, type = "mapbox.satellite", ..., zoom = NULL, max_tiles = NULL, debug = FALSE, dimension = NULL) {
   # 67 36 12 S 62 52 27 E
-  cc_location(loc, buffer, type = type, ..., zoom = zoom, max_tiles = max_tiles, debug = debug, dimension = dimension)
+  .Defunct(msg = "removed, no longer works with mapbox")
 }
 
 #' @name cc_location
@@ -94,7 +94,7 @@ cc_mawson <- function(loc = c(62 + 52/60 + 27/3600,
 cc_casey <- function(  loc = cbind(110 + 31/60 + 36/3600,
                                     -(66 + 16/60 + 57/3600)), buffer = 5000, type = "mapbox.satellite", ...,zoom = NULL, max_tiles = NULL,debug = FALSE, dimension = NULL) {
   #66 16 57 S 110 31 36 E
-  cc_location(loc, buffer, type = type, ..., zoom = zoom, max_tiles = max_tiles, debug = debug, dimension = dimension)
+  .Defunct(msg = "removed, no longer works with mapbox")
 }
 #' @name cc_location
 #' @export
