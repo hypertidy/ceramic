@@ -15,29 +15,7 @@ is_spatial <- function(x) {
 
 spatial_bbox <- function(loc, buffer = NULL) {
   if (is_spatial(loc)) {
-    #   ## turn loc into a longlat point
-    #   ## and a buffer
-    #   if (inherits(loc, "Extent")) {
-    #     if (!raster::couldBeLonLat(raster::raster(loc))) {
-    #       stop("raw extent 'loc' does not seem to be longitude/latitude (use object with CRS)")
-    #     }
-    # 
-    #     spx <- spex::spex(loc, crs = sp::CRS(.ll(), doCheckCRSArgs = FALSE))
-    # 
-    #   } else {
-    # 
-    #     spx <- try(spex::spex(loc), silent = TRUE)
-    # 
-    #     if (inherits(spx, "try-error") && grepl("^EPSG", epsg <- crsmeta::crs_input(loc))) {
-    #       #print("dark magic")
-    #       spx <- try(spex::spex(loc, crs = sprintf("+init=epsg:%s", gsub("^EPSG:", "", epsg))),
-    #                  silent = TRUE)
-    #   if (inherits(spx, "try-error")) {
-    #       mess <- "cannot obtain a sensible extent+crs from input, please report an issue with a reprex:\n https://github.com/hypertidy/ceramic/issues"
-    #       stop(mess)
-    #     }
-    #     }
-    #   }
+
     buffer <- spex_to_buff(loc)/2
     loc <- spex_to_pt(loc)
     
@@ -98,42 +76,6 @@ spex_to_pt <- function(x) {
   }
   return(pt)
   
-  # pt <- cbind(mean(c(raster::xmax(x), raster::xmin(x))),
-  #             mean(c(raster::ymax(x), raster::ymin(x))))
-  # 
-  # srcproj <- raster::projection(x)
-  # 
-  # if (is.na(srcproj) || is.null(srcproj) || !nzchar(srcproj)) {
-  #   if (!nzchar(crsmeta::crs_wkt(x))) {
-  #    srcproj <-crsmeta::crs_wkt(x) 
-  #   } else {
-  #     srcproj <- NA_character_
-  #   }
-  # }
-  # is_ll <- raster::isLonLat(x)
-  # ## fmd, why ...
-  # if (srcproj == "NAD27") {
-  #   srcproj <- "EPSG:4267"
-  #   is_ll <- TRUE
-  # }
-  # if (srcproj == "WGS 84") {
-  #   srcproj <- "+proj=longlat"
-  #   is_ll <- TRUE
-  # }
-  # 
-  # if (is.na(srcproj)) {
-  #   if (raster::couldBeLonLat(x, warnings = FALSE)) {
-  #     warning("loc CRS is not set, assuming longlat")
-  #     raster::crs(x) <- sp::CRS(.ll(),doCheckCRSArgs = FALSE)
-  #   }
-  # }
-  # 
-  # if (!is_ll) {
-  #   suppressWarnings(
-  #   pt <- reproj::reproj(pt, .ll(), source = srcproj[, 1:2, drop = FALSE]
-  #   ))
-  # }
-  # pt
 }
 
 
