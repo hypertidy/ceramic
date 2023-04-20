@@ -1,6 +1,8 @@
 
 # ceramic 0.7.0
 
+* Functions `cc_location()` and friends now return terra SpatRaster. 
+
 * Removed raster handling support. 
 
 * Removed virtual tiles (see hypertidy/grout). 
@@ -21,7 +23,7 @@
 
 * Fix bug in cc_elevation that prevent use of Amazon tiles. 
 
-* Workaround for apparent loss of setMethod("couldBeLonLat", signature(x = "Exetnt")) in later raster versions. 
+* Workaround for apparent loss of setMethod("couldBeLonLat", signature(x = "Extent")) in later raster versions. 
 
 # ceramic 0.6.0
 

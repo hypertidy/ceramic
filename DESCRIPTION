@@ -11,7 +11,7 @@ Authors@R: c(
 Description: Download imagery tiles to a standard cache and load the data into raster objects. 
  Facilities for 'AWS' terrain <https://registry.opendata.aws/terrain-tiles/> terrain and 'Mapbox' 
  <https://www.mapbox.com/> servers are provided. 
-Depends: R (>= 3.5.0)
+Depends: R (>= 3.5.0), terra
 License: GPL-3
 Encoding: UTF-8
 RoxygenNote: 7.2.3
@@ -37,7 +37,6 @@ Imports:
     reproj (>= 0.4.2),
     utils,
     crsmeta,
-    terra,
     vapour
 Suggests: 
     covr,

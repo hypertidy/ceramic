@@ -23,7 +23,7 @@ spatial_bbox <- function(loc, buffer = NULL) {
       spx <- spex::spex(loc, crs = sp::CRS(.ll(), doCheckCRSArgs = FALSE))
 
     } else {
-      #browser()
+
       spx <- try(spex::spex(loc), silent = TRUE)
 
       if (inherits(spx, "try-error") && grepl("^EPSG", epsg <- crsmeta::crs_input(loc))) {
@@ -88,8 +88,18 @@ spatial_bbox <- function(loc, buffer = NULL) {
 spex_to_pt <- function(x) {
   pt <- cbind(mean(c(raster::xmax(x), raster::xmin(x))),
               mean(c(raster::ymax(x), raster::ymin(x))))
+
   srcproj <- raster::projection(x)
+  
+  if (is.na(srcproj) || is.null(srcproj) || !nzchar(srcproj)) {
+    if (!nzchar(crsmeta::crs_wkt(x))) {
+     srcproj <-crsmeta::crs_wkt(x) 
+    } else {
+      srcproj <- NA_character_
+    }
+  }
   is_ll <- raster::isLonLat(x)
+  ## fmd, why ...
   if (srcproj == "NAD27") {
     srcproj <- "EPSG:4267"
     is_ll <- TRUE
@@ -108,8 +118,8 @@ spex_to_pt <- function(x) {
 
   if (!is_ll) {
     suppressWarnings(
-    pt <- reproj::reproj(pt, .ll(), source = raster::projection(x))[, 1:2, drop = FALSE]
-    )
+    pt <- reproj::reproj(pt, .ll(), source = srcproj[, 1:2, drop = FALSE]
+    ))
   }
   pt
 }
