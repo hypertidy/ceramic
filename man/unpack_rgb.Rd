@@ -21,5 +21,7 @@ Mapbox terrain-rgb stores global elevation packed into Byte integers.
 This function unpacks the three layers of a raster to give floating point elevation data.
 }
 \examples{
+if (interactive() && !is.null(get_api_key())) {
 unpack_rgb(read_tiles(type = "mapbox.terrain-rgb"))
+}
 }
