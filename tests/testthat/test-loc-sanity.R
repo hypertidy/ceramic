@@ -5,7 +5,9 @@ rpt <- cbind(147, -42)
 ex <- ext(rep(rpt, each = 2L) + c(-2, 2, -3, 3))
 dm <- function() sample(3:10, 2L)
 test_that("raw loc works", {
-
+  skip_on_cran()
+  skip_if(is.null(get_api_key()))
+  
   expect_silent(cc_location(rpt, buffer = c(10, 0), dimension = dm(), verbose = TRUE))
 
   ## too many values, assumes first 2
@@ -21,7 +23,9 @@ test_that("raw loc works", {
 
 test_that("Spatial loc works", {
 
-
+  skip_on_cran()
+  skip_if(is.null(get_api_key()))
+  
   ## projected spdf, lines, points, mpoints
   expect_s4_class(cc_location(ozdata$ll$sp, verbose = FALSE, dimension = dm(),), "SpatRaster")
   expect_silent(cc_location(ozdata$proj$sp, dimension = dm(),))
@@ -37,7 +41,9 @@ test_that("Spatial loc works", {
 
 test_that("Raster loc works", {
 
-
+  skip_on_cran()
+  skip_if(is.null(get_api_key()))
+  
   ## projected raster, longlat raster
   cc_location(ozdata$ll$raster, verbose = FALSE, dimension = dm())
   cc_location(ozdata$proj$raster, verbose = FALSE, dimension = dm())

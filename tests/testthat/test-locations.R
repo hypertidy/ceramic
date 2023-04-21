@@ -4,6 +4,8 @@ context("test-locations")
 dm <- function() sample(3:10, 2L)
 
 test_that("built in locations works", {
+  skip_on_cran()
+  skip_if(is.null(get_api_key()))
   
   expect_silent(lc <- cc_location(cbind(147, -42), buffer = 555, dimension = dm0 <- dm(), debug = TRUE))
   expect_s4_class(lc, "SpatRaster")
@@ -31,7 +33,9 @@ test_that("built in locations works", {
 
 test_that("max_tiles and zoom work", {
   
-
+  skip_on_cran()
+  skip_if(is.null(get_api_key()))
+  
 
   expect_message(cc_location(cbind(0, 0), max_tiles = 24, zoom = 5, dimension = dm()), "'zoom' and 'max_tiles' are ignored")
 

@@ -27,7 +27,10 @@ tv <- function() {
 
 classes <- list(tre(), tr(), tv(), wkbll, wkbpr, grdll, grdpr)
 ##for (i in seq_along(classes)) cc_location(classes[[i]])
-test_that("multiplication works", {
+test_that("formats work", {
+  skip_on_cran()
+  skip_if(is.null(get_api_key()))
+  
   for (i in seq_along(classes)) {
   expect_s4_class(cc_location(classes[[i]], dimension = c(4, 4)), "SpatRaster")
   }
