@@ -1,21 +1,13 @@
-
-
 is_spatial <- function(x) {
-  if (inherits(x, "Spatial") ||
-      inherits(x, "sf") ||
-      inherits(x, "sfc") ||
-      inherits(x, "BasicRaster") ||
-      inherits(x, "Extent") ||
-      inherits(x, "SpatRaster") ||
-      inherits(x, "SpatExtent") ||
-      inherits(x, "SpatVector") ||
-      inherits(x, "wk_vctr") || inherits(x, "wk_rcrd") ||
-      inherits(x, "geos_geometry") |
-      inherits(x, "stars")) {
-    return(TRUE)
-  }
-  FALSE
+  inherits(x, c("Spatial",
+                "sf", "sfc",
+                "BasicRaster", "Extent",
+                "SpatRaster","SpatExtent", "SpatVector",
+                "wk_vctr", "wk_rcrd",
+                "geos_geometry", 
+                "stars"))
 }
+
 
 #' @importFrom wk wk_crs
 .crs_crs <- function(x) {
