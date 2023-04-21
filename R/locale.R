@@ -16,11 +16,6 @@
 #' Note that arguments `max_tiles` and `zoom` are mutually exclusive. One or both must be `NULL`. If
 #' both are NULL then `max_tiles = 16L`.
 #'
-#' @section Custom styles:
-#'
-#' Custom Mapbox styles may be specified with the argument `base_url` in the form:
-#' `"https://api.mapbox.com/styles/v1/mdsumner/cjs6yn9hu0coo1fqhdqgw3o18/tiles/512/{zoom}/{x}/{y}"`
-#'
 #' Currently must be considered in-development.
 #'
 #' @param loc a longitude, latitude pair of coordinates, or a spatial object
@@ -58,8 +53,10 @@ cc_location <- function(loc = NULL, buffer = 5000,
   #if (is.null(zoom) && is.null(max_tiles)) max_tiles <- 16L
   #locdata <- get_tiles(x = loc, buffer = buffer, type = type, ..., zoom = zoom, max_tiles = max_tiles, debug = debug)
 
-  
-  locdata <- loc_extent(loc, buffer, dimension)
+  if (is.null(loc)) {
+    loc <- as.matrix(cities_n(1L, fields = FALSE))
+  }
+ locdata <- loc_extent(loc, buffer, dimension)
 
   #if (debug) {
   #  return(invisible(NULL))

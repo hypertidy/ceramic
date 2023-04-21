@@ -47,11 +47,8 @@ Other functions that are either rarely used or considered subject to change:
 \code{\link{mercator_tile_extent}}\tab Abstract raster-extent form of the spherical Mercator tile system, expressed in tile-index and zoom \cr
 \code{\link{plot_tiles}}\tab Plot the tiles from \code{\link{ceramic_tiles}} \cr
 \code{\link{tiles_to_polygon}}\tab Convert \code{\link{ceramic_tiles}} to simple features format \cr
-\code{\link{cc_casey}}\tab Specific location hardcoded form of \code{\link{cc_location}} \cr
-\code{\link{cc_davis}}\tab Specific location hardcoded form of \code{\link{cc_location}} \cr
 \code{\link{cc_heard}}\tab Specific location hardcoded form of \code{\link{cc_location}} \cr
 \code{\link{cc_kingston}}\tab Specific location hardcoded form of \code{\link{cc_location}} \cr
 \code{\link{cc_macquarie}}\tab Specific location hardcoded form of \code{\link{cc_location}} \cr
-\code{\link{cc_mawson}}\tab Specific location hardcoded form of \code{\link{cc_location}} \cr
 }
 }

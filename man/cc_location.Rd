@@ -135,16 +135,9 @@ mapbox.terrain-rgb'.
 
 Note that arguments \code{max_tiles} and \code{zoom} are mutually exclusive. One or both must be \code{NULL}. If
 both are NULL then \code{max_tiles = 16L}.
-}
-\section{Custom styles}{
-
-
-Custom Mapbox styles may be specified with the argument \code{base_url} in the form:
-\code{"https://api.mapbox.com/styles/v1/mdsumner/cjs6yn9hu0coo1fqhdqgw3o18/tiles/512/{zoom}/{x}/{y}"}
 
 Currently must be considered in-development.
 }
-
 \examples{
 if (!is.null(get_api_key())) {
 

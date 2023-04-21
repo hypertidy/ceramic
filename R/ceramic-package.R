@@ -1,3 +1,6 @@
+globalVariables("cities", "ceramic", add = TRUE)
+
+
 #' Obtain imagery tiles
 #'
 #' The ceramic package provides tools to download  raster tiles from online servers.
@@ -57,7 +60,14 @@
 #' @docType package
 NULL
 
-
+#' Cities locations
+#' 
+#' Dataset from package {maps}.
+#' 
+#' Data frame with columns "name"        "country.etc" "pop"         "lat"         "long"        "capital". 
+#' @docType data
+#' @name cities
+NULL
 
 #' Deprecated functions from ceramic
 #'

@@ -1,6 +1,8 @@
 
 # ceramic 0.7.0
 
+* No custom styles are available now for cc_location, there's only 'mapbox.satellite'. 
+
 * Made functions casey(), mawson(), and davis() defunct, because mapbox doesn't work down there now?  (might update with virtualearth) 
 
 * Functions `cc_location()` and friends now return terra SpatRaster. These functions now ignore arguments 'max_tiles' and 'zoom', but gain
