@@ -27,7 +27,6 @@ Imports:
     rappdirs,
     rlang,
     sp,
-    spex (>= 0.7.1),
     slippymath (>= 0.3.0),
     stats,
     tibble,

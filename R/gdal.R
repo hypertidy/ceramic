@@ -8,7 +8,7 @@ loc_extent <- function(x, buffer, dimension = NULL) {
   }
   bbox_pair <- spatial_bbox(x, buffer)
  
-  ext <- as.vector(bbox_pair$extent)
+  ext <- bbox_pair$extent
 
   ## widest 
   dx_dy <- diff(ext)[c(1, 3)]
@@ -30,6 +30,7 @@ format_out <- function (x)
   dimension <- x$dimension
   projection <- x$projection
   x <- x$extent
+
   if (inherits(x, "SpatRaster")) {
     if (!requireNamespace("terra")) 
       stop("terra package required but not available, please install it")
@@ -38,14 +39,6 @@ format_out <- function (x)
       x$projection <- "OGC:CRS84"
     x$type <- "terra"
   }
-  # if (inherits(x, "BasicRaster")) {
-  #   if (!requireNamespace("raster")) 
-  #     stop("raster package required but not available, please install it")
-  #   x <- raster_out(x)
-  #   if (is.na(x$projection) && x$lonlat) 
-  #     x$projection <- "OGC:CRS84"
-  #   x$type <- "raster"
-  # }
   if (inherits(x, "numeric")) {
     if (is.null(projection)) 
       projection <- "OGC:CRS84"
@@ -59,6 +52,7 @@ format_out <- function (x)
               lonlat = lonlat, type = "matrix")
   }
   x$lonlat <- vapour::vapour_crs_is_lonlat(x$projection)
+
   x
 }
 

@@ -26,22 +26,25 @@ The goal of ceramic is to obtain web map tiles. Use a spatial object to define t
 
 ```{r}
 library(ceramic)
-roi <- raster::extent(100, 160, -50, 10)
+roi <- ext(100, 160, -50, 10)
 im <- cc_location(roi)
 
-terra::plotRGB(im)
+plotRGB(im)
 ```
 
+The terra package is always loaded by ceramic, so we can assume the use of its functions, ceramic accepts a wider range of inputs than terra does however. 
 
-We can use raster, sp, or sf objects to define an extent. This provides a very easy way to obtain imagery or elevation data for any almost any region using our own data. 
+We can use  wk, geos, terra, raster, sp, sf, or stars objects, or an input lon,lat point
+and a buffer (in metres) to define an extent. This provides a very easy way to
+obtain imagery or elevation data for any almost any region using our own data.
 
 ```{r extent2, fig.width=8, fig.height=10}
 sql <- "SELECT shapeGroup FROM geoBoundariesCGAZ_ADM0 WHERE shapeGroup IN ('BOL')"
 dsn <- "/vsizip//vsicurl/https://github.com/wmgeolab/geoBoundaries/raw/main/releaseData/CGAZ/geoBoundariesCGAZ_ADM0.zip"
-bol <- sf::read_sf(dsn, query = sql)
+bol <- vect(dsn, query = sql)
 
 im <- cc_location(bol)
-terra::plotRGB(im)
+plotRGB(im)
 ```
 
 Even if the data uses a map projection it will be converted into a region to match the Mercator extents used by Mapbox image servers. 
@@ -55,11 +58,11 @@ data("nz", package = "spData")
 
 library(sf)
 im_nz2 <- cc_location(nz)
-terra::plotRGB(im_nz2)
-plot(st_transform(nz, terra::crs(im_nz2)), add = TRUE, col = rainbow(nrow(nz), alpha = 0.5))
+plotRGB(im_nz2)
+plot(st_transform(nz, crs(im_nz2))[0], add = TRUE, col = rainbow(nrow(nz), alpha = 0.5))
 ```
 
-There are basic heuristics to decide if data is projected or just in "longitude,latitude" in the usual raster package way. 
+There are basic heuristics to decide if data is projected or just in "longitude,latitude" in the usual way. 
 
 Raster elevation data is also available. 
 
@@ -70,7 +73,8 @@ dem_nz <- cc_elevation(north, type = "elevation-tiles-prod" )
 
 ## plot elevation data for NZ north
 dem_nz[!dem_nz > 0] <- NA
-terra::plot(dem_nz, col = grey(seq(0, 1, length = 51)), breaks = quantile(unique(terra::values(dem_nz)), seq(0, 1, length = 52), na.rm = TRUE), legend = FALSE)
+
+plot(dem_nz, col = grey.colors(128))
 plot(st_transform(st_cast(north, "MULTILINESTRING")["Name"], terra::crs(dem_nz)), add = TRUE, lwd = 5)
 
 ```
@@ -79,15 +83,17 @@ plot(st_transform(st_cast(north, "MULTILINESTRING")["Name"], terra::crs(dem_nz))
 
 Indeed, the `cc_location()` and `cc_elevation()` functions no longer use tiles. WAT
 
-But, they used to run `get_tiles()` behind the scenes.
+But, they used to run `get_tiles()` behind the scenes. The separation is still a little unfinished, but I want ceramic to have separation of loading data from the internet with downloading tiles. 
 
-This function and its counterparts `get_tiles_zoom()`, `get_tiles_dim()` and `get_tiles_buffer()` will *only download
-files*. 
+This function and its counterparts `get_tiles_zoom()`, `get_tiles_dim()` and `get_tiles_buffer()` will *only download files*. 
 
 ```{r tiles}
 tile_summ <- get_tiles_zoom(north, zoom = 8)
 length(tile_summ$files)
 str(tile_summ$tiles)
+
+(tile_rect <- tiles_to_polygon(ceramic_tiles(zoom = 8)))
+
 ```
 
 This is really for expert use when you want to control the downloaded tile files yourself directly. 

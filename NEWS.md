@@ -12,6 +12,8 @@ o BREAKING CHANGES
 
 o CHANGES
 
+* ceramic no longer imports from  spex. 
+
 * Objects from {terra}, {stars}, {wk} and {geos} are now supported for using in `cc_location(loc = )`. 
 
 * No custom styles are available now for cc_location, there's only 'mapbox.satellite'. 

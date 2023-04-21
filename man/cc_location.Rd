@@ -117,7 +117,7 @@ cc_elevation(
 \item{dimension}{one or two numbers, used to determine the number of pixels width, height - set one to zero to let GDAL figure it out, or leave as NULL to get something suitable}
 }
 \value{
-A \code{\link[raster:brick]{raster::brick()}} object, either 'RasterBrick' with three layers (Red, Green, Blue) or with
+A \code{\link[terra:rast]{terra::rast()}} object, either with three layers (Red, Green, Blue) or with
 a single layer in the case of \code{\link[=cc_elevation]{cc_elevation()}}.
 }
 \description{

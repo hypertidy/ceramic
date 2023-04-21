@@ -1,7 +1,7 @@
 context("test-loc-sanity")
 
 rpt <- cbind(147, -42)
-ex <- raster::extent(rep(rpt, each = 2L) + c(-2, 2, -3, 3))
+ex <- ext(rep(rpt, each = 2L) + c(-2, 2, -3, 3))
 
 test_that("raw loc works", {
   skip_on_cran()
@@ -13,7 +13,7 @@ test_that("raw loc works", {
   expect_warning(cc_location(c(rpt, 10), verbose = FALSE))
   ## flat vector ok
   expect_s4_class(cc_location(c(rpt), verbose = FALSE), "SpatRaster")
-  expect_error(cc_location(raster::extent(-1e6, 1000, 0, 300000), verbose = FALSE))
+  expect_error(cc_location(ext(-1e6, 1000, 0, 300000), verbose = FALSE))
 
   expect_warning(cc_location(cbind(0, 0), buffer = 1e8, verbose = FALSE),
                  "The combination of buffer and location extends beyond the tile grid extent. The buffer will be truncated.")
@@ -52,6 +52,6 @@ test_that("Raster loc works", {
   ## ??
 
   ## extent, no CRS
-  cc_location(raster::extent(147, 150, -50, -30), verbose = FALSE)
-  expect_error(cc_location(extent(-1e6, 1e6, 0, 2000), verbose = FALSE))
+  cc_location(ext(147, 150, -50, -30), verbose = FALSE)
+  expect_error(cc_location(ext(-1e6, 1e6, 0, 2000), verbose = FALSE))
 })

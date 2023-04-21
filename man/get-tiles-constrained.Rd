@@ -30,7 +30,7 @@ get_tiles_buffer(x, buffer = NULL, ..., max_tiles = 9, format = "png")
 }
 \value{
 A list with files downloaded in character vector, a data frame of the tile indices,
-the zoom level used and the extent in \link[raster:extent]{raster::extent} form.
+the zoom level used and the extent in xmin,xmax,ymin,ymax form.
 }
 \description{
 Get tiles by zoom, by overall dimension, or by buffer on a single point.
@@ -46,7 +46,7 @@ Each function expects an extent in longitude latitude or a spatial object with e
 }
 \examples{
 if (!is.null(get_api_key())) {
- ex <- raster::extent(146, 147, -43, -42)
+ ex <- ext(146, 147, -43, -42)
  tile_infoz <- get_tiles_zoom(ex,  zoom = 1)
 
  tile_infod <- get_tiles_dim(ex,  dim = c(256, 256))

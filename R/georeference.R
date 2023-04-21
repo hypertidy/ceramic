@@ -107,13 +107,6 @@ plot_tiles <- function(x, ..., add = FALSE, label = TRUE, cex = 0.6, add_coast =
 #' @name plot_tiles
 #' @export
 tiles_to_polygon <- function(x) {
-  wk::rct(x$xmin, x$ymin, x$xmax, x$ymax)
+  wk::rct(x$xmin, x$ymin, x$xmax, x$ymax, crs = "EPSG:3857")
 }
-# tiles_to_raster <- function(x) {
-#   ex <- raster::extent(min(x$xmin), max(x$xmax), min(x$ymin), max(x$ymax))
-#   pts <- x[c("tile_x", "tile_y")] %>% dplyr::transmute(x = tile_x - min(tile_x), y = max(tile_y) - tile_y) %>% dplyr::distinct()
-#   r <- raster::setExtent(raster::rasterFromXYZ(pts), ex)
-#   cells <- raster::cellFromRowCol(r, pts$y + 1, pts$x + 1)
-#   r[cells] <- cells
-#   r
-# }
+

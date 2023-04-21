@@ -43,7 +43,7 @@ get_tiles(
 }
 \value{
 A list with files downloaded in character vector, a data frame of the tile indices,
-the zoom level used and the extent in \link[raster:extent]{raster::extent} form.
+the zoom level used and the extent in xmin,xmax,ymin,ymax form.
 }
 \description{
 Obtain imagery or elevation tiles by location query. The first argument
@@ -67,7 +67,7 @@ Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.
 }
 \examples{
 if (!is.null(get_api_key())) {
-   tile_info <- get_tiles(raster::extent(146, 147, -43, -42), type = "mapbox.satellite", zoom = 5)
+   tile_info <- get_tiles(ext(146, 147, -43, -42), type = "mapbox.satellite", zoom = 5)
 }
 }
 \seealso{

@@ -7,8 +7,9 @@ is_spatial <- function(x) {
       inherits(x, "BasicRaster") ||
       inherits(x, "Extent") ||
       inherits(x, "SpatRaster") ||
+      inherits(x, "SpatExtent") ||
       inherits(x, "SpatVector") ||
-      inherits(x, "wk_vctr") ||
+      inherits(x, "wk_vctr") || inherits(x, "wk_rcrd") ||
       inherits(x, "geos_geometry") |
       inherits(x, "stars")) {
     return(TRUE)
@@ -28,8 +29,12 @@ is_spatial <- function(x) {
 
   if (is.na(crs)) {
     crs_maybe <- try(wk::wk_crs(x), silent = TRUE)
-    if (!inherits(crs_maybe, "try-error") && !is.null(crs_maybe$Wkt) && !is.na(crs_maybe$Wkt)) {
+    if (!inherits(crs_maybe, "try-error") && is.character(crs_maybe) && !is.na(crs_maybe)) {
+      crs <- crs_maybe
+    } else {
+      if (!inherits(crs_maybe, "try-error") && !is.null(crs_maybe$Wkt) && !is.na(crs_maybe$Wkt)) {
       crs <- crs_maybe$Wkt
+      }
     }
   }
   if (is.na(crs) && (inherits(x, "SpatRaster") || inherits(x, "SpatVector"))) {

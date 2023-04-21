@@ -42,12 +42,12 @@ guess_format <- function(x) {
 #' @param verbose report messages or suppress them
 #' @export
 #' @return A list with files downloaded in character vector, a data frame of the tile indices,
-#' the zoom level used and the extent in [raster::extent] form.
+#' the zoom level used and the extent in xmin,xmax,ymin,ymax form.
 #' @name get_tiles
 #' @seealso get_tiles_zoom get_tiles_dim get_tiles_buffer
 #' @examples
 #' if (!is.null(get_api_key())) {
-#'    tile_info <- get_tiles(raster::extent(146, 147, -43, -42), type = "mapbox.satellite", zoom = 5)
+#'    tile_info <- get_tiles(ext(146, 147, -43, -42), type = "mapbox.satellite", zoom = 5)
 #' }
 get_tiles <- function(x, buffer, type = "mapbox.satellite", crop_to_buffer = TRUE,
                       format = NULL, ..., zoom = NULL, debug = FALSE, max_tiles = NULL, base_url = NULL,
@@ -99,7 +99,7 @@ get_tiles <- function(x, buffer, type = "mapbox.satellite", crop_to_buffer = TRU
     stop(sprintf("no sensible tiles found, check cache?\n%s", mess))
   }
   user_ex <- NULL
-  if (crop_to_buffer) user_ex <- raster::extent(as.vector(bb_points))
+  if (crop_to_buffer) user_ex <- as.vector(bb_points)
   out <- list(files = files[!bad], tiles = tile_grid, extent = user_ex)
   if (debug) {
     out <- invisible(out)
@@ -129,12 +129,12 @@ get_tiles <- function(x, buffer, type = "mapbox.satellite", crop_to_buffer = TRU
 #' @name get-tiles-constrained
 #' @aliases get_tiles_zoom get_tiles_dim get_tiles_buffer
 #' @return A list with files downloaded in character vector, a data frame of the tile indices,
-#' the zoom level used and the extent in [raster::extent] form.
+#' the zoom level used and the extent in xmin,xmax,ymin,ymax form.
 #' @export
 #' @seealso get_tiles
 #' @examples
 #' if (!is.null(get_api_key())) {
-#'  ex <- raster::extent(146, 147, -43, -42)
+#'  ex <- ext(146, 147, -43, -42)
 #'  tile_infoz <- get_tiles_zoom(ex,  zoom = 1)
 #'
 #'  tile_infod <- get_tiles_dim(ex,  dim = c(256, 256))

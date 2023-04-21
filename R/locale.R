@@ -27,10 +27,9 @@
 #' @param debug deprecated
 #' @param dimension one or two numbers, used to determine the number of pixels width, height - set one to zero to let GDAL figure it out, or leave as NULL to get something suitable
 #'
-#' @return A [raster::brick()] object, either 'RasterBrick' with three layers (Red, Green, Blue) or with
+#' @return A [terra::rast()] object, either with three layers (Red, Green, Blue) or with
 #' a single layer in the case of [cc_elevation()].
 #' @export
-#' @importFrom raster projection<- crop extent
 #' @name cc_location
 #' @aliases cc_elevation
 #' @examples
