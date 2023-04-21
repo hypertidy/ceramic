@@ -25,11 +25,11 @@ is_spatial <- function(x) {
       crs <- proj 
     }
   }
-  
+
   if (is.na(crs)) {
     crs_maybe <- try(wk::wk_crs(x), silent = TRUE)
-    if (!inherits(crs_maybe, "try-error") && !is.null(crs_maybe) && !is.na(crs_maybe)) {
-      crs <- crs_maybe$wkt
+    if (!inherits(crs_maybe, "try-error") && !is.null(crs_maybe$Wkt) && !is.na(crs_maybe$Wkt)) {
+      crs <- crs_maybe$Wkt
     }
   }
   if (is.na(crs) && (inherits(x, "SpatRaster") || inherits(x, "SpatVector"))) {
