@@ -37,8 +37,9 @@ Imports:
 Suggests: 
     covr,
     spelling,
-    testthat
+    testthat (>= 3.0.0)
 URL: https://github.com/hypertidy/ceramic
 BugReports: https://github.com/hypertidy/ceramic/issues
 Language: en-US
 LazyData: true
+Config/testthat/edition: 3
