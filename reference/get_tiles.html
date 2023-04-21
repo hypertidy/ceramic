@@ -61,7 +61,22 @@ around the raw longitude and latitude in metres. If <code>loc</code> has an exte
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_tiles</span><span class="op">(</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">read_tiles</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">buffer</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"mapbox.satellite"</span>,</span>
+<span>  crop_to_buffer <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  format <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  zoom <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  debug <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  max_tiles <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  base_url <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  filename <span class="op">=</span> <span class="st">""</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">get_tiles</span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
 <span>  <span class="va">buffer</span>,</span>
 <span>  type <span class="op">=</span> <span class="st">"mapbox.satellite"</span>,</span>
@@ -121,6 +136,10 @@ around the raw longitude and latitude in metres. If <code>loc</code> has an exte
 <dt>verbose</dt>
 <dd><p>report messages or suppress them</p></dd>
 
+
+<dt>filename</dt>
+<dd><p>purely for <code>read_tiles()</code> this is passed down to the the terra package function 'merge'</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -136,9 +155,9 @@ tile source at zoom 0. Arguments <code>type</code>, <code>zoom</code> (or <code>
 without setting <code>loc</code> or <code>buffer</code> and the entire world extent will be used. Please use with caution!
 There is no maximum on what will be downloaded, but it can be interrupted at any time.</p>
 <p>Use <code>debug = TRUE</code> to avoid download and simply report on what would be done.</p>
-<p><code>cc_elevation</code> does extra work to unpack the DEM tiles from the RGB format.</p>
 <p>Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
-'mapbox.terrain-rgb'.</p>
+'mapbox.terrain-rgb'.  (The RGB terrain values are not unpacked.)</p>
+<p>Function <code>read_tiles()</code> will match what <code>get_tiles()</code> does and actually build a raster object.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>

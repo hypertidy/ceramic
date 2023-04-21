@@ -165,7 +165,7 @@ around the raw longitude and latitude in metres. If <code>loc</code> has an exte
 
 
 <dt>...</dt>
-<dd><p>arguments passed to internal function, specifically <code>base_url</code> (see Details)</p></dd>
+<dd><p>deprecated arguments that <em>used_to_be</em> passed to internal function now ignored since v 0.8.0 (see <code><a href="get_tiles.html">get_tiles()</a></code>)</p></dd>
 
 
 <dt>zoom</dt>
@@ -195,7 +195,7 @@ a single layer in the case of <code>cc_elevation()</code>.</p>
     <h2>Details</h2>
     <p><code>cc_elevation</code> does extra work to unpack the DEM tiles from the RGB format.</p>
 <p>Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
-mapbox.terrain-rgb'.</p>
+and 'mapbox.terrain-rgb'.</p>
 <p>Note that arguments <code>max_tiles</code> and <code>zoom</code> are mutually exclusive. One or both must be <code>NULL</code>. If
 both are NULL then <code>max_tiles = 16L</code>.</p>
 <p>Currently must be considered in-development.</p>

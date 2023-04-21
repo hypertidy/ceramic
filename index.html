@@ -77,22 +77,23 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hypertidy/ceramic" class="external-link">ceramic</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; Loading required package: terra</span></span>
 <span><span class="co">#&gt; terra 1.7.23</span></span>
-<span><span class="va">roi</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/extent.html" class="external-link">extent</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">160</span>, <span class="op">-</span><span class="fl">50</span>, <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="va">roi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/ext.html" class="external-link">ext</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">160</span>, <span class="op">-</span><span class="fl">50</span>, <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="va">im</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cc_location.html">cc_location</a></span><span class="op">(</span><span class="va">roi</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plotRGB.html" class="external-link">plotRGB</a></span><span class="op">(</span><span class="va">im</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plotRGB.html" class="external-link">plotRGB</a></span><span class="op">(</span><span class="va">im</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-1-1.png" width="100%"></p>
-<p>We can use raster, sp, or sf objects to define an extent. This provides a very easy way to obtain imagery or elevation data for any almost any region using our own data.</p>
+<p>The terra package is always loaded by ceramic, so we can assume the use of its functions, ceramic accepts a wider range of inputs than terra does however.</p>
+<p>We can use wk, geos, terra, raster, sp, sf, or stars objects, or an input lon,lat point and a buffer (in metres) to define an extent. This provides a very easy way to obtain imagery or elevation data for any almost any region using our own data.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sql</span> <span class="op">&lt;-</span> <span class="st">"SELECT shapeGroup FROM geoBoundariesCGAZ_ADM0 WHERE shapeGroup IN ('BOL')"</span></span>
 <span><span class="va">dsn</span> <span class="op">&lt;-</span> <span class="st">"/vsizip//vsicurl/https://github.com/wmgeolab/geoBoundaries/raw/main/releaseData/CGAZ/geoBoundariesCGAZ_ADM0.zip"</span></span>
-<span><span class="va">bol</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu">read_sf</span><span class="op">(</span><span class="va">dsn</span>, query <span class="op">=</span> <span class="va">sql</span><span class="op">)</span></span>
+<span><span class="va">bol</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/vect.html" class="external-link">vect</a></span><span class="op">(</span><span class="va">dsn</span>, query <span class="op">=</span> <span class="va">sql</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">im</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cc_location.html">cc_location</a></span><span class="op">(</span><span class="va">bol</span><span class="op">)</span></span>
-<span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plotRGB.html" class="external-link">plotRGB</a></span><span class="op">(</span><span class="va">im</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plotRGB.html" class="external-link">plotRGB</a></span><span class="op">(</span><span class="va">im</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-extent2-1.png" width="100%"></p>
 <p>Even if the data uses a map projection it will be converted into a region to match the Mercator extents used by Mapbox image servers.</p>
-<p>There are basic heuristics to decide if data is projected or just in “longitude,latitude” in the usual raster package way.</p>
+<p>There are basic heuristics to decide if data is projected or just in “longitude,latitude” in the usual way.</p>
 <p>Raster elevation data is also available.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">north</span> <span class="op">&lt;-</span> <span class="va">nz</span><span class="op">[</span><span class="va">nz</span><span class="op">$</span><span class="va">Island</span> <span class="op">==</span> <span class="st">"North"</span>, <span class="op">]</span></span>
@@ -101,16 +102,30 @@
 <span></span>
 <span><span class="co">## plot elevation data for NZ north</span></span>
 <span><span class="va">dem_nz</span><span class="op">[</span><span class="op">!</span><span class="va">dem_nz</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
-<span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">dem_nz</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/gray.html" class="external-link">grey</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, length <span class="op">=</span> <span class="fl">51</span><span class="op">)</span><span class="op">)</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/values.html" class="external-link">values</a></span><span class="op">(</span><span class="va">dem_nz</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, length <span class="op">=</span> <span class="fl">52</span><span class="op">)</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">dem_nz</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/gray.colors.html" class="external-link">grey.colors</a></span><span class="op">(</span><span class="fl">128</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu">st_transform</span><span class="op">(</span><span class="fu">st_cast</span><span class="op">(</span><span class="va">north</span>, <span class="st">"MULTILINESTRING"</span><span class="op">)</span><span class="op">[</span><span class="st">"Name"</span><span class="op">]</span>, <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/crs.html" class="external-link">crs</a></span><span class="op">(</span><span class="va">dem_nz</span><span class="op">)</span><span class="op">)</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, lwd <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="100%"></p>
 <div class="section level2">
 <h2 id="i-thought-you-said-tiles">I thought you said <em>tiles</em>?<a class="anchor" aria-label="anchor" href="#i-thought-you-said-tiles"></a>
 </h2>
-<p>Indeed, the <code><a href="reference/cc_location.html">cc_location()</a></code> and <code><a href="reference/cc_location.html">cc_elevation()</a></code> functions no longer use tiles. WAT</p>
-<p>But, they used to run <code><a href="reference/get_tiles.html">get_tiles()</a></code> behind the scenes.</p>
-<p>This function and its counterparts <code><a href="reference/get-tiles-constrained.html">get_tiles_zoom()</a></code>, <code><a href="reference/get-tiles-constrained.html">get_tiles_dim()</a></code> and <code><a href="reference/get-tiles-constrained.html">get_tiles_buffer()</a></code> will <em>only download files</em>.</p>
+<p>Indeed, here’s a function called <code><a href="reference/get_tiles.html">read_tiles()</a></code>, it shares the same interface as <code><a href="reference/get_tiles.html">get_tiles()</a></code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/get_tiles.html">read_tiles</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Preparing to download: 1 tiles at zoom = 0 from </span></span>
+<span><span class="co">#&gt; https://api.mapbox.com/v4/mapbox.satellite/</span></span>
+<span><span class="co">#&gt; class       : SpatRaster </span></span>
+<span><span class="co">#&gt; dimensions  : 256, 256, 3  (nrow, ncol, nlyr)</span></span>
+<span><span class="co">#&gt; resolution  : 156543, 156543  (x, y)</span></span>
+<span><span class="co">#&gt; extent      : -20037508, 20037508, -20037508, 20037508  (xmin, xmax, ymin, ymax)</span></span>
+<span><span class="co">#&gt; coord. ref. : +proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +R=6378137 +units=m +no_defs </span></span>
+<span><span class="co">#&gt; source      : 0.jpg </span></span>
+<span><span class="co">#&gt; colors RGB  : 1, 2, 3 </span></span>
+<span><span class="co">#&gt; names       : 0_1, 0_2, 0_3</span></span></code></pre></div>
+<p>Note that, the <code><a href="reference/cc_location.html">cc_location()</a></code> and <code><a href="reference/cc_location.html">cc_elevation()</a></code> functions no longer use tiles, they read directly from the internet using GDAL and are not related to the tile download facilities.</p>
+<p>But, they used to run <code><a href="reference/get_tiles.html">get_tiles()</a></code> behind the scenes. The separation is still a little unfinished, but I want ceramic to have separation of loading data from the internet with downloading tiles.</p>
+<p>This function and its counterparts <code><a href="reference/get-tiles-constrained.html">get_tiles_zoom()</a></code>, <code><a href="reference/get-tiles-constrained.html">get_tiles_dim()</a></code> and <code><a href="reference/get-tiles-constrained.html">get_tiles_buffer()</a></code> will <em>only download files</em>.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tile_summ</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get-tiles-constrained.html">get_tiles_zoom</a></span><span class="op">(</span><span class="va">north</span>, zoom <span class="op">=</span> <span class="fl">8</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Preparing to download: 48 tiles at zoom = 8 from </span></span>
 <span><span class="co">#&gt; https://api.mapbox.com/v4/mapbox.satellite/</span></span>
@@ -128,14 +143,56 @@
 <span><span class="co">#&gt;   .. .. ..$ x: chr [1:6] "x=250" "x=251" "x=252" "x=253" ...</span></span>
 <span><span class="co">#&gt;   .. .. ..$ y: chr [1:8] "y=153" "y=154" "y=155" "y=156" ...</span></span>
 <span><span class="co">#&gt;  $ zoom : num 8</span></span>
-<span><span class="co">#&gt;  - attr(*, "class")= chr "tile_grid"</span></span></code></pre></div>
+<span><span class="co">#&gt;  - attr(*, "class")= chr "tile_grid"</span></span>
+<span></span>
+<span><span class="op">(</span><span class="va">tile_rect</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/plot_tiles.html">tiles_to_polygon</a></span><span class="op">(</span><span class="fu"><a href="reference/ceramic_tiles.html">ceramic_tiles</a></span><span class="op">(</span>zoom <span class="op">=</span> <span class="fl">8</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;wk_rct[78] with CRS=EPSG:3857&gt;</span></span>
+<span><span class="co">#&gt;  [1] [15028131 -3600490 15184674 -3443947] [15028131 -3757033 15184674 -3600490]</span></span>
+<span><span class="co">#&gt;  [3] [15028131 -3913576 15184674 -3757033] [15028131 -4070119 15184674 -3913576]</span></span>
+<span><span class="co">#&gt;  [5] [15028131 -4226662 15184674 -4070119] [15028131 -4383205 15184674 -4226662]</span></span>
+<span><span class="co">#&gt;  [7] [15028131 -4539748 15184674 -4383205] [15184674 -3600490 15341217 -3443947]</span></span>
+<span><span class="co">#&gt;  [9] [15184674 -3757033 15341217 -3600490] [15184674 -3913576 15341217 -3757033]</span></span>
+<span><span class="co">#&gt; [11] [15184674 -4070119 15341217 -3913576] [15184674 -4226662 15341217 -4070119]</span></span>
+<span><span class="co">#&gt; [13] [15184674 -4383205 15341217 -4226662] [15184674 -4539748 15341217 -4383205]</span></span>
+<span><span class="co">#&gt; [15] [15967389 -4539748 16123932 -4383205] [15967389 -4696291 16123932 -4539748]</span></span>
+<span><span class="co">#&gt; [17] [15967389 -4852834 16123932 -4696291] [16123932 -4539748 16280476 -4383205]</span></span>
+<span><span class="co">#&gt; [19] [16123932 -4696291 16280476 -4539748] [16123932 -4852834 16280476 -4696291]</span></span>
+<span><span class="co">#&gt; [21] [16123932 -5009377 16280476 -4852834] [16123932 -5165920 16280476 -5009377]</span></span>
+<span><span class="co">#&gt; [23] [16280476 -4539748 16437019 -4383205] [16280476 -4696291 16437019 -4539748]</span></span>
+<span><span class="co">#&gt; [25] [16280476 -4852834 16437019 -4696291] [16280476 -5009377 16437019 -4852834]</span></span>
+<span><span class="co">#&gt; [27] [16280476 -5165920 16437019 -5009377] [16437019 -4852834 16593562 -4696291]</span></span>
+<span><span class="co">#&gt; [29] [16437019 -5009377 16593562 -4852834] [16437019 -5165920 16593562 -5009377]</span></span>
+<span><span class="co">#&gt; [31] [19098250 -4070119 19254793 -3913576] [19098250 -4226662 19254793 -4070119]</span></span>
+<span><span class="co">#&gt; [33] [19098250 -4383205 19254793 -4226662] [19098250 -4539748 19254793 -4383205]</span></span>
+<span><span class="co">#&gt; [35] [19098250 -4696291 19254793 -4539748] [19098250 -4852834 19254793 -4696291]</span></span>
+<span><span class="co">#&gt; [37] [19098250 -5009377 19254793 -4852834] [19098250 -5165920 19254793 -5009377]</span></span>
+<span><span class="co">#&gt; [39] [19254793 -4070119 19411336 -3913576] [19254793 -4226662 19411336 -4070119]</span></span>
+<span><span class="co">#&gt; [41] [19254793 -4383205 19411336 -4226662] [19254793 -4539748 19411336 -4383205]</span></span>
+<span><span class="co">#&gt; [43] [19254793 -4696291 19411336 -4539748] [19254793 -4852834 19411336 -4696291]</span></span>
+<span><span class="co">#&gt; [45] [19254793 -5009377 19411336 -4852834] [19254793 -5165920 19411336 -5009377]</span></span>
+<span><span class="co">#&gt; [47] [19411336 -4070119 19567879 -3913576] [19411336 -4226662 19567879 -4070119]</span></span>
+<span><span class="co">#&gt; [49] [19411336 -4383205 19567879 -4226662] [19411336 -4539748 19567879 -4383205]</span></span>
+<span><span class="co">#&gt; [51] [19411336 -4696291 19567879 -4539748] [19411336 -4852834 19567879 -4696291]</span></span>
+<span><span class="co">#&gt; [53] [19411336 -5009377 19567879 -4852834] [19411336 -5165920 19567879 -5009377]</span></span>
+<span><span class="co">#&gt; [55] [19567879 -4070119 19724422 -3913576] [19567879 -4226662 19724422 -4070119]</span></span>
+<span><span class="co">#&gt; [57] [19567879 -4383205 19724422 -4226662] [19567879 -4539748 19724422 -4383205]</span></span>
+<span><span class="co">#&gt; [59] [19567879 -4696291 19724422 -4539748] [19567879 -4852834 19724422 -4696291]</span></span>
+<span><span class="co">#&gt; [61] [19567879 -5009377 19724422 -4852834] [19567879 -5165920 19724422 -5009377]</span></span>
+<span><span class="co">#&gt; [63] [19724422 -4070119 19880965 -3913576] [19724422 -4226662 19880965 -4070119]</span></span>
+<span><span class="co">#&gt; [65] [19724422 -4383205 19880965 -4226662] [19724422 -4539748 19880965 -4383205]</span></span>
+<span><span class="co">#&gt; [67] [19724422 -4696291 19880965 -4539748] [19724422 -4852834 19880965 -4696291]</span></span>
+<span><span class="co">#&gt; [69] [19724422 -5009377 19880965 -4852834] [19724422 -5165920 19880965 -5009377]</span></span>
+<span><span class="co">#&gt; [71] [19880965 -4070119 20037508 -3913576] [19880965 -4226662 20037508 -4070119]</span></span>
+<span><span class="co">#&gt; [73] [19880965 -4383205 20037508 -4226662] [19880965 -4539748 20037508 -4383205]</span></span>
+<span><span class="co">#&gt; [75] [19880965 -4696291 20037508 -4539748] [19880965 -4852834 20037508 -4696291]</span></span>
+<span><span class="co">#&gt; [77] [19880965 -5009377 20037508 -4852834] [19880965 -5165920 20037508 -5009377]</span></span></code></pre></div>
 <p>This is really for expert use when you want to control the downloaded tile files yourself directly.</p>
 </div>
 <div class="section level2">
 <h2 id="providers">Providers<a class="anchor" aria-label="anchor" href="#providers"></a>
 </h2>
 <p>The default map provider is <a href="https://www.mapbox.com/" class="external-link">Mapbox</a>, but ceramic is written for general usage and also provides access to the <a href="https://github.com/tilezen/joerd/" class="external-link">joerd AWS tiles</a> via the <code>type = "elevation-tiles-prod"</code> argument.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fl">175.6082</span>, <span class="op">-</span><span class="fl">37.994</span><span class="op">)</span></span>
 <span><span class="va">nz_z12</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cc_location.html">cc_location</a></span><span class="op">(</span><span class="va">pt</span>, buffer  <span class="op">=</span> <span class="fl">100000</span>,  type <span class="op">=</span> <span class="st">"elevation-tiles-prod"</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -143,14 +200,14 @@
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <p>Install ceramic from CRAN with:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"ceramic"</span><span class="op">)</span></span></code></pre></div>
 <p>You can install the development version of ceramic from Github.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"hypertidy/ceramic"</span><span class="op">)</span></span></code></pre></div>
 <p>Set your mapbox API key with</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span>MAPBOX_API_KEY <span class="op">=</span> <span class="st">"&lt;yourkey&gt;"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -168,7 +225,7 @@
 <li>downloads them to a local cache</li>
 <li>summarizes the tiles as a spatial (wk) object</li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hypertidy/ceramic" class="external-link">ceramic</a></span><span class="op">)</span></span>
 <span><span class="co">## a point in longlat, and a buffer with in metres</span></span>
 <span><span class="va">pt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fl">136</span>, <span class="op">-</span><span class="fl">34</span><span class="op">)</span></span>
@@ -192,7 +249,7 @@
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/text.html" class="external-link">text</a></span><span class="op">(</span><span class="fu">middle</span><span class="op">(</span><span class="va">tiles</span><span class="op">$</span><span class="va">xmin</span>, <span class="va">tiles</span><span class="op">$</span><span class="va">xmax</span><span class="op">)</span>, <span class="fu">middle</span><span class="op">(</span><span class="va">tiles</span><span class="op">$</span><span class="va">ymin</span>, <span class="va">tiles</span><span class="op">$</span><span class="va">ymax</span><span class="op">)</span>, lab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"[%i,%i]"</span>, <span class="va">tiles</span><span class="op">$</span><span class="va">tile_x</span>, <span class="va">tiles</span><span class="op">$</span><span class="va">tile_y</span><span class="op">)</span>, </span>
 <span>     col <span class="op">=</span> <span class="st">"yellow"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-example01-1.png" width="100%"></p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span>     </span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">op</span><span class="op">)</span></span></code></pre></div>
 <hr>
