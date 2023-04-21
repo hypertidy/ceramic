@@ -133,6 +133,52 @@ Sys.setenv(MAPBOX_API_KEY = "<yourkey>")
 ```
 
 
+
+
+## Example
+
+This complete example gets tiled imagery that we can use as real data.
+
+The code here
+
+-   generates a bounding box in longitude-latitude
+- reads the raster data using GDAL
+
+then we look at the actual tiles involved, 
+
+-   uses [slippymath](https://CRAN.r-project.org/package=slippymath) to
+    find sensible tiles for the region
+-   downloads them to a local cache
+-   summarizes the tiles as a spatial (wk) object
+
+
+```{r example01}
+library(ceramic)
+## a point in longlat, and a buffer with in metres
+pt <- cbind(136, -34)
+im <- cc_location(pt, buffer = c(1e6, 5e5), type = "mapbox.satellite")
+op <- par(bg = "black")
+plotRGB(im)
+
+## get the approximately matching tiles (zoom is magic here, it's all wrapped - needs thought)
+
+tileset <- get_tiles(pt, buffer = c(1e6, 5e5))
+tiles <- ceramic_tiles(zoom = tileset$tiles$zoom, type = "mapbox.satellite")
+plot(tiles_to_polygon(tiles), add = TRUE, border = "white")
+
+
+
+middle <- function(x, y) {
+  x + (y - x)/2
+}
+text(middle(tiles$xmin, tiles$xmax), middle(tiles$ymin, tiles$ymax), lab = sprintf("[%i,%i]", tiles$tile_x, tiles$tile_y), 
+     col = "yellow")
+     
+par(op)
+```
+
+
+
 ---
 
 Please note that the 'ceramic' project is released with a [Contributor Code of Conduct](https://github.com/hypertidy/ceramic/blob/master/CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.

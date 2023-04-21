@@ -1,14 +1,20 @@
 
 # ceramic 0.7.0
 
-* Objects from {terra}, {stars}, {wk} and {geos} are now supported for using in `cc_location(loc = )`. 
 
-* No custom styles are available now for cc_location, there's only 'mapbox.satellite'. 
+o BREAKING CHANGES
+
+* `tiles_to_polygon()` now returns wk rct vector, not sf. 
 
 * Made functions casey(), mawson(), and davis() defunct, because mapbox doesn't work down there now?  (might update with virtualearth) 
 
-* Functions `cc_location()` and friends now return terra SpatRaster. These functions now ignore arguments 'max_tiles' and 'zoom', but gain
- a new argument 'dimension'. If this is not set something resembling the graphics device is used. 
+* Functions `cc_location()` and friends now return terra SpatRaster. These functions now ignore arguments 'max_tiles' and 'zoom', but gain  a new argument 'dimension'. If this is not set something resembling the graphics device is used. 
+
+o CHANGES
+
+* Objects from {terra}, {stars}, {wk} and {geos} are now supported for using in `cc_location(loc = )`. 
+
+* No custom styles are available now for cc_location, there's only 'mapbox.satellite'. 
 
 * Removed raster handling support. 
 

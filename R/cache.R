@@ -117,7 +117,7 @@ ceramic_tiles <- function(zoom = NULL, type = "mapbox.satellite",
   
   tile_x <- as.numeric(tile_index[,2L, drop = TRUE])
   tile_y <- as.numeric(tile_index[,3L, drop = TRUE])
-  zoom <- as.numeric(tile_index[,1L, drop = TRUE])
+  zooms <- as.numeric(tile_index[,1L, drop = TRUE])
   bad <- is.na(tile_x) | is.na(tile_y) | is.na(zoom) 
   bad <- bad | (tile_x < 0) | (tile_y < 0) | (zoom < 0)
   bad <- bad | (tile_x > .Machine$integer.max) | (tile_y > .Machine$integer.max) | (zoom >   .Machine$integer.max)
@@ -125,12 +125,12 @@ ceramic_tiles <- function(zoom = NULL, type = "mapbox.satellite",
     if (all(bad)) stop("could not parse tile index for any files from cache")
     tile_x <- tile_x[!bad]
     tile_y <- tile_y[!bad]
-    zoom <- zoom[!bad]
+    zooms <- zooms[!bad]
     bfiles <- bfiles[!bad]
   }
   files <- tibble::tibble(tile_x = as.integer(tile_x), 
                           tile_y = as.integer(tile_y), 
-                          zoom = as.integer(zoom), 
+                          zoom = as.integer(zooms), 
                           type = tile_type(bfiles),
                           version = tile_version(bfiles),
                           source = tile_source(bfiles), fullname = bfiles)
@@ -147,7 +147,7 @@ ceramic_tiles <- function(zoom = NULL, type = "mapbox.satellite",
 
   azoom <- zoom
 
-  if (!is.null(zoom)) files <- dplyr::filter(files, .data$zoom %in% azoom)
+ files <- dplyr::filter(files, .data$zoom %in% azoom)
   if (nrow(files) < 1) stop(sprintf("no tiles at 'zoom = %i'", azoom))
   #browser()
 

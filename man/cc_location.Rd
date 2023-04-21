@@ -145,11 +145,10 @@ if (!is.null(get_api_key())) {
 
  ## this source does not need the Mapbox API, but we won't run the example unless it's set
  dem <- cc_kingston(buffer = 1e4, type = "elevation-tiles-prod")
- raster::plot(dem, col = grey(seq(0, 1, length = 94)))
+ terra::plot(dem, col = grey(seq(0, 1, length = 94)))
 
  ## Mapbox imagery
  im <- cc_macquarie()
- library(raster)
  plotRGB(im)
  }
 }
