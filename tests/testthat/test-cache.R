@@ -1,6 +1,5 @@
 
 context("test-cache")
-skip_if_offline()
 
 test_that("caching is sensible", {
   

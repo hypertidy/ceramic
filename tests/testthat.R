@@ -9,6 +9,6 @@
 library(testthat)
 library(ceramic)
 
-#test <- get_api_key()
-
+skip_if_offline()
+skip_if(is.null(get_api_key()))
 test_check("ceramic")

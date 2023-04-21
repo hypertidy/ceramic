@@ -1,4 +1,3 @@
-skip_if_offline()
 context("test-get")
 
 test_that("getting tiles works", {

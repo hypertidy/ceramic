@@ -1,4 +1,3 @@
-skip_if_offline()
 context("test-utils")
 
 test_that("utilities work as expected", {

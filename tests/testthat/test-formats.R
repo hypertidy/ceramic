@@ -1,4 +1,3 @@
-skip_if_offline()
 
 
 exll <- c(0, 10, 20, 30)

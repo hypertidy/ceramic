@@ -1,4 +1,3 @@
-skip_if_offline()
 
 test_that("tiles works", {
   expect_message(rgb <- read_tiles(cbind(147, -42), buffer = 5000, max_tiles = 1, type = "mapbox.terrain-rgb"))
