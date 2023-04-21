@@ -7,16 +7,92 @@ is_spatial <- function(x) {
       inherits(x, "BasicRaster") ||
       inherits(x, "Extent") ||
       inherits(x, "SpatRaster") ||
-      inherits(x, "SpatVector")) {
+      inherits(x, "SpatVector") ||
+      inherits(x, "wk_vctr")) {
     return(TRUE)
   }
   FALSE
 }
 
+
+.crs_crs <- function(x) {
+  crs <- crsmeta::crs_wkt(x)
+  if (is.na(crs)) {
+    proj <- crsmeta::crs_proj(x)
+    if (!is.na(proj)) {
+      crs <- proj 
+    }
+  }
+  
+  if (is.na(crs) && (inherits(x, "SpatRaster") || inherits(x, "SpatVector"))) {
+    crs <- try(x@ptr$get_crs("wkt"), silent = TRUE)
+    if (inherits(crs, "try-error")) {
+      crs <- NA_character_
+    }
+    
+    if (is.na(crs)) {
+      if (x@ptr$isLonLat()) {
+        crs <- "+proj=longlat +datum=WGS84"
+      }
+    }
+  }
+  if (is.na(crs)) {
+    if (inherits(x, "Extent")) {
+      ex <- c(x@xmin, x@xmax, x@ymin, x@ymax)
+      if (ex[1] >= -180 && ex[2] <= 360 && ex[3] >= -90 && ex[4] <=90) {
+        crs <- "+proj=longlat +datum=WGS84"
+      }
+    } 
+    if (inherits(x, "SpatExtent")) {
+      ex <- c(terra::xmin(x), terra::xmax(x), terra::ymin(x), terra::ymax(x))
+      if (ex[1] >= -180 && ex[2] <= 360 && ex[3] >= -90 && ex[4] <=90) {
+        crs <- "+proj=longlat +datum=WGS84"
+      }
+    } 
+    
+    if (is.na(crs)) stop("no valid crs found on input object")
+  }
+  if (crs == "NAD27") {
+    crs <- "EPSG:4267"
+    
+  }
+  if (crs == "WGS 84") {
+    srcproj <- "+proj=longlat +datum=WGS84"
+    
+  }
+  
+  crs
+}
+
+.ext_ext <- function(x) {
+  if (inherits(x, "sfc")) {
+    return(unname(attr(x, "bbox")[c(1, 3, 2, 4)]))
+  }
+  ex <- terra::ext(x)
+  c(terra::xmin(ex), terra::xmax(ex), terra::ymin(ex), terra::ymax(ex))
+}
+#' @importFrom stats approx
+project_ex <- function(x, crs = .merc()) {
+  
+  ex <- .ext_ext(x)
+  idx <- c(1, 1, 2, 2, 1,
+           3, 4, 4, 3, 3)
+  xy <- matrix(ex[idx], ncol = 2L)
+  afun <- function(aa) stats::approx(seq_along(aa), aa, n = 180L)$y
+  
+  srcproj <- .crs_crs(x)
+  
+  xy <- cbind(afun(xy[,1L]), afun(xy[,2L]))
+  rpj <- terra::project(xy, to = crs, from = srcproj)
+  
+  diff(as.vector(apply(rpj, 2, range)))[c(1L, 3L)]
+}
+
+
 spatial_bbox <- function(loc, buffer = NULL) {
   if (is_spatial(loc)) {
 
-    buffer <- spex_to_buff(loc)/2
+    buffer <- project_ex(loc)/2
     loc <- spex_to_pt(loc)
     
   }
@@ -80,79 +156,3 @@ spex_to_pt <- function(x) {
 
 
 
-.crs_crs <- function(x) {
-  crs <- crsmeta::crs_wkt(x)
-  if (is.na(crs)) {
-    proj <- crsmeta::crs_proj(x)
-    if (!is.na(proj)) {
-      crs <- proj 
-    }
-  }
-  
-  if (is.na(crs) && (inherits(x, "SpatRaster") || inherits(x, "SpatVector"))) {
-    crs <- try(x@ptr$get_crs("wkt"), silent = TRUE)
-    if (inherits(crs, "try-error")) {
-      crs <- NA_character_
-    }
-    
-    if (is.na(crs)) {
-      if (x@ptr$isLonLat()) {
-        crs <- "+proj=longlat +datum=WGS84"
-      }
-    }
-  }
-  if (is.na(crs)) {
-    if (inherits(x, "Extent")) {
-      ex <- c(x@xmin, x@xmax, x@ymin, x@ymax)
-      if (ex[1] >= -180 && ex[2] <= 360 && ex[3] >= -90 && ex[4] <=90) {
-        crs <- "+proj=longlat +datum=WGS84"
-      }
-    } 
-    if (inherits(x, "SpatExtent")) {
-      ex <- c(terra::xmin(x), terra::xmax(x), terra::ymin(x), terra::ymax(x))
-      if (ex[1] >= -180 && ex[2] <= 360 && ex[3] >= -90 && ex[4] <=90) {
-        crs <- "+proj=longlat +datum=WGS84"
-      }
-    } 
-    
-    if (is.na(crs)) stop("no valid crs found on input object")
-  }
-  if (crs == "NAD27") {
-    crs <- "EPSG:4267"
-    
-  }
-  if (crs == "WGS 84") {
-    srcproj <- "+proj=longlat +datum=WGS84"
-    
-  }
-  
-  crs
-}
-
-.ext_ext <- function(x) {
-  if (inherits(x, "sfc")) {
-    return(unname(attr(x, "bbox")[c(1, 3, 2, 4)]))
-  }
-  ex <- terra::ext(x)
-  c(terra::xmin(ex), terra::xmax(ex), terra::ymin(ex), terra::ymax(ex))
-}
-#' @importFrom stats approx
-project_ex <- function(x, crs) {
-  
-  ex <- .ext_ext(x)
-  idx <- c(1, 1, 2, 2, 1,
-           3, 4, 4, 3, 3)
-  xy <- matrix(ex[idx], ncol = 2L)
-  afun <- function(aa) stats::approx(seq_along(aa), aa, n = 180L)$y
-  
-  srcproj <- .crs_crs(x)
-  
-  xy <- cbind(afun(xy[,1L]), afun(xy[,2L]))
-  rpj <- terra::project(xy, to = crs, from = srcproj)
-  
-  as.vector(apply(rpj, 2, range))
-}
-spex_to_buff <- function(x) {
-  ex <- project_ex(x, .merc())
-  diff(ex)[c(1, 3)]
-}

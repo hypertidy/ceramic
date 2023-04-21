@@ -92,6 +92,7 @@ down_loader <- function(x, query_string, clobber = FALSE, ..., debug = FALSE, ve
 #' source and spatial extent.
 #' @export
 #' @importFrom rlang .data
+#' @importFrom stringr str_extract
 #' @examples
 #' if (interactive() && !is.null(get_api_key())) {
 #'  tiles <- ceramic_tiles(zoom = 0)
@@ -103,18 +104,33 @@ ceramic_tiles <- function(zoom = NULL, type = "mapbox.satellite",
   bfiles <-
     fs::dir_ls(ceramic_cache(), recurse = TRUE, type = "file",
                glob = glob, regexp = regexp)
-  #strex <- function(x, y) regmatches(x, regexec(y, x))
-  #browser()
-  ## need BR to fix this ...
-  #toks <- do.call(rbind, strex(bfiles, "([[:digit:]]+)/([[:digit:]]+)/([[:digit:]]+)\\.[^\\.]+$"))
-  bigmess <- lapply(strsplit(bfiles, "/"), function(x) utils::tail(x, 3L))
-  toks1 <- unlist(unname(lapply(bigmess, function(x) x[1])))
-  toks2<- unlist(unname(lapply(bigmess, function(x) x[2])))
-  toks3 <- unlist(unname(lapply(bigmess, function(x)x[3])))
-  toks3 <- unlist(unname(lapply(strsplit(toks3, "\\D"), function(x) x[1])))
 
-  files <- tibble::tibble(tile_x = as.integer(toks2), tile_y = as.integer(toks3),
-                          zoom = as.integer(toks1),
+  tile_index <- strsplit(str_extract(bfiles, "[0-9]+/[0-9]+/[0-9]+"), "/")
+  ok <- lengths(tile_index) == 3L
+  if (sum(ok) < 1) stop("no tile files found")
+  
+  if (!all(ok)) {
+    tile_index <- tile_index[ok]
+    bfiles <- bfiles[ok]
+  }
+  tile_index <- do.call(rbind, tile_index)
+  
+  tile_x <- as.numeric(tile_index[,2L, drop = TRUE])
+  tile_y <- as.numeric(tile_index[,3L, drop = TRUE])
+  zoom <- as.numeric(tile_index[,1L, drop = TRUE])
+  bad <- is.na(tile_x) | is.na(tile_y) | is.na(zoom) 
+  bad <- bad | (tile_x < 0) | (tile_y < 0) | (zoom < 0)
+  bad <- bad | (tile_x > .Machine$integer.max) | (tile_y > .Machine$integer.max) | (zoom >   .Machine$integer.max)
+  if (any(bad)) {
+    if (all(bad)) stop("could not parse tile index for any files from cache")
+    tile_x <- tile_x[!bad]
+    tile_y <- tile_y[!bad]
+    zoom <- zoom[!bad]
+    bfiles <- bfiles[!bad]
+  }
+  files <- tibble::tibble(tile_x = as.integer(tile_x), 
+                          tile_y = as.integer(tile_y), 
+                          zoom = as.integer(zoom), 
                           type = tile_type(bfiles),
                           version = tile_version(bfiles),
                           source = tile_source(bfiles), fullname = bfiles)

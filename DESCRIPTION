@@ -34,7 +34,8 @@ Imports:
     raster,
     utils,
     crsmeta,
-    vapour
+    vapour,
+    stringr
 Suggests: 
     covr,
     spelling,
@@ -42,3 +43,4 @@ Suggests:
 URL: https://github.com/hypertidy/ceramic
 BugReports: https://github.com/hypertidy/ceramic/issues
 Language: en-US
+LazyData: true
