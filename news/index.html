@@ -49,10 +49,13 @@
 
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.7.0" id="ceramic-070">ceramic 0.7.0<a class="anchor" aria-label="anchor" href="#ceramic-070"></a></h2>
-<ul><li><p>Objects from {terra}, {stars}, {wk} and {geos} are now supported for using in <code>cc_location(loc = )</code>.</p></li>
-<li><p>No custom styles are available now for cc_location, there’s only ‘mapbox.satellite’.</p></li>
+<p>o BREAKING CHANGES</p>
+<ul><li><p><code><a href="../reference/plot_tiles.html">tiles_to_polygon()</a></code> now returns wk rct vector, not sf.</p></li>
 <li><p>Made functions casey(), mawson(), and davis() defunct, because mapbox doesn’t work down there now? (might update with virtualearth)</p></li>
 <li><p>Functions <code><a href="../reference/cc_location.html">cc_location()</a></code> and friends now return terra SpatRaster. These functions now ignore arguments ‘max_tiles’ and ‘zoom’, but gain a new argument ‘dimension’. If this is not set something resembling the graphics device is used.</p></li>
+</ul><p>o CHANGES</p>
+<ul><li><p>Objects from {terra}, {stars}, {wk} and {geos} are now supported for using in <code>cc_location(loc = )</code>.</p></li>
+<li><p>No custom styles are available now for cc_location, there’s only ‘mapbox.satellite’.</p></li>
 <li><p>Removed raster handling support.</p></li>
 <li><p>Removed virtual tiles (see hypertidy/grout).</p></li>
 <li><p>Begin move to use GDAL for the read, separate tile downloading from raster input.</p></li>
