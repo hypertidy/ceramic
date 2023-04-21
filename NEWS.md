@@ -4,6 +4,8 @@
 
 o BREAKING CHANGES
 
+* `base_url` is now ignored by `cc_location()` and family, use `get_tiles()` for custom Mapbox styles. This is part of the decoupling of raster load from tile getting. 
+
 * `tiles_to_polygon()` now returns wk rct vector, not sf. 
 
 * Made functions casey(), mawson(), and davis() defunct, because mapbox doesn't work down there now?  (might update with virtualearth) 

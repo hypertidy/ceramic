@@ -21,7 +21,7 @@
 #' @param loc a longitude, latitude pair of coordinates, or a spatial object
 #' @param buffer with in metres to extend around the location, ignored if 'loc' is a spatial object with extent
 #' @param type character string of provider imagery type (see Details)
-#' @param ... arguments passed to internal function, specifically `base_url` (see Details)
+#' @param ... deprecated arguments that _used_to_be_ passed to internal function now ignored since v 0.8.0 (see [get_tiles()])
 #' @param zoom deprecated (use `dimension`)
 #' @param max_tiles deprecated
 #' @param debug deprecated
@@ -48,6 +48,7 @@
 cc_location <- function(loc = NULL, buffer = 5000,
                         type = "mapbox.satellite", ..., zoom = NULL, max_tiles = NULL,  debug = FALSE, dimension = NULL) {
   if (!is.null(zoom) || !is.null(max_tiles)) message("'zoom' and 'max_tiles' are ignored")
+  if (!is.null(list(...)$base_url)) message("'base_url' is ignored for data loading, use 'get_tiles(, base_url= <>)'")
   #if (is.null(zoom) && is.null(max_tiles)) max_tiles <- 16L
   #locdata <- get_tiles(x = loc, buffer = buffer, type = type, ..., zoom = zoom, max_tiles = max_tiles, debug = debug)
 

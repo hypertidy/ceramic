@@ -106,7 +106,7 @@ cc_elevation(
 
 \item{type}{character string of provider imagery type (see Details)}
 
-\item{...}{arguments passed to internal function, specifically \code{base_url} (see Details)}
+\item{...}{deprecated arguments that \emph{used_to_be} passed to internal function now ignored since v 0.8.0 (see \code{\link[=get_tiles]{get_tiles()}})}
 
 \item{zoom}{deprecated (use \code{dimension})}
 
