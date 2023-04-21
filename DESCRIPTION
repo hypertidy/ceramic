@@ -30,7 +30,6 @@ Imports:
     slippymath (>= 0.3.0),
     stats,
     tibble,
-    raster,
     utils,
     crsmeta,
     vapour,

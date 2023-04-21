@@ -98,6 +98,11 @@ is_spatial <- function(x) {
   }
   stop("could not get an extent from input")
 }
+
+
+
+
+
 #' @importFrom stats approx
 project_ex <- function(x, crs = .merc()) {
   
