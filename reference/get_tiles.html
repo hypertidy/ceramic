@@ -169,17 +169,8 @@ There is no maximum on what will be downloaded, but it can be interrupted at any
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="fu"><a href="get_api_key.html">get_api_key</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>   <span class="va">tile_info</span> <span class="op">&lt;-</span> <span class="fu">get_tiles</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/ext.html" class="external-link">ext</a></span><span class="op">(</span><span class="fl">146</span>, <span class="fl">147</span>, <span class="op">-</span><span class="fl">43</span>, <span class="op">-</span><span class="fl">42</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"mapbox.satellite"</span>, zoom <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no mapbox key found</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> To set your Mapbox API key obtain a key from https://account.mapbox.com/access-tokens/</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> 1) Run this to set for the session 'Sys.setenv(MAPBOX_API_KEY=&lt;yourkey&gt;)'</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> OR,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> 2) To set permanently store 'MAPBOX_API_KEY=&lt;yourkey&gt;' in ~/.Renviron</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> See 'help(ceramic::get_api_key)'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Preparing to download: 2 tiles at zoom = 5 from </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> https://api.mapbox.com/v4/mapbox.satellite/</span>
 </code></pre></div>
     </div>
   </div>
