@@ -1,14 +1,20 @@
-# ceramic  0.7.0
+# ceramic  0.8.0
+
+* Fixed LazyData note on CRAN (ceramic now has a data set installed). 
+
+* There's a curl message on CRAN, but for old windows release. 
+
 
 Thank you. 
 
 ## Test environments
 
-* Local windows R 4.0.0
+* Ubuntu R 4.2.3
 * win-builder (devel and release)
+* mac-builder
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
+0 errors | 0 warnings | 0 notes
 
-* This is a new release.
+

@@ -14,6 +14,8 @@ o BREAKING CHANGES
 
 o CHANGES
 
+* Removed magrittr. 
+
 * New function `unpack_rgb()` to calculate elevation from packed Byte Mapbox terrain-rgb. 
 
 * New function `read_tiles()` replaces old use of `cc_location()` to actually read downloaded tiles. 
@@ -44,7 +46,6 @@ o CHANGES
 
 * Fix bug in cc_elevation that prevent use of Amazon tiles. 
 
-* Workaround for apparent loss of setMethod("couldBeLonLat", signature(x = "Extent")) in later raster versions. 
 
 # ceramic 0.6.0
 

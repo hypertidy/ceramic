@@ -21,7 +21,9 @@ guess_format <- function(x) {
 #' @export
 #'
 #' @examples
+#' if (interactive() && !is.null(get_api_key())) {
 #' unpack_rgb(read_tiles(type = "mapbox.terrain-rgb"))
+#' }
 unpack_rgb <- function(x, filename = "") {
   if (terra::nlyr(x) < 3) stop("cannot unpack raster with fewer than 3 layers")
   terra::lapp(x[[1:3]], function(.x1, .x2, .x3) -10000 + ((.x1 * 256 * 256 + .x2 * 256 + .x3) * 0.1), filename = filename)
