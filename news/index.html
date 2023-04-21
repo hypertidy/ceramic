@@ -54,7 +54,8 @@
 <li><p>Made functions casey(), mawson(), and davis() defunct, because mapbox doesn’t work down there now? (might update with virtualearth)</p></li>
 <li><p>Functions <code><a href="../reference/cc_location.html">cc_location()</a></code> and friends now return terra SpatRaster. These functions now ignore arguments ‘max_tiles’ and ‘zoom’, but gain a new argument ‘dimension’. If this is not set something resembling the graphics device is used.</p></li>
 </ul><p>o CHANGES</p>
-<ul><li><p>Objects from {terra}, {stars}, {wk} and {geos} are now supported for using in <code>cc_location(loc = )</code>.</p></li>
+<ul><li><p>ceramic no longer imports from spex.</p></li>
+<li><p>Objects from {terra}, {stars}, {wk} and {geos} are now supported for using in <code>cc_location(loc = )</code>.</p></li>
 <li><p>No custom styles are available now for cc_location, there’s only ‘mapbox.satellite’.</p></li>
 <li><p>Removed raster handling support.</p></li>
 <li><p>Removed virtual tiles (see hypertidy/grout).</p></li>
