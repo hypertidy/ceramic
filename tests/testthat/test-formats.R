@@ -1,4 +1,5 @@
-skip_on_cran()
+skip_if_offline()
+
 
 exll <- c(0, 10, 20, 30)
 expr <- c(0, 100000, 20, 300000)

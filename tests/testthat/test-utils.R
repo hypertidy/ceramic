@@ -1,9 +1,7 @@
-skip_on_cran()
-
+skip_if_offline()
 context("test-utils")
 
 test_that("utilities work as expected", {
-  #skip_on_cran()
    expect_true(grepl("^https", token_url()))
   expect_silent(instruct_on_key_creation())
 

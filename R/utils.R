@@ -12,3 +12,11 @@
    "+proj=merc +R=6378137"
 }
 .ll <- function() "+proj=longlat +datum=WGS84"
+
+
+## something we can use to pass on ghub, and on cran
+.use_public_key <- function() {
+  ##   https://account.mapbox.com/access-tokens/
+  ceramic_key <- "pk.eyJ1IjoibWRzdW1uZXIiLCJhIjoiY2p0bDI1aGY1MTRiNDQ0bWR2djh4dzgxOSJ9.zPM71aZwRWHc9U5kvDQDIA"
+  Sys.setenv(MAPBOX_API_KEY=ceramic_key)
+}
