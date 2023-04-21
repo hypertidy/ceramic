@@ -81,7 +81,15 @@ plot(st_transform(st_cast(north, "MULTILINESTRING")["Name"], terra::crs(dem_nz))
 
 ## I thought you said *tiles*?
 
-Indeed, the `cc_location()` and `cc_elevation()` functions no longer use tiles. WAT
+Indeed, here's a function called `read_tiles()`, it shares the same interface as `get_tiles()`. 
+
+
+```{r read-tiles}
+read_tiles()
+```
+
+
+Note that, the `cc_location()` and `cc_elevation()` functions no longer use tiles, they read directly from the internet using GDAL and are not related to the tile download facilities. 
 
 But, they used to run `get_tiles()` behind the scenes. The separation is still a little unfinished, but I want ceramic to have separation of loading data from the internet with downloading tiles. 
 

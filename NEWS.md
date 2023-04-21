@@ -14,6 +14,10 @@ o BREAKING CHANGES
 
 o CHANGES
 
+* New function `unpack_rgb()` to calculate elevation from packed Byte Mapbox terrain-rgb. 
+
+* New function `read_tiles()` replaces old use of `cc_location()` to actually read downloaded tiles. 
+
 * ceramic no longer imports from  spex. 
 
 * Objects from {terra}, {stars}, {wk} and {geos} are now supported for using in `cc_location(loc = )`. 

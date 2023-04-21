@@ -131,7 +131,7 @@ around the raw longitude and latitude in metres. If \code{loc} has an extent, th
 \code{cc_elevation} does extra work to unpack the DEM tiles from the RGB format.
 
 Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
-mapbox.terrain-rgb'.
+and 'mapbox.terrain-rgb'.
 
 Note that arguments \code{max_tiles} and \code{zoom} are mutually exclusive. One or both must be \code{NULL}. If
 both are NULL then \code{max_tiles = 16L}.

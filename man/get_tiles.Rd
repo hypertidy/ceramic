@@ -2,8 +2,24 @@
 % Please edit documentation in R/get_tiles.R
 \name{get_tiles}
 \alias{get_tiles}
+\alias{read_tiles}
 \title{Download imagery tiles}
 \usage{
+read_tiles(
+  x,
+  buffer,
+  type = "mapbox.satellite",
+  crop_to_buffer = TRUE,
+  format = NULL,
+  ...,
+  zoom = NULL,
+  debug = FALSE,
+  max_tiles = NULL,
+  base_url = NULL,
+  verbose = TRUE,
+  filename = ""
+)
+
 get_tiles(
   x,
   buffer,
@@ -40,6 +56,8 @@ get_tiles(
 \item{base_url}{tile provider URL expert use only}
 
 \item{verbose}{report messages or suppress them}
+
+\item{filename}{purely for \code{\link[=read_tiles]{read_tiles()}} this is passed down to the the terra package function 'merge'}
 }
 \value{
 A list with files downloaded in character vector, a data frame of the tile indices,
@@ -60,10 +78,10 @@ There is no maximum on what will be downloaded, but it can be interrupted at any
 
 Use \code{debug = TRUE} to avoid download and simply report on what would be done.
 
-\code{cc_elevation} does extra work to unpack the DEM tiles from the RGB format.
-
 Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
-'mapbox.terrain-rgb'.
+'mapbox.terrain-rgb'.  (The RGB terrain values are not unpacked.)
+
+Function \code{read_tiles()} will match what \code{get_tiles()} does and actually build a raster object.
 }
 \examples{
 if (!is.null(get_api_key())) {

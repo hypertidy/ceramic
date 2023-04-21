@@ -8,6 +8,51 @@ guess_format <- function(x) {
   c("png", "jpg")[grepl("satellite", x) + 1L]
 }
 
+
+#' Unpack Mapbox terrain-RGB
+#'
+#' Mapbox terrain-rgb stores global elevation packed into Byte integers. 
+#' 
+#' This function unpacks the three layers of a raster to give floating point elevation data. 
+#' @param x three layer raster object
+#' @param filename optional, filename to store the output
+#'
+#' @return terra rast object with one numeric layer
+#' @export
+#'
+#' @examples
+#' unpack_rgb(read_tiles(type = "mapbox.terrain-rgb"))
+unpack_rgb <- function(x, filename = "") {
+  if (terra::nlyr(x) < 3) stop("cannot unpack raster with fewer than 3 layers")
+  terra::lapp(x[[1:3]], function(.x1, .x2, .x3) -10000 + ((.x1 * 256 * 256 + .x2 * 256 + .x3) * 0.1), filename = filename)
+}
+#' @name get_tiles
+#' @export
+read_tiles <- function(x, buffer, type = "mapbox.satellite", crop_to_buffer = TRUE,
+                      format = NULL, ..., zoom = NULL, debug = FALSE, max_tiles = NULL, base_url = NULL,
+                      verbose = TRUE, filename = "") {
+  tiles <- get_tiles(x = x, buffer = buffer, type = type, crop_to_buffer = crop_to_buffer, 
+                     format = format, ..., zoom = zoom, debug = debug, max_tiles = max_tiles, base_url = base_url, 
+                     verbose = verbose)
+  
+  ## bit of stuff from ceramic_tiles which we should expose properly
+  tile_index <- strsplit(str_extract(tiles$files, "[0-9]+/[0-9]+/[0-9]+"), "/")
+  tile_index <- do.call(rbind, lapply(tile_index, as.integer))
+  tile_x <- as.numeric(tile_index[,2L, drop = TRUE])
+  tile_y <- as.numeric(tile_index[,3L, drop = TRUE])
+  zooms <- as.numeric(tile_index[,1L, drop = TRUE])
+  
+  tile_index <- add_extent(tibble::tibble(tile_x = tile_x, tile_y = tile_y, zoom = zooms, fullname = tiles$files))
+  
+  mk_rast <- function(row) {
+    ex <- terra::ext(row$xmin, row$xmax, row$ymin, row$ymax)
+    suppressWarnings(r <- terra::rast(row$fullname))
+    set.ext(r, ex)
+    set.crs(r, .merc())
+    r
+  }
+  terra::merge(sprc(lapply(split(tile_index, 1:nrow(tile_index)), mk_rast)), filename = filename)
+}
 #' Download imagery tiles
 #'
 #' Obtain imagery or elevation tiles by location query. The first argument
@@ -23,11 +68,10 @@ guess_format <- function(x) {
 #'
 #' Use `debug = TRUE` to avoid download and simply report on what would be done.
 #'
-#' `cc_elevation` does extra work to unpack the DEM tiles from the RGB format.
-#'
 #' Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
-#' 'mapbox.terrain-rgb'.
+#' 'mapbox.terrain-rgb'.  (The RGB terrain values are not unpacked.)
 #'
+#' Function `read_tiles()` will match what `get_tiles()` does and actually build a raster object. 
 #'
 #' @param x a longitude, latitude pair of coordinates, or a spatial object
 #' @param buffer width in metres to extend around the location, ignored if 'x' is a spatial object with extent
@@ -40,11 +84,12 @@ guess_format <- function(x) {
 #' @param max_tiles maximum number of tiles - if `NULL` is set by zoom constraints
 #' @param base_url tile provider URL expert use only
 #' @param verbose report messages or suppress them
+#' @param filename purely for [read_tiles()] this is passed down to the the terra package function 'merge'
 #' @export
 #' @return A list with files downloaded in character vector, a data frame of the tile indices,
 #' the zoom level used and the extent in xmin,xmax,ymin,ymax form.
 #' @name get_tiles
-#' @seealso get_tiles_zoom get_tiles_dim get_tiles_buffer
+#' @seealso get_tiles_zoom get_tiles_dim get_tiles_buffer 
 #' @examples
 #' if (!is.null(get_api_key())) {
 #'    tile_info <- get_tiles(ext(146, 147, -43, -42), type = "mapbox.satellite", zoom = 5)

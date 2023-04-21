@@ -11,7 +11,7 @@
 #' `cc_elevation` does extra work to unpack the DEM tiles from the RGB format.
 #'
 #' Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
-#' mapbox.terrain-rgb'.
+#' and 'mapbox.terrain-rgb'.
 #'
 #' Note that arguments `max_tiles` and `zoom` are mutually exclusive. One or both must be `NULL`. If
 #' both are NULL then `max_tiles = 16L`.
@@ -60,9 +60,14 @@ cc_location <- function(loc = NULL, buffer = 5000,
   #if (debug) {
   #  return(invisible(NULL))
   #}
-  d <- gdal_mapbox(extent = locdata[1:4], dimension = as.integer(locdata[5:6]), projection = "EPSG:3857")
+
+  d <- switch(type, 
+              mapbox.satellite = gdal_mapbox(extent = locdata[1:4], dimension = as.integer(locdata[5:6]), projection = "EPSG:3857"), 
+              "elevation-tiles-prod" = gdal_aws(extent = locdata[1:4], dimension = as.integer(locdata[5:6]), projection = "EPSG:3857"), 
+              "mapbox.terrain-rgb" = gdal_terrainrgb(extent = locdata[1:4], dimension = as.integer(locdata[5:6]), projection = "EPSG:3857"))
   d
 }
+
 #' @name cc_location
 #' @export
 cc_macquarie <- function(loc = c(158.93835,-54.49871), buffer = 5000,
