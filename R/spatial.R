@@ -1,11 +1,14 @@
+.spatial_classes <- function() {
+  c("Spatial",
+    "sf", "sfc",
+    "BasicRaster", "Extent",
+    "SpatRaster","SpatExtent", "SpatVector",
+    "wk_vctr", "wk_rcrd", "wk_grd",
+    "geos_geometry", 
+    "stars")
+}
 is_spatial <- function(x) {
-  inherits(x, c("Spatial",
-                "sf", "sfc",
-                "BasicRaster", "Extent",
-                "SpatRaster","SpatExtent", "SpatVector",
-                "wk_vctr", "wk_rcrd",
-                "geos_geometry", 
-                "stars"))
+  inherits(x, .spatial_classes())
 }
 
 

@@ -1,7 +1,7 @@
 context("test-get")
 
 test_that("getting tiles works", {
- skip_on_cran()
+ #skip_on_cran()
 
  expect_silent(ceramic_cache())
 

@@ -1,8 +1,12 @@
 m <- rworldmap::countriesLow
-library(spbabel)
-sptable(m) <- sptable(m) %>% dplyr::filter(y_ > -88)
+#library(spbabel)
+#sptable(m) <- sptable(m) %>% dplyr::filter(y_ > -88)
+sf::sf_use_s2(FALSE)
+merc_world <- sf::as_Spatial(sf::st_transform(
+  sf::st_crop(sf::st_set_crs(sf::st_as_sf(m), "OGC:CRS84"), sf::st_bbox(c(xmin = -180,  ymin = -88, xmax = 180, ymax = 90), crs = sf::st_crs("OGC:CRS84")))
+  
+  , .merc()))
 
-merc_world <-  sp::spTransform(m, "+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +R=6378137 +units=m +no_defs")
 
 
 oz <- oz::ozRegion()

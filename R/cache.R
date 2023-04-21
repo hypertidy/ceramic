@@ -165,15 +165,6 @@ tile_type <- function(x) {
   basename(dirname(dirname(dirname(x))))
 }
 
-tile_x <- function(x) {
-  as.integer(basename(dirname(x)))
-}
-tile_y <- function(x) {
-  as.integer(gsub('([0-9]+).*','\\1', basename(x)))
-}
-tile_zoom <- function(x) {
-  as.integer(basename(dirname(dirname(x))))
-}
 
 #' Ceramic file cache
 #'

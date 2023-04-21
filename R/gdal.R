@@ -131,6 +131,8 @@ gdal_aws <- function (extent = c(-180, 180, -90, 90), ..., dimension = NULL,
     message("no projection specified, calling warper without a target projection: results not guaranteed")
     x$projection <- ""
   }
+  
+ 
   suppressWarnings(
     
   vals <- vapour::gdal_raster_data(rso, target_ext = x$extent, 
