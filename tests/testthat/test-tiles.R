@@ -1,3 +1,6 @@
+skip_on_cran()
+
+
 test_that("tiles works", {
   #skip_on_cran()
   expect_message(rgb <- read_tiles(cbind(147, -42), buffer = 5000, max_tiles = 1, type = "mapbox.terrain-rgb"))

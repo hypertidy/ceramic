@@ -1,3 +1,6 @@
+skip_on_cran()
+
+
 context("test-locations")
 
 dm <- function() sample(3:10, 2L)

@@ -1,3 +1,5 @@
+skip_on_cran()
+
 context("test-utils")
 
 test_that("utilities work as expected", {

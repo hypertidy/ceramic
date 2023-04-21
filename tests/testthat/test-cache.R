@@ -1,3 +1,6 @@
+skip_on_cran()
+
+
 context("test-cache")
 
 

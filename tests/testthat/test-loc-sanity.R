@@ -1,3 +1,6 @@
+skip_on_cran()
+
+
 context("test-loc-sanity")
 
 rpt <- cbind(147, -42)

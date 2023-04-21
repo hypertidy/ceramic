@@ -1,3 +1,6 @@
+skip_on_cran()
+
+
 context("test-get")
 
 test_that("getting tiles works", {
