@@ -39,7 +39,7 @@ instruct_on_key_creation <- function(api = "mapbox") {
 #' @export
 #' @examples
 #' get_api_key()
-get_api_key <- function(api = "mapbox", ...) {
+get_api_key <- function(api = "mapbox", ..., silent = FALSE) {
   key <- NULL
   if (api == "mapbox") {
     ## Try mapdeck first (why not)
@@ -50,7 +50,9 @@ get_api_key <- function(api = "mapbox", ...) {
     }
     if (is.na(key) || is.null(key) || nchar(key) < 1) {
       mess <- instruct_on_key_creation()
-      warning(sprintf("no mapbox key found\n\n%s", mess))
+      if (!silent) {
+        warning(sprintf("no mapbox key found\n\n%s", mess))
+      }
       key <- NULL
     }
   }

@@ -9,12 +9,6 @@
 library(testthat)
 library(ceramic)
 
-test <- get_api_key()
-
-if (is.null(test) || !nzchar(test)) {
-  ceramic:::.use_public_key()
-  get_api_key()
-}
-
+#test <- get_api_key()
 
 test_check("ceramic")
