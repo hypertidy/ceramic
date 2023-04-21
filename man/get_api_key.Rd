@@ -4,12 +4,14 @@
 \alias{get_api_key}
 \title{Get API key for Mapbox service}
 \usage{
-get_api_key(api = "mapbox", ...)
+get_api_key(api = "mapbox", ..., silent = FALSE)
 }
 \arguments{
 \item{api}{character string denoting which service ("mapbox" only)}
 
 \item{...}{currently ignored}
+
+\item{silent}{run in completely silent mode, default is to provide a warning}
 }
 \value{
 The stored API key value, see Details.
