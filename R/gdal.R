@@ -172,6 +172,8 @@ gdal_terrainrgb <- function (extent = c(-180, 180, -90, 90), ..., dimension = NU
                                    target_dim = x$dimension, target_crs = x$projection, 
                                    resample = resample, ..., bands = 1:3)
   )
+  
+  ##height = -10000 + ((R * 256 * 256 + G * 256 + B) * 0.1)
   d  <-  -10000 + ((vals[[1]] * 256 * 256 + vals[[2]] * 256 + vals[[3]]) * 0.1)
   
   xraster <- terra::rast(terra::ext(attr(vals, "extent")), 

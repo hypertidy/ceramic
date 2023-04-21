@@ -113,9 +113,14 @@ cc_kingston <- function(loc = c(147.2901,
 #' @name cc_location
 #' @export
 cc_elevation <- function(loc = NULL, buffer = 5000, type = NULL, ...,zoom = NULL, max_tiles = NULL, debug = FALSE, dimension = NULL) {
-  locdata <- loc_extent(loc, buffer, dimension)
+  if (is.null(loc)) {
+   
+      loc <- as.matrix(cities_n(1L, fields = FALSE))
+   
+  }
+    locdata <- loc_extent(loc, buffer, dimension)
   
-  if (is.null(type)) {
+  if (is.null(type) || type == "mapbox.terrain-rgb") {
     dat <- gdal_terrainrgb(extent = locdata[1:4], dimension = as.integer(locdata[5:6]), projection = "EPSG:3857")
     
   } else {

@@ -1,5 +1,5 @@
 
-# ceramic 0.7.0
+# ceramic 0.8.0
 
 
 o BREAKING CHANGES

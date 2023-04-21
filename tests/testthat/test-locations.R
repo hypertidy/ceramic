@@ -15,6 +15,11 @@ test_that("built in locations works", {
   expect_equal(dim(hrd)[3L], 3L)
   expect_equal(dim(ele)[3L], 1L)
 
+  expect_error(cc_mawson())
+  expect_error(cc_davis())
+  expect_error(cc_casey())
+  
+  expect_s4_class(cc_location(terra::rast(terra::ext(100, 120, -30, -20))), "SpatRaster")
 })
 
 
@@ -23,6 +28,11 @@ test_that("max_tiles and zoom work", {
 
 
   expect_message(cc_location(cbind(0, 0), max_tiles = 24, zoom = 5), "'zoom' and 'max_tiles' are ignored")
+
+  ## we get something for nothing
+  expect_s4_class(cc_location(dimension = c(4, 3)), "SpatRaster")
+  expect_s4_class(cc_elevation(dimension = c(4, 3), type = "aws"), "SpatRaster")
+  
   im <- expect_s4_class(cc_location(cbind(0, 53), dimension = c(34, 26), verbose = FALSE), "SpatRaster")
   expect_that(dim(im), equals(c(26,  34, 3)))
 
