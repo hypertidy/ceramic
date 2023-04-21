@@ -8,13 +8,15 @@ is_spatial <- function(x) {
       inherits(x, "Extent") ||
       inherits(x, "SpatRaster") ||
       inherits(x, "SpatVector") ||
-      inherits(x, "wk_vctr")) {
+      inherits(x, "wk_vctr") ||
+      inherits(x, "geos_geometry") |
+      inherits(x, "stars")) {
     return(TRUE)
   }
   FALSE
 }
 
-
+#' @importFrom wk wk_crs
 .crs_crs <- function(x) {
   crs <- crsmeta::crs_wkt(x)
   if (is.na(crs)) {
@@ -24,6 +26,12 @@ is_spatial <- function(x) {
     }
   }
   
+  if (is.na(crs)) {
+    crs_maybe <- try(wk::wk_crs(x), silent = TRUE)
+    if (!inherits(crs_maybe, "try-error") && !is.null(crs_maybe) && !is.na(crs_maybe)) {
+      crs <- crs_maybe$wkt
+    }
+  }
   if (is.na(crs) && (inherits(x, "SpatRaster") || inherits(x, "SpatVector"))) {
     crs <- try(x@ptr$get_crs("wkt"), silent = TRUE)
     if (inherits(crs, "try-error")) {
@@ -37,6 +45,12 @@ is_spatial <- function(x) {
     }
   }
   if (is.na(crs)) {
+    if (inherits(x, "stars")) {
+      dms <- attr(x, "dimension")
+      crs <- try(dms[[1]]$refsys$wkt, silent = TRUE)
+      if (inherits(crs, "try-error")) stop("cannot detemine crs from this stars object")
+      
+    }
     if (inherits(x, "Extent")) {
       ex <- c(x@xmin, x@xmax, x@ymin, x@ymax)
       if (ex[1] >= -180 && ex[2] <= 360 && ex[3] >= -90 && ex[4] <=90) {
@@ -64,12 +78,28 @@ is_spatial <- function(x) {
   crs
 }
 
+#' @importFrom wk wk_bbox
 .ext_ext <- function(x) {
-  if (inherits(x, "sfc")) {
-    return(unname(attr(x, "bbox")[c(1, 3, 2, 4)]))
+  ex <- try(terra::ext(x), silent = TRUE)
+  if (!inherits(ex, "try-error")) {
+   out <-   c(terra::xmin(ex), terra::xmax(ex), terra::ymin(ex), terra::ymax(ex))
+   return(out)
   }
-  ex <- terra::ext(x)
-  c(terra::xmin(ex), terra::xmax(ex), terra::ymin(ex), terra::ymax(ex))
+  ex <- try(wk::wk_bbox(x), silent = TRUE) 
+  if (!inherits(ex, "try-error")) {
+    out <-  as.numeric(ex)[c(1L, 3L, 2L, 4L)] 
+    return(out)
+  }
+  if (inherits(x, "stars")) {
+   
+    dms <- attr(x, "dimension")
+    dm <- c(dms[[1]]$to - dms[[1]]$from + 1, dms[[2]]$to - dms[[2]]$from + 1)
+    ex <- c(dms[[1]]$offset + c(1,1) * c(0, dm[1] * dms[[1]]$delta), 
+           dms[[2]]$offset + c(1,1) * c(dm[2] * dms[[2]]$delta, 0))
+    if (anyNA(ex)) stop("cannot determine extent from this stars object")
+    return(ex)
+  }
+  stop("could not get an extent from input")
 }
 #' @importFrom stats approx
 project_ex <- function(x, crs = .merc()) {
@@ -95,6 +125,9 @@ spatial_bbox <- function(loc, buffer = NULL) {
     buffer <- project_ex(loc)/2
     loc <- spex_to_pt(loc)
     
+  } else {
+    if (!is.numeric(loc)) stop(sprintf("unrecognized object 'loc', of type:\n %s\n", 
+                                       class(loc)[1L]))
   }
   
   if (is.null(buffer)) buffer <- c(0, 0)

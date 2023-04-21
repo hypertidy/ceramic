@@ -35,7 +35,8 @@ Imports:
     utils,
     crsmeta,
     vapour,
-    stringr
+    stringr,
+    wk
 Suggests: 
     covr,
     spelling,

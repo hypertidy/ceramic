@@ -1,6 +1,8 @@
 
 # ceramic 0.7.0
 
+* Objects from {terra}, {stars}, {wk} and {geos} are now supported for using in `cc_location(loc = )`. 
+
 * No custom styles are available now for cc_location, there's only 'mapbox.satellite'. 
 
 * Made functions casey(), mawson(), and davis() defunct, because mapbox doesn't work down there now?  (might update with virtualearth) 
