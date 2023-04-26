@@ -28,5 +28,5 @@ ozdata$proj <- list(sp = sp::spTransform(ozdata$ll$sp, prj),
 
 
 
-usethis::use_data(merc_world, ozdata, internal = TRUE, overwrite = T)
+usethis::use_data(merc_world, ozdata, internal = TRUE, overwrite = T, compress = "xz")
 

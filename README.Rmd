@@ -8,14 +8,18 @@ editor_options:
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/hypertidy/ceramic/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/hypertidy/ceramic/actions/workflows/R-CMD-check.yaml)
+[![CRAN_Download_Badge](http://cranlogs.r-pkg.org/badges/ceramic)](http://cranlogs.r-pkg.org/badges/ceramic)
 <!-- badges: end -->
 
 ```{r setup, include = FALSE}
+
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "100%"
+  out.width = "100%", 
+  dev = "jpeg", 
+  dev.args = list( jpeg = list(quality =50))
 )
 options(warn = -1)
 ```
@@ -24,7 +28,7 @@ options(warn = -1)
 The goal of ceramic is to obtain web map tiles. Use a spatial object to define the region of interest. 
 
 
-```{r}
+```{r extent1}
 library(ceramic)
 roi <- ext(100, 160, -50, 10)
 im <- cc_location(roi)

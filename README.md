@@ -3,6 +3,7 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/hypertidy/ceramic/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/hypertidy/ceramic/actions/workflows/R-CMD-check.yaml)
+[![CRAN_Download_Badge](http://cranlogs.r-pkg.org/badges/ceramic)](http://cranlogs.r-pkg.org/badges/ceramic)
 <!-- badges: end -->
 
 # ceramic
@@ -20,7 +21,7 @@ im <- cc_location(roi)
 plotRGB(im)
 ```
 
-<img src="man/figures/README-unnamed-chunk-1-1.png" width="100%" />
+<img src="man/figures/README-extent1-1.jpeg" width="100%" />
 
 The terra package is always loaded by ceramic, so we can assume the use
 of its functions, ceramic accepts a wider range of inputs than terra
@@ -40,7 +41,7 @@ im <- cc_location(bol)
 plotRGB(im)
 ```
 
-<img src="man/figures/README-extent2-1.png" width="100%" />
+<img src="man/figures/README-extent2-1.jpeg" width="100%" />
 
 Even if the data uses a map projection it will be converted into a
 region to match the Mercator extents used by Mapbox image servers.
@@ -62,7 +63,7 @@ plot(dem_nz, col = grey.colors(128))
 plot(st_transform(st_cast(north, "MULTILINESTRING")["Name"], terra::crs(dem_nz)), add = TRUE, lwd = 5)
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-1-1.jpeg" width="100%" />
 
 ## I thought you said *tiles*?
 
@@ -234,7 +235,7 @@ text(middle(tiles$xmin, tiles$xmax), middle(tiles$ymin, tiles$ymax), lab = sprin
      col = "yellow")
 ```
 
-<img src="man/figures/README-example01-1.png" width="100%" />
+<img src="man/figures/README-example01-1.jpeg" width="100%" />
 
 ``` r
      
