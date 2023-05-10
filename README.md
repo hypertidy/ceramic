@@ -247,7 +247,7 @@ par(op)
 ``` r
 library(ceramic)
 library(terra)
-template <- rast(ext(527358, 527880, 5252204, 5252704), res = 2, crs = "EPSG:32755")
+template <- rast(ext(527358, 527880, 5252204, 5252704), res = .3, crs = "EPSG:32755")
 ortho <- cc_location(template, type = "tasmap_orthophoto")
 
 plot(ortho)
