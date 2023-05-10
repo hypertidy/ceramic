@@ -131,12 +131,12 @@ around the raw longitude and latitude in metres. If \code{loc} has an extent, th
 \code{cc_elevation} does extra work to unpack the DEM tiles from the RGB format.
 
 Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
-and 'mapbox.terrain-rgb'.
+and 'mapbox.terrain-rgb', 'tasmap' or one of 'tasmap_street' (TTSA), 'tasmap_aerialphoto2020', 'tasmap_aerialphoto2021', 'tasmap_aerialphoto2022',
+'tasmap_aerialphoto2023', 'tasmap_esgismapbookpublic', 'tasmap_hillshadegrey', 'tasmap_hillshade', 'tasmap_orthophoto',
+'tasmap_simplebasemap', 'tasmap_tasmap100k', 'tasmap_tasmap250k', 'tasmap_tasmap25k', 'tasmap_tasmap500k', 'tasmap_tasmapraster', 'tasmap_topographicgrayscale', 'tasmap_topographic'.
 
 Note that arguments \code{max_tiles} and \code{zoom} are mutually exclusive. One or both must be \code{NULL}. If
 both are NULL then \code{max_tiles = 16L}.
-
-Currently must be considered in-development.
 }
 \examples{
 if (!is.null(get_api_key())) {

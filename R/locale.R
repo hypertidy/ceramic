@@ -11,12 +11,13 @@
 #' `cc_elevation` does extra work to unpack the DEM tiles from the RGB format.
 #'
 #' Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
-#' and 'mapbox.terrain-rgb'.
+#' and 'mapbox.terrain-rgb', 'tasmap' or one of 'tasmap_street' (TTSA), 'tasmap_aerialphoto2020', 'tasmap_aerialphoto2021', 'tasmap_aerialphoto2022', 
+#' 'tasmap_aerialphoto2023', 'tasmap_esgismapbookpublic', 'tasmap_hillshadegrey', 'tasmap_hillshade', 'tasmap_orthophoto', 
+#' 'tasmap_simplebasemap', 'tasmap_tasmap100k', 'tasmap_tasmap250k', 'tasmap_tasmap25k', 'tasmap_tasmap500k', 'tasmap_tasmapraster', 'tasmap_topographicgrayscale', 'tasmap_topographic'. 
 #'
 #' Note that arguments `max_tiles` and `zoom` are mutually exclusive. One or both must be `NULL`. If
 #' both are NULL then `max_tiles = 16L`.
 #'
-#' Currently must be considered in-development.
 #'
 #' @param loc a longitude, latitude pair of coordinates, or a spatial object
 #' @param buffer with in metres to extend around the location, ignored if 'loc' is a spatial object with extent
@@ -61,11 +62,13 @@ cc_location <- function(loc = NULL, buffer = 5000,
   #  return(invisible(NULL))
   #}
 
-  d <- switch(type, 
-              mapbox.satellite = gdal_mapbox(extent = locdata[1:4], dimension = as.integer(locdata[5:6]), projection = "EPSG:3857"), 
-              "elevation-tiles-prod" = gdal_aws(extent = locdata[1:4], dimension = as.integer(locdata[5:6]), projection = "EPSG:3857"), 
-              "mapbox.terrain-rgb" = gdal_terrainrgb(extent = locdata[1:4], dimension = as.integer(locdata[5:6]), projection = "EPSG:3857"), 
-              "tasmap_ortho" = gdal_tasmap(extent = locdata[1:4], dimension = as.integer(locdata[5:6]), projection = "EPSG:3857"))
+    if (type == 'mapbox.satellite') d<-  gdal_mapbox(extent = locdata[1:4], dimension = as.integer(locdata[5:6]), projection = "EPSG:3857")
+    if (type == "elevation-tiles-prod") d <- gdal_aws(extent = locdata[1:4], dimension = as.integer(locdata[5:6]), projection = "EPSG:3857") 
+    if (type == "mapbox.terrain-rgb") d <- gdal_terrainrgb(extent = locdata[1:4], dimension = as.integer(locdata[5:6]), projection = "EPSG:3857") 
+    if (grepl("tasmap", type)) {
+      if (type == "tasmap") type <- "tasmap_orthophoto"
+      d <- gdal_tasmap(extent = locdata[1:4], dimension = as.integer(locdata[5:6]), projection = "EPSG:3857", type = gsub("tasmap_", "", type))
+    }
   d
 }
 

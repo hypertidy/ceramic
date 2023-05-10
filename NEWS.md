@@ -1,3 +1,7 @@
+# ceramic dev
+
+* Added a suite of Tasmap sources for 'cc_location()'. 
+
 
 # ceramic 0.8.0
 

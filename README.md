@@ -242,6 +242,67 @@ text(middle(tiles$xmin, tiles$xmax), middle(tiles$ymin, tiles$ymax), lab = sprin
 par(op)
 ```
 
+## Tasmap maps
+
+``` r
+library(ceramic)
+library(terra)
+template <- rast(ext(527358, 527880, 5252204, 5252704), res = 2, crs = "EPSG:32755")
+ortho <- cc_location(template, type = "tasmap_orthophoto")
+
+plot(ortho)
+```
+
+<img src="man/figures/README-tasmap-1.jpeg" width="100%" />
+
+``` r
+
+plot(cc_location(template, type = "tasmap_street"))
+```
+
+<img src="man/figures/README-tasmap-2.jpeg" width="100%" />
+
+``` r
+
+plot(cc_location(template, type = "tasmap_tasmapraster"))
+```
+
+<img src="man/figures/README-tasmap-3.jpeg" width="100%" />
+
+``` r
+
+plot(cc_location(template, type = "tasmap_hillshade"))
+```
+
+<img src="man/figures/README-tasmap-4.jpeg" width="100%" />
+
+``` r
+
+plot(cc_location(template, type = "tasmap_hillshadegrey"))
+```
+
+<img src="man/figures/README-tasmap-5.jpeg" width="100%" />
+
+``` r
+plot(cc_location(template, type = "tasmap_esgismapbookpublic"))  ## nope
+```
+
+<img src="man/figures/README-tasmap-6.jpeg" width="100%" />
+
+``` r
+plot(cc_location(template, type = "tasmap_topographic"))
+```
+
+<img src="man/figures/README-tasmap-7.jpeg" width="100%" />
+
+``` r
+
+
+plot(cc_location(template, type = "tasmap_tasmap25k"))  ## also 100k, 250k, 500k
+```
+
+<img src="man/figures/README-tasmap-8.jpeg" width="100%" />
+
 ------------------------------------------------------------------------
 
 Please note that the ‘ceramic’ project is released with a [Contributor

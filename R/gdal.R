@@ -188,15 +188,16 @@ gdal_terrainrgb <- function (extent = c(-180, 180, -90, 90), ..., dimension = NU
 
 
 gdal_tasmap <- function (extent = c(-180, 180, -90, 90), ..., dimension = NULL, 
-                             projection = "OGC:CRS84", resample = "near", source = NULL) 
+                             projection = "OGC:CRS84", resample = "near", source = NULL, type = "tasmap") 
 {
   xraster <- extent
   x <- format_out(list(extent = extent, dimension = dimension, 
                        projection = projection))
   
   
-  
-  src <- tasmap_ortho
+  if (type == "tasmap") type <- "orthophoto"
+
+  src <- tasmap_sources[type]
   
   
   if (is.null(source)) {
