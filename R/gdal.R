@@ -183,3 +183,41 @@ gdal_terrainrgb <- function (extent = c(-180, 180, -90, 90), ..., dimension = NU
                          nrow =  attr(vals, "dimension")[2L], crs = "EPSG:3857", vals = d)
   xraster
 }
+
+
+
+
+gdal_tasmap <- function (extent = c(-180, 180, -90, 90), ..., dimension = NULL, 
+                             projection = "OGC:CRS84", resample = "near", source = NULL) 
+{
+  xraster <- extent
+  x <- format_out(list(extent = extent, dimension = dimension, 
+                       projection = projection))
+  
+  
+  
+  src <- tasmap_ortho
+  
+  
+  if (is.null(source)) {
+    rso <- src
+  } else {
+    rso <- source
+  }
+  if (is.na(x$projection)) {
+    message("no projection specified, calling warper without a target projection: results not guaranteed")
+    x$projection <- ""
+  }
+  suppressWarnings(
+    
+    vals <- vapour::gdal_raster_image(rso, target_ext = x$extent, 
+                                     target_dim = x$dimension, target_crs = x$projection, 
+                                     resample = resample, ..., bands = 1:3)
+  )
+  
+  
+  xraster <- terra::rast(terra::ext(attr(vals, "extent")), 
+                         ncol = attr(vals, "dimension")[1L], 
+                         nrow =  attr(vals, "dimension")[2L], crs = "EPSG:3857", vals = unlist(vals))
+  xraster
+}

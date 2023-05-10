@@ -64,7 +64,8 @@ cc_location <- function(loc = NULL, buffer = 5000,
   d <- switch(type, 
               mapbox.satellite = gdal_mapbox(extent = locdata[1:4], dimension = as.integer(locdata[5:6]), projection = "EPSG:3857"), 
               "elevation-tiles-prod" = gdal_aws(extent = locdata[1:4], dimension = as.integer(locdata[5:6]), projection = "EPSG:3857"), 
-              "mapbox.terrain-rgb" = gdal_terrainrgb(extent = locdata[1:4], dimension = as.integer(locdata[5:6]), projection = "EPSG:3857"))
+              "mapbox.terrain-rgb" = gdal_terrainrgb(extent = locdata[1:4], dimension = as.integer(locdata[5:6]), projection = "EPSG:3857"), 
+              "tasmap_ortho" = gdal_tasmap(extent = locdata[1:4], dimension = as.integer(locdata[5:6]), projection = "EPSG:3857"))
   d
 }
 
