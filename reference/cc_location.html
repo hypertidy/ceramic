@@ -195,10 +195,11 @@ a single layer in the case of <code>cc_elevation()</code>.</p>
     <h2>Details</h2>
     <p><code>cc_elevation</code> does extra work to unpack the DEM tiles from the RGB format.</p>
 <p>Available types are 'elevation-tiles-prod' for AWS elevation tiles, and 'mapbox.satellite',
-and 'mapbox.terrain-rgb'.</p>
+and 'mapbox.terrain-rgb', 'tasmap' or one of 'tasmap_street' (TTSA), 'tasmap_aerialphoto2020', 'tasmap_aerialphoto2021', 'tasmap_aerialphoto2022',
+'tasmap_aerialphoto2023', 'tasmap_esgismapbookpublic', 'tasmap_hillshadegrey', 'tasmap_hillshade', 'tasmap_orthophoto',
+'tasmap_simplebasemap', 'tasmap_tasmap100k', 'tasmap_tasmap250k', 'tasmap_tasmap25k', 'tasmap_tasmap500k', 'tasmap_tasmapraster', 'tasmap_topographicgrayscale', 'tasmap_topographic'.</p>
 <p>Note that arguments <code>max_tiles</code> and <code>zoom</code> are mutually exclusive. One or both must be <code>NULL</code>. If
 both are NULL then <code>max_tiles = 16L</code>.</p>
-<p>Currently must be considered in-development.</p>
     </div>
 
     <div id="ref-examples">
