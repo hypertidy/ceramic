@@ -21,7 +21,7 @@ im <- cc_location(roi)
 plotRGB(im)
 ```
 
-<img src="man/figures/README-extent1-1.jpeg" width="100%" />
+<img src="man/figures/README-extent1-1.png" width="100%" />
 
 The terra package is always loaded by ceramic, so we can assume the use
 of its functions, ceramic accepts a wider range of inputs than terra
@@ -41,7 +41,7 @@ im <- cc_location(bol)
 plotRGB(im)
 ```
 
-<img src="man/figures/README-extent2-1.jpeg" width="100%" />
+<img src="man/figures/README-extent2-1.png" width="100%" />
 
 Even if the data uses a map projection it will be converted into a
 region to match the Mercator extents used by Mapbox image servers.
@@ -63,7 +63,7 @@ plot(dem_nz, col = grey.colors(128))
 plot(st_transform(st_cast(north, "MULTILINESTRING")["Name"], terra::crs(dem_nz)), add = TRUE, lwd = 5)
 ```
 
-<img src="man/figures/README-unnamed-chunk-1-1.jpeg" width="100%" />
+<img src="man/figures/README-unnamed-chunk-1-1.png" width="100%" />
 
 ## I thought you said *tiles*?
 
@@ -235,7 +235,7 @@ text(middle(tiles$xmin, tiles$xmax), middle(tiles$ymin, tiles$ymax), lab = sprin
      col = "yellow")
 ```
 
-<img src="man/figures/README-example01-1.jpeg" width="100%" />
+<img src="man/figures/README-example01-1.png" width="100%" />
 
 ``` r
      
@@ -253,47 +253,47 @@ ortho <- cc_location(template, type = "tasmap_orthophoto")
 plot(ortho)
 ```
 
-<img src="man/figures/README-tasmap-1.jpeg" width="100%" />
+<img src="man/figures/README-tasmap-1.png" width="100%" />
 
 ``` r
 
 plot(cc_location(template, type = "tasmap_street"))
 ```
 
-<img src="man/figures/README-tasmap-2.jpeg" width="100%" />
+<img src="man/figures/README-tasmap-2.png" width="100%" />
 
 ``` r
 
 plot(cc_location(template, type = "tasmap_tasmapraster"))
 ```
 
-<img src="man/figures/README-tasmap-3.jpeg" width="100%" />
+<img src="man/figures/README-tasmap-3.png" width="100%" />
 
 ``` r
 
 plot(cc_location(template, type = "tasmap_hillshade"))
 ```
 
-<img src="man/figures/README-tasmap-4.jpeg" width="100%" />
+<img src="man/figures/README-tasmap-4.png" width="100%" />
 
 ``` r
 
 plot(cc_location(template, type = "tasmap_hillshadegrey"))
 ```
 
-<img src="man/figures/README-tasmap-5.jpeg" width="100%" />
+<img src="man/figures/README-tasmap-5.png" width="100%" />
 
 ``` r
 plot(cc_location(template, type = "tasmap_esgismapbookpublic"))  ## nope
 ```
 
-<img src="man/figures/README-tasmap-6.jpeg" width="100%" />
+<img src="man/figures/README-tasmap-6.png" width="100%" />
 
 ``` r
 plot(cc_location(template, type = "tasmap_topographic"))
 ```
 
-<img src="man/figures/README-tasmap-7.jpeg" width="100%" />
+<img src="man/figures/README-tasmap-7.png" width="100%" />
 
 ``` r
 
@@ -301,7 +301,7 @@ plot(cc_location(template, type = "tasmap_topographic"))
 plot(cc_location(template, type = "tasmap_tasmap25k"))  ## also 100k, 250k, 500k
 ```
 
-<img src="man/figures/README-tasmap-8.jpeg" width="100%" />
+<img src="man/figures/README-tasmap-8.png" width="100%" />
 
 ------------------------------------------------------------------------
 
