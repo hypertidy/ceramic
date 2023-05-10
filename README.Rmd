@@ -226,6 +226,23 @@ plot(cc_location(template, type = "tasmap_tasmap25k"))  ## also 100k, 250k, 500k
 
 
 
+```{r smash,include=FALSE}
+quantize_figs <- function(dir = "man/figures") {
+  f <- fs::dir_ls(dir, regexp = "png$")
+  for (i in seq_along(f)) {
+    tf <- tempfile(fileext = ".png")
+    im <- magick::image_read(f[i])
+    magick::image_write(magick::image_quantize(im), tf)
+    
+    ## I don't know how to properly unlink the original pointer, this just a guess (not sure it matters)
+    rm(im)
+    fs::file_delete(f[i])
+    fs::file_move(tf, f[i])
+  }
+} 
+quantize_figs()
+```
+
 
 
 ---
