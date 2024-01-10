@@ -38,7 +38,7 @@ Suggests:
     covr,
     spelling,
     testthat (>= 3.0.0)
-URL: https://github.com/hypertidy/ceramic
+URL: https://github.com/hypertidy/ceramic, https://hypertidy.github.io/ceramic/
 BugReports: https://github.com/hypertidy/ceramic/issues
 Language: en-US
 LazyData: true
