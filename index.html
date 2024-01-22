@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">ceramic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.0</span>
       </span>
     </div>
 
@@ -74,7 +74,7 @@
 </h1></div>
 <p>The goal of ceramic is to obtain web map tiles. Use a spatial object to define the region of interest.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hypertidy/ceramic" class="external-link">ceramic</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hypertidy.github.io/ceramic/" class="external-link">ceramic</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; Loading required package: terra</span></span>
 <span><span class="co">#&gt; terra 1.7.23</span></span>
 <span><span class="va">roi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/ext.html" class="external-link">ext</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">160</span>, <span class="op">-</span><span class="fl">50</span>, <span class="fl">10</span><span class="op">)</span></span>
@@ -226,7 +226,7 @@
 <li>summarizes the tiles as a spatial (wk) object</li>
 </ul>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hypertidy/ceramic" class="external-link">ceramic</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hypertidy.github.io/ceramic/" class="external-link">ceramic</a></span><span class="op">)</span></span>
 <span><span class="co">## a point in longlat, and a buffer with in metres</span></span>
 <span><span class="va">pt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fl">136</span>, <span class="op">-</span><span class="fl">34</span><span class="op">)</span></span>
 <span><span class="va">im</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cc_location.html">cc_location</a></span><span class="op">(</span><span class="va">pt</span>, buffer <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1e6</span>, <span class="fl">5e5</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"mapbox.satellite"</span><span class="op">)</span></span>
@@ -257,7 +257,7 @@
 <h2 id="tasmap-maps">Tasmap maps<a class="anchor" aria-label="anchor" href="#tasmap-maps"></a>
 </h2>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hypertidy/ceramic" class="external-link">ceramic</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hypertidy.github.io/ceramic/" class="external-link">ceramic</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span>
 <span><span class="va">template</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/ext.html" class="external-link">ext</a></span><span class="op">(</span><span class="fl">527358</span>, <span class="fl">527880</span>, <span class="fl">5252204</span>, <span class="fl">5252704</span><span class="op">)</span>, res <span class="op">=</span> <span class="fl">.3</span>, crs <span class="op">=</span> <span class="st">"EPSG:32755"</span><span class="op">)</span></span>
 <span><span class="va">ortho</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cc_location.html">cc_location</a></span><span class="op">(</span><span class="va">template</span>, type <span class="op">=</span> <span class="st">"tasmap_orthophoto"</span><span class="op">)</span></span>
