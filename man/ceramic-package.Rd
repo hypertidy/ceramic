@@ -52,3 +52,21 @@ Other functions that are either rarely used or considered subject to change:
 \code{\link{cc_macquarie}}\tab Specific location hardcoded form of \code{\link{cc_location}} \cr
 }
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://hypertidy.github.io/ceramic/}
+  \item Report bugs at \url{https://github.com/hypertidy/ceramic/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Michael Sumner \email{mdsumner@gmail.com} (\href{https://orcid.org/0000-0002-2471-7511}{ORCID})
+
+Other contributors:
+\itemize{
+  \item Miles McBain (\href{https://orcid.org/0000-0003-2865-2548}{ORCID}) [contributor]
+  \item Ben Raymond (regex wizardry) [contributor]
+}
+
+}

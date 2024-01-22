@@ -1,7 +1,8 @@
-# ceramic dev
+# 0.9.0
 
 * Added a suite of Tasmap sources for 'cc_location()'. 
 
+* Removed bad-practice use on terra internals, thanks to Robert Hijmans. 
 
 # ceramic 0.8.0
 

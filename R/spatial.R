@@ -11,7 +11,7 @@ is_spatial <- function(x) {
   inherits(x, .spatial_classes())
 }
 
-
+#' @importFrom terra is.lonlat
 #' @importFrom wk wk_crs
 .crs_crs <- function(x) {
   crs <- crsmeta::crs_wkt(x)
@@ -42,7 +42,7 @@ is_spatial <- function(x) {
     
     if (is.na(crs)) {
 #      if (x@ptr$isLonLat()) {
-	  if (is.lonlat(x, perhaps=FALSE, warn=FALSE)) {
+	  if (terra::is.lonlat(x, perhaps=FALSE, warn=FALSE)) {
 		crs <- "+proj=longlat +datum=WGS84"
       }
     }
