@@ -5,7 +5,7 @@
 \alias{cities}
 \title{Cities locations}
 \description{
-Dataset from package {maps}.
+Dataset from package maps.
 }
 \details{
 Data frame with columns "name"        "country.etc" "pop"         "lat"         "long"        "capital".

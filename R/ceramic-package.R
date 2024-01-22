@@ -62,7 +62,7 @@ NULL
 
 #' Cities locations
 #' 
-#' Dataset from package {maps}.
+#' Dataset from package maps.
 #' 
 #' Data frame with columns "name"        "country.etc" "pop"         "lat"         "long"        "capital". 
 #' @docType data

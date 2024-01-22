@@ -2,8 +2,9 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
 
+[![CRAN
+status](https://www.r-pkg.org/badges/version/ceramic)](https://CRAN.R-project.org/package=ceramic)
 [![R-CMD-check](https://github.com/hypertidy/ceramic/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/hypertidy/ceramic/actions/workflows/R-CMD-check.yaml)
-[![CRAN_Download_Badge](http://cranlogs.r-pkg.org/badges/ceramic)](http://cranlogs.r-pkg.org/badges/ceramic)
 <!-- badges: end -->
 
 # ceramic
@@ -14,7 +15,7 @@ define the region of interest.
 ``` r
 library(ceramic)
 #> Loading required package: terra
-#> terra 1.7.23
+#> terra 1.7.65
 roi <- ext(100, 160, -50, 10)
 im <- cc_location(roi)
 
