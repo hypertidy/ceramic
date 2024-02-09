@@ -1,6 +1,6 @@
 Package: ceramic
 Title: Download Online Imagery Tiles
-Version: 0.9.0
+Version: 0.9.0.9001
 Authors@R: c(
     person("Michael", "Sumner", email = "mdsumner@gmail.com", role = c("aut", "cre"), 
     comment = c(ORCID = "0000-0002-2471-7511")), 

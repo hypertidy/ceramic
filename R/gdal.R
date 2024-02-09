@@ -74,7 +74,7 @@ gdal_mapbox <- function (extent = c(-180, 180, -90, 90), ..., dimension = NULL,
   xraster <- extent
   x <- format_out(list(extent = extent, dimension = dimension, 
                        projection = projection))
-  src1 <- "<GDAL_WMS><Service name=\"TMS\"><ServerUrl>https://api.mapbox.com/v4/mapbox.satellite/${z}/${x}/${y}.jpg?access_token=%s</ServerUrl></Service><DataWindow><UpperLeftX>-20037508.34</UpperLeftX><UpperLeftY>20037508.34</UpperLeftY><LowerRightX>20037508.34</LowerRightX><LowerRightY>-20037508.34</LowerRightY><TileLevel>22</TileLevel><TileCountX>1</TileCountX><TileCountY>1</TileCountY><YOrigin>top</YOrigin></DataWindow><Projection>EPSG:3857</Projection><BlockSizeX>256</BlockSizeX><BlockSizeY>256</BlockSizeY><BandsCount>3</BandsCount>"
+  src1 <- "<GDAL_WMS><Service name=\"TMS\"><ServerUrl>https://api.mapbox.com/v4/mapbox.satellite/${z}/${x}/${y}.jpg?access_token=%s</ServerUrl></Service><DataWindow><UpperLeftX>-20037508.34</UpperLeftX><UpperLeftY>20037508.34</UpperLeftY><LowerRightX>20037508.34</LowerRightX><LowerRightY>-20037508.34</LowerRightY><TileLevel>22</TileLevel><TileCountX>1</TileCountX><TileCountY>1</TileCountY><YOrigin>top</YOrigin></DataWindow><Projection>EPSG:3857</Projection><BlockSizeX>256</BlockSizeX><BlockSizeY>256</BlockSizeY><BandsCount>3</BandsCount><ZeroBlockHttpCodes>204,404,401</ZeroBlockHttpCodes>"
   src2 <- sprintf("<UserAgent>%s</UserAgent><Cache /></GDAL_WMS>", 
                  getOption("HTTPUserAgent"))
   src <- paste0(src1, src2)
@@ -95,6 +95,7 @@ gdal_mapbox <- function (extent = c(-180, 180, -90, 90), ..., dimension = NULL,
   if (info$bands < 3) {
       bands <- 1L
   }
+  browser()
   suppressWarnings(
   vals <- vapour::gdal_raster_image(rso, target_ext = x$extent, 
                                            target_dim = x$dimension, target_crs = x$projection, 
