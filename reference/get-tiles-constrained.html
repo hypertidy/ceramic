@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ceramic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.0.9001</span>
       </span>
     </div>
 
@@ -112,7 +112,7 @@ the zoom level used and the extent in xmin,xmax,ymin,ymax form.</p>
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="fu"><a href="get_api_key.html">get_api_key</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span> <span class="va">ex</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/ext.html" class="external-link">ext</a></span><span class="op">(</span><span class="fl">146</span>, <span class="fl">147</span>, <span class="op">-</span><span class="fl">43</span>, <span class="op">-</span><span class="fl">42</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="va">ex</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rspatial.github.io/terra/reference/ext.html" class="external-link">ext</a></span><span class="op">(</span><span class="fl">146</span>, <span class="fl">147</span>, <span class="op">-</span><span class="fl">43</span>, <span class="op">-</span><span class="fl">42</span><span class="op">)</span></span></span>
 <span class="r-in"><span> <span class="va">tile_infoz</span> <span class="op">&lt;-</span> <span class="fu">get_tiles_zoom</span><span class="op">(</span><span class="va">ex</span>,  zoom <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span> <span class="va">tile_infod</span> <span class="op">&lt;-</span> <span class="fu">get_tiles_dim</span><span class="op">(</span><span class="va">ex</span>,  dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">256</span>, <span class="fl">256</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -121,10 +121,9 @@ the zoom level used and the extent in xmin,xmax,ymin,ymax form.</p>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Preparing to download: 1 tiles at zoom = 1 from </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> https://api.mapbox.com/v4/mapbox.satellite/</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Preparing to download: 1 tiles at zoom = 4 from </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> https://api.mapbox.com/v4/mapbox.satellite/</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Preparing to download: 9 tiles at zoom = 13 from </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> https://api.mapbox.com/v4/mapbox.satellite/</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in purrr::pmap(x$tiles, function(x, y, zoom) {    api_query &lt;- glue::glue(query_string)    outfile &lt;- url_to_cache(api_query)    if (debug) {        return(outfile)    }    if (!file.exists(outfile) || clobber || fs::file_info(outfile)$size &lt;         35) {        cachedir &lt;- fs::path_dir(outfile)        if (!fs::dir_exists(cachedir))             fs::dir_create(cachedir, recurse = TRUE)        zup &lt;- curl::curl_download(url = api_query, outfile)    }    outfile}, zoom = x$zoom):</span> <span style="color: #00BBBB;">ℹ</span> In index: 1.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Caused by error in `curl::curl_download()`:</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> HTTP error 401.</span>
 </code></pre></div>
     </div>
   </div>

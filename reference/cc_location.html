@@ -21,7 +21,7 @@ buffer is ignored."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/aj
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ceramic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.0.9001</span>
       </span>
     </div>
 
@@ -188,7 +188,7 @@ around the raw longitude and latitude in metres. If <code>loc</code> has an exte
     <h2>Value</h2>
     
 
-<p>A <code><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">terra::rast()</a></code> object, either with three layers (Red, Green, Blue) or with
+<p>A <code><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">terra::rast()</a></code> object, either with three layers (Red, Green, Blue) or with
 a single layer in the case of <code>cc_elevation()</code>.</p>
     </div>
     <div id="details">
@@ -210,14 +210,34 @@ both are NULL then <code>max_tiles = 16L</code>.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span> <span class="co">## this source does not need the Mapbox API, but we won't run the example unless it's set</span></span></span>
 <span class="r-in"><span> <span class="va">dem</span> <span class="op">&lt;-</span> <span class="fu">cc_kingston</span><span class="op">(</span>buffer <span class="op">=</span> <span class="fl">1e4</span>, type <span class="op">=</span> <span class="st">"elevation-tiles-prod"</span><span class="op">)</span></span></span>
-<span class="r-in"><span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">dem</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/gray.html" class="external-link">grey</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, length <span class="op">=</span> <span class="fl">94</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">dem</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/gray.html" class="external-link">grey</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, length <span class="op">=</span> <span class="fl">94</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span> <span class="co">## Mapbox imagery</span></span></span>
 <span class="r-in"><span> <span class="va">im</span> <span class="op">&lt;-</span> <span class="fu">cc_macquarie</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/plotRGB.html" class="external-link">plotRGB</a></span><span class="op">(</span><span class="va">im</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="fu"><a href="https://rspatial.github.io/terra/reference/plotRGB.html" class="external-link">plotRGB</a></span><span class="op">(</span><span class="va">im</span><span class="op">)</span></span></span>
 <span class="r-in"><span> <span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Called from: gdal_mapbox(extent = locdata[1:4], dimension = as.integer(locdata[5:6]), </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     projection = "EPSG:3857")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: suppressWarnings(vals &lt;- vapour::gdal_raster_image(rso, target_ext = x$extent, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     target_dim = x$dimension, target_crs = x$projection, resample = resample, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     ..., bands = bands))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: x$type &lt;- "terra"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: xraster &lt;- terra::rast(terra::ext(attr(vals, "extent")), ncol = attr(vals, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     "dimension")[1L], nrow = attr(vals, "dimension")[2L], crs = "EPSG:3857", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     vals = vals[[1]])</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: xraster</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Called from: gdal_mapbox(extent = locdata[1:4], dimension = as.integer(locdata[5:6]), </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     projection = "EPSG:3857")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: suppressWarnings(vals &lt;- vapour::gdal_raster_image(rso, target_ext = x$extent, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     target_dim = x$dimension, target_crs = x$projection, resample = resample, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     ..., bands = bands))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: x$type &lt;- "terra"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: xraster &lt;- terra::rast(terra::ext(attr(vals, "extent")), ncol = attr(vals, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     "dimension")[1L], nrow = attr(vals, "dimension")[2L], crs = "EPSG:3857", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     vals = vals[[1]])</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: xraster</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> [set.RGB] value must have length 3 or 4</span>
 <span class="r-plt img"><img src="cc_location-1.png" alt="" width="700" height="433"></span>
-<span class="r-plt img"><img src="cc_location-2.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </div>
