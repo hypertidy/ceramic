@@ -95,7 +95,7 @@ gdal_mapbox <- function (extent = c(-180, 180, -90, 90), ..., dimension = NULL,
   if (info$bands < 3) {
       bands <- 1L
   }
-  browser()
+
   suppressWarnings(
   vals <- vapour::gdal_raster_image(rso, target_ext = x$extent, 
                                            target_dim = x$dimension, target_crs = x$projection, 
