@@ -4,8 +4,10 @@
 \name{ceramic-package}
 \alias{ceramic-package}
 \alias{ceramic}
-\title{Obtain imagery tiles}
+\title{ceramic: Download Online Imagery Tiles}
 \description{
+Download imagery tiles to a standard cache and load the data into raster objects. Facilities for 'AWS' terrain \url{https://registry.opendata.aws/terrain-tiles/} terrain and 'Mapbox' \url{https://www.mapbox.com/} servers are provided.
+
 The ceramic package provides tools to download  raster tiles from online servers.
 }
 \details{
@@ -70,3 +72,4 @@ Other contributors:
 }
 
 }
+\keyword{internal}

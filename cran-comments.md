@@ -1,5 +1,6 @@
-# ceramic  0.9.0
+# ceramic  0.9.5
 
+Fix for failing CRAN test on devel. 
 
 Thank you. 
 

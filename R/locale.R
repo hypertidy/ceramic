@@ -43,8 +43,10 @@
 #'  terra::plot(dem, col = grey(seq(0, 1, length = 94)))
 #'
 #'  ## Mapbox imagery
+#'  \donttest{\dontrun{
 #'  im <- cc_macquarie()
 #'  plotRGB(im)
+#'  }}
 #'  }
 cc_location <- function(loc = NULL, buffer = 5000,
                         type = "mapbox.satellite", ..., zoom = NULL, max_tiles = NULL,  debug = FALSE, dimension = NULL) {

@@ -148,7 +148,9 @@ if (!is.null(get_api_key())) {
  terra::plot(dem, col = grey(seq(0, 1, length = 94)))
 
  ## Mapbox imagery
+ \donttest{\dontrun{
  im <- cc_macquarie()
  plotRGB(im)
+ }}
  }
 }

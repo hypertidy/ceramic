@@ -1,5 +1,9 @@
 globalVariables("cities", "ceramic", add = TRUE)
 
+#' @keywords internal
+"_PACKAGE"
+
+
 
 #' Obtain imagery tiles
 #'
@@ -57,7 +61,6 @@ globalVariables("cities", "ceramic", add = TRUE)
 #' @name ceramic-package
 #' @aliases ceramic
 #' @importFrom terra ext rast set.ext set.crs sprc
-#' @docType package
 NULL
 
 #' Cities locations
